@@ -3,6 +3,8 @@
 
 $user_dept = $_SESSION['department'];
 $user_level=$_SESSION['level'];
+$username=$_SESSION['username'];
+
 
 if(isset($_POST['approveRequest'])){
   $requestID = $_POST['requestID'];
@@ -27,7 +29,7 @@ if(isset($_POST['approveRequest'])){
     }
 ?>
 <section class="mt-10">
-<table id="cancelledTable" class="display" style="width:100%">
+<table id="employeeTable" class="display" style="width:100%">
         <thead>
             <tr>
                 <th>JO Number</th>
@@ -42,16 +44,18 @@ if(isset($_POST['approveRequest'])){
               <?php
                 $a=1;
 
-                  $sql="select * from `request` WHERE `status2` = 'cancelled' order by id asc  ";
+                  $sql="select * from `request` WHERE `request_to` = 'mis' and `status2` = 'rated' order by id asc  ";
                   $result = mysqli_query($con,$sql);
 
                 while($row=mysqli_fetch_assoc($result)){
                   ?>
               <tr class="">
-              <td class=""><?php
+              <td class="">
+              <?php 
               $date = new DateTime($row['date_filled']);
               $date = $date->format('ym');
-              echo $date.'-'.$row['id'];?> </td>
+              echo $date.'-'.$row['id'];?> 
+             
               <td >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
                     <button type="button" id="viewdetails" onclick="modalShow(this)" data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-joid="<?php echo $row['id']; ?>" data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] === "fem"){  echo "FEM";} else if($row['request_to'] === "mis"){ echo "MIS";  }?> " data-category="<?php echo $row['request_category']; ?>" data-telephone="<?php echo $row['telephone']; ?>" data-attachment="<?php echo $row['attachment']; ?>"  data-comname="<?php echo $row['computerName']; ?>" data-start="<?php echo $row['reqstart_date']; ?>" data-end="<?php echo $row['reqfinish_date']; ?>" data-details="<?php echo $row['request_details']; ?>" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
@@ -66,7 +70,10 @@ if(isset($_POST['approveRequest'])){
 
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              <?php echo $row['date_filled'];?> 
+              <?php 
+              $date = new DateTime($row['date_filled']);
+              $date = $date->format('F d, Y');
+              echo $date;?> 
               
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -98,6 +105,9 @@ if(isset($_POST['approveRequest'])){
     </table>
 
 </section>
+
+
+
 
 
 

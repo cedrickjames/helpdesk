@@ -1107,4 +1107,12 @@ function endDate() {
 
 
 
-$("#sidehome").addClass("bg-gray-
+$("#sidehome").addClass("bg-gray-200");
+$("#sidehistory").removeClass("bg-gray-200");
+$("#sidepms").removeClass("bg-gray-200");
+
+
+</script>
+
+</body>
+</html>

@@ -12,7 +12,9 @@ select[name="adminApprovalTable_length"] {
   select[name="forRatingTable_length"] {
     width: 73px;
   }
-  
+  select[name="cancelledTable_length"] {
+    width: 73px;
+  }
 select[name="inProgressTable_length"] {
     width: 73px;
   }

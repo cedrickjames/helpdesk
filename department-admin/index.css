@@ -21,6 +21,10 @@ select[name="inProgressTable_length"] {
 select[name="toRateTable_length"] {
     width: 73px;
   }
+    
+select[name="cancelledTable_length"] {
+    width: 73px;
+  }
   .rzHaWQ {
     border-bottom-left-radius: 4px;
     left: -8px;
