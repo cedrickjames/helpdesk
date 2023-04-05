@@ -294,7 +294,7 @@ if(isset($_POST['rateJo'])){
             <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" id="tabExample" role="tablist">
                 <li  role="presentation">
                 <div class="p__uwg" style="width: 106px; margin-right: 0px;">
-                    <button id="headApprovalTab"  onclick="goToHead()" type="button" role="tab" aria-controls="headApproval"  class="_1QoxDw o4TrkA CA2Rbg Di_DSA cwOZMg zQlusQ uRvRjQ POMxOg _lWDfA"  aria-selected="false">
+                    <button id="headApprovalTab"  onclick="goToFinished()" type="button" role="tab" aria-controls="headApproval"  class="_1QoxDw o4TrkA CA2Rbg Di_DSA cwOZMg zQlusQ uRvRjQ POMxOg _lWDfA"  aria-selected="false">
                         <div class="_1cZINw">
                         <div class="_qiHHw Ut_ecQ kHy45A">
 
@@ -308,7 +308,7 @@ if(isset($_POST['rateJo'])){
                 <li  role="presentation">
                     
                 <div class="p__uwg" style="width: 113px; margin-left: 16px; margin-right: 0px;">
-                <button id="adminApprovalTab" onclick="goToAdmin()"
+                <button id="adminApprovalTab" onclick="goToCancelled()"
                         class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" type="button" tabindex="-1" role="tab" aria-controls="adminApproval" aria-selected="false">
                         <div class="_1cZINw">
                             <div class="_qiHHw Ut_ecQ kHy45A">
@@ -408,7 +408,12 @@ if(isset($_POST['rateJo'])){
             </div>
             <!-- Modal body -->
             <div class=" items-center p-6 space-y-2">
-            <div id="assignedPersonnelDiv"class="hidden w-full">
+            <div id="cancelledByDiv"class="hidden w-full">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Cancelled by: </span><span id="cancelledBy"></span></h2>
+    
+         
+                </div>
+            <div id="assignedPersonnelDiv"class=" w-full">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Assigned Personnel : </span><span id="assignedPersonnel"></span></h2>
     
          
@@ -426,12 +431,12 @@ if(isset($_POST['rateJo'])){
                 <div class="w-full grid gap-4 grid-cols-2">
                 <div id="categoryDivParent" class="grid gap-4 grid-cols-2">
                 <h2 class="float-left font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Computer Name: </span></h2>
-                <input type="text" name="computername" id="computername"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input disabled type="text" name="computername" id="computername"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     
                 </div>
                      <div class="grid gap-4 grid-cols-2">
                 <h2 id="telephoneh2" class="pl-10 float-left font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Telephone</span></h2>
-                <input type="text" name="telephone" id="telephone"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input disabled type="text" name="telephone" id="telephone"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     
                 </div>
                 </div>
@@ -453,7 +458,7 @@ if(isset($_POST['rateJo'])){
                                             clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
-                                <input  id="datestart" onchange="testDate()" name="start" type="date"
+                                <input disabled  id="datestart" onchange="testDate()" name="start" type="date"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input"
                                     placeholder="Request date start" required="">
                             </div>
@@ -467,7 +472,7 @@ if(isset($_POST['rateJo'])){
                                             clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
-                                <input id="datefinish" onchange="endDate()"  name="finish" type="date"
+                                <input disabled id="datefinish" onchange="endDate()"  name="finish" type="date"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input"
                                     placeholder="Request date finish" required>
                             </div>
@@ -478,21 +483,24 @@ if(isset($_POST['rateJo'])){
                 
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Request Details</label>
-                <textarea id="message" name="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+                <textarea disabled id="message" name="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
                 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                <div id="actionDetailsDiv" class="hidden">
+                <div id="actionDetailsDiv" class="">
                 <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Details of action</label>
                 <textarea disabled id="actionDetails" name="actionDetails" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
             
                 </div>
-                
+                <div id="reasonCancelDiv" class="hidden">
+                <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Reason of Cancellation</label>
+                <textarea disabled id="reasonCancel" name="reasonCancel" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+            
+                </div>
                
             </div> 
             
             <div id="buttondiv" class=" items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
-            <button type="submit" name="updateJO" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Update</button>
+            <button type="submit" name="updateJO" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Print</button>
 
-            <button type="button" onclick="cancellation()" data-modal-target="popup-modal" data-modal-toggle="popup-modal"  class="shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-pink-800/80  w-full text-white bg-gradient-to-br from-red-400 to-pink-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-200 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Cancel Request</button>
      
             </div>
             <div id="buttonRateDiv" class="hidden items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -657,9 +665,13 @@ function modalShow(element){
     document.getElementById("misPersonnel").value =element.getAttribute("data-personnel");
     document.getElementById("requestor").value =element.getAttribute("data-requestor");
     document.getElementById("assignedPersonnel").innerHTML =element.getAttribute("data-assignedpersonnel");
+    document.getElementById("cancelledBy").innerHTML =element.getAttribute("data-cancelledby");
+    document.getElementById("reasonCancel").innerHTML =element.getAttribute("data-reason");
+
+
 
      
-
+    
     var category = element.getAttribute("data-category");
     var attachment = element.getAttribute("data-attachment");
 
@@ -791,7 +803,7 @@ function goToAdmin(){
     $("#assignedPersonnelDiv").addClass("hidden");
 
     $("#buttondiv").addClass("hidden");
-    $("#buttonRateDiv").addClass("hidden");
+
     $("#actionDetailsDiv").addClass("hidden");
 
     
@@ -813,7 +825,7 @@ function goToMis(){
     $("#assignedPersonnelDiv").removeClass("hidden");
     $("#buttondiv").addClass("hidden");
 
-    $("#buttonRateDiv").addClass("hidden");
+
     $("#actionDetailsDiv").addClass("hidden");
 
     const myElement = document.querySelector('#diamond');
@@ -832,7 +844,7 @@ function goToRate(){
     document.getElementById("computername").disabled = true;
     $("#assignedPersonnelDiv").removeClass("hidden");
 
-    $("#buttonRateDiv").removeClass("hidden");
+
     $("#actionDetailsDiv").removeClass("hidden");
 
     $("#buttondiv").addClass("hidden");
@@ -846,9 +858,58 @@ const currentTransform = myElement.style.transform = 'translateX(420px) translat
 
 // transform: translateX(55px) translateY(2px) rotate(135deg);
 }
+function goToFinished(){
+    document.getElementById("telephone").disabled = true;
+    document.getElementById("datestart").disabled = true;
+    document.getElementById("datefinish").disabled = true;
+    document.getElementById("message").disabled = true;
+    document.getElementById("computername").disabled = true;
+    $("#assignedPersonnelDiv").removeClass("hidden");
+
+
+    $("#actionDetailsDiv").removeClass("hidden");
+
+    $("#buttondiv").addClass("hidden");
+    $("#reasonCancelDiv").addClass("hidden");
+    $("#cancelledByDiv").addClass("hidden");
+
+    const myElement = document.querySelector('#diamond');
+
+// Get the current transform value
+const currentTransform = myElement.style.transform = 'translateX(50px) translateY(2px) rotate(135deg)';
+
+
+// transform: translateX(55px) translateY(2px) rotate(135deg);
+}
+function goToCancelled(){
+    document.getElementById("telephone").disabled = true;
+    document.getElementById("datestart").disabled = true;
+    document.getElementById("datefinish").disabled = true;
+    document.getElementById("message").disabled = true;
+    document.getElementById("computername").disabled = true;
+    $("#assignedPersonnelDiv").addClass("hidden");
+    $("#reasonCancelDiv").removeClass("hidden");
+    $("#cancelledByDiv").removeClass("hidden");
+
+
+
+    
+    $("#actionDetailsDiv").addClass("hidden");
+
+    $("#buttondiv").addClass("hidden");
+
+
+    const myElement = document.querySelector('#diamond');
+
+// Get the current transform value
+const currentTransform = myElement.style.transform = 'translateX(180px) translateY(2px) rotate(135deg)';
+
+
+// transform: translateX(55px) translateY(2px) rotate(135deg);
+}
 function goToHead(){
     $("#buttondiv").removeClass("hidden");
-    $("#buttonRateDiv").addClass("hidden");
+   
     $("#actionDetailsDiv").addClass("hidden");
     $("#assignedPersonnelDiv").addClass("hidden");
 
