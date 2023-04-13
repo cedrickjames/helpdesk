@@ -59,6 +59,76 @@ $user_level=$_SESSION['level'];
 $username = $_SESSION['username'];
 
 
+$_SESSION['jobOrderNo'] = "";
+$_SESSION['status'] = "";
+$_SESSION['requestor'] = "";
+$_SESSION['department'] = "";
+$_SESSION['dateFiled'] = "";
+$_SESSION['requestedSchedule'] = "";
+$_SESSION['type'] = "";
+$_SESSION['pcNumber'] = "";
+$_SESSION['details'] = "";
+$_SESSION['headsRemarks'] = "";
+$_SESSION['adminsRemarks'] = "";
+$_SESSION['assignedPersonnel'] = "";
+$_SESSION['section'] = "";
+$_SESSION['firstAction'] = "";
+$_SESSION['firstDate'] = "";
+$_SESSION['secondAction'] = "";
+$_SESSION['secondDate'] = "";
+$_SESSION['thirdAction'] = "";
+$_SESSION['thirdDate'] = "";
+$_SESSION['finalAction'] = "";
+$_SESSION['recommendation'] = "";
+$_SESSION['dateFinished'] = "";
+$_SESSION['ratedBy'] = "";
+$_SESSION['delivery'] = "";
+$_SESSION['quality'] = "";
+$_SESSION['totalRating'] = "";
+$_SESSION['ratingRemarks'] = "";
+$_SESSION['ratedDate'] = "";
+$_SESSION['preparedBy'] = "";
+$_SESSION['preparedDate'] = "";
+
+
+
+if(isset($_POST['print'])){
+   $_SESSION['jobOrderNo']= $_POST['jobOrderNo'] ;
+   $_SESSION['status']= $_POST['status'] ;
+   $_SESSION['requestor']= $_POST['requestor'] ;
+   $_SESSION['department']= $_POST['department'] ;
+   $_SESSION['dateFiled']= $_POST['dateFiled'] ;
+   $_SESSION['requestedSchedule']= $_POST['requestedSchedule'] ;
+   $_SESSION['type']= $_POST['type'] ;
+   $_SESSION['pcNumber']= $_POST['pcNumber'] ;
+   $_SESSION['details']= $_POST['details'] ;
+   $_SESSION['headsRemarks']= $_POST['headsRemarks'] ;
+   $_SESSION['adminsRemarks']= $_POST['adminsRemarks'] ;
+   $_SESSION['assignedPersonnel']= $_POST['assignedPersonnel'] ;
+   $_SESSION['section']= $_POST['section'] ;
+   $_SESSION['firstAction']= $_POST['firstAction'] ;
+   $_SESSION['firstDate']= $_POST['firstDate'] ;
+   $_SESSION['secondAction']= $_POST['secondAction'] ;
+   $_SESSION['secondDate']= $_POST['secondDate'] ;
+   $_SESSION['thirdAction']= $_POST['thirdAction'] ;
+   $_SESSION['thirdDate']= $_POST['thirdDate'] ;
+   $_SESSION['finalAction']= $_POST['finalAction'] ;
+   $_SESSION['recommendation']= $_POST['recommendation'] ;
+   $_SESSION['dateFinished']= $_POST['dateFinished'] ;
+   $_SESSION['ratedBy']= $_POST['ratedBy'] ;
+   $_SESSION['delivery']= $_POST['delivery'] ;
+   $_SESSION['quality']= $_POST['quality'] ;
+   $_SESSION['totalRating']= $_POST['totalRating'] ;
+   $_SESSION['ratingRemarks']= $_POST['ratingRemarks'] ;
+   $_SESSION['ratedDate']= $_POST['ratedDate'] ;
+   $_SESSION['preparedBy']= $_POST['preparedBy'] ;
+   $_SESSION['preparedDate']= $_POST['preparedDate'] ;
+
+}
+
+
+
+
 if(isset($_POST['updateJO'])){
     $computername = $_POST['computername'];
     $start = $_POST['start'];
@@ -194,7 +264,6 @@ if(isset($_POST['rateJo'])){
   
     <link rel="stylesheet" href="../node_modules/DataTables/datatables.min.css">
     <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Responsive-2.3.0/css/responsive.dataTables.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Editor-2023-04-08-2.1.2/css/editor.dataTables.min.css"/>
 
     <link rel="stylesheet" href="index.css">
      <!-- tailwind play cdn -->
@@ -397,6 +466,38 @@ if(isset($_POST['rateJo'])){
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <form action="" method="POST">
             <!-- Modal header -->
+            <input type="text" name="jobOrderNo" class="hidden">
+            <input type="text" name="status" class="hidden">
+            <input type="text" name="requestor" class="hidden">
+            <input type="text" name="department" class="hidden">
+            <input type="text" name="dateFiled" class="hidden">
+            <input type="text" name="requestedSchedule" class="hidden">
+            <input type="text" name="type" class="hidden">
+            <input type="text" name="pcNumber" class="hidden">
+            <input type="text" name="details" class="hidden">
+            <input type="text" name="headsRemarks" class="hidden">
+            <input type="text" name="adminsRemarks" class="hidden">
+            <input type="text" name="assignedPersonnel" class="hidden">
+            <input type="text" name="section" class="hidden">
+            <input type="text" name="firstAction" class="hidden">
+            <input type="text" name="firstDate" class="hidden">
+            <input type="text" name="secondAction" class="hidden">
+            <input type="text" name="secondDate" class="hidden">
+            <input type="text" name="thirdAction" class="hidden">
+            <input type="text" name="thirdDate" class="hidden">
+            <input type="text" name="finalAction" class="hidden">
+            <input type="text" name="recommendation" class="hidden">
+            <input type="text" name="dateFinished" class="hidden">
+            <input type="text" name="ratedBy" class="hidden">
+            <input type="text" name="delivery" class="hidden">
+            <input type="text" name="quality" class="hidden">
+            <input type="text" name="totalRating" class="hidden">
+            <input type="text" name="ratingRemarks" class="hidden">
+            <input type="text" name="ratedDate" class="hidden">
+            <input type="text" name="preparedBy" class="hidden">
+            <input type="text" name="preparedDate" class="hidden">
+
+
             <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     Job Order Details
@@ -487,11 +588,7 @@ if(isset($_POST['rateJo'])){
                      <h2 class="col-span-2 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Ratings: </span> </h2>
                      <div id="stars" class="grid col-span-10">
 <div class="flex items-center">
-    <svg aria-hidden="true" id="star1" class="w-5 h-5 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>First star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-    <svg aria-hidden="true" id="star2" class="w-5 h-5 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-    <svg aria-hidden="true" id="star3" class="w-5 h-5 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Third star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-    <svg aria-hidden="true" id="star4" class="w-5 h-5 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fourth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-    <svg aria-hidden="true" id="star5" class="w-5 h-5 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+    <div  id="stardiv" class="flex items-center"></div>
     <p class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400"><span id="finalRatings"></span> out of 5</p>
 </div>
 </div>
@@ -633,9 +730,7 @@ if(isset($_POST['rateJo'])){
 
 <script type="text/javascript" src="../node_modules/DataTables/datatables.min.js"></script>
 
-<script type="text/javascript" src="../node_modules/DataTables/Editor-2023-04-08-2.1.2/js/dataTables.editor.min.js"></script>
     <script type="text/javascript" src="../node_modules/DataTables/Responsive-2.3.0/js/dataTables.responsive.min.js"></script>
-    <!-- <script type="text/javascript" src="../node_modules/DataTables/Editor-2023-04-08-2.1.2/js/editor.dataTables.js"></script> -->
     <script type="text/javascript" src="index.js"></script>
 
 <script>
@@ -685,6 +780,50 @@ function modalShow(element){
     document.getElementById("actualDateFinished").innerHTML =element.getAttribute("data-actualdatefinished");
     document.getElementById("finalRatings").innerHTML =element.getAttribute("data-ratings");
 
+    var parentElement = document.getElementById("stardiv");
+
+// Loop through all child elements and remove them one by one
+while (parentElement.firstChild) {
+  parentElement.removeChild(parentElement.firstChild);
+}
+    var finalRatings =element.getAttribute("data-ratings");
+var  DivProdContainer = document.getElementById("stardiv");
+
+                 for(var  i = 1; i<=5; i++){
+
+                    if(i<=finalRatings){
+                        var b = i + 1;
+                        console.log(b)
+                        const newDiv=document.createElement("div");
+        
+        var svg='<svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainer.appendChild(newDiv);
+
+        if(finalRatings>i && finalRatings<b ){
+            console.log("true")
+            const newDiv=document.createElement("div");
+        
+        var svg='<svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainer.appendChild(newDiv);
+            var svg='<svg  class="w-5 h-5 "  viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <defs>  <linearGradient id="grad"> <stop offset="50%" stop-color=" rgb(250 204 21 )"/> <stop offset="50%" stop-color="rgb(209 213 219)"/>  </linearGradient> </defs> <path fill="url(#grad)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainer.appendChild(newDiv);
+        console.log("halfstar")
+            
+        i++;
+        }
+
+                    }
+                    else{
+                        const newDiv=document.createElement("div");
+                        var svg1='<svg aria-hidden="true" class="w-5 h-5 text-gray-300 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg1;
+        DivProdContainer.appendChild(newDiv);
+                    
+                    }
+                 }
     var ratings = element.getAttribute("data-ratings");
     $("#star1").removeClass("text-yellow-400");
         $("#star2").removeClass("text-yellow-400");

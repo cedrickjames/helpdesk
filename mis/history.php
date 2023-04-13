@@ -59,118 +59,80 @@ $user_level=$_SESSION['level'];
 $username = $_SESSION['username'];
 
 
-if(isset($_POST['updateJO'])){
-    $computername = $_POST['computername'];
-    $start = $_POST['start'];
-    $finish = $_POST['finish'];
-    $telephone = $_POST['telephone'];
-    
-    
-    $joid = $_POST['joid2'];
-    $message = $_POST['message'];
-    $sql = "UPDATE `request` SET `computerName`='$computername',`reqstart_date`='$start',`reqfinish_date`='$finish', `request_details` = '$message' , `telephone`='$telephone' WHERE `id` = '$joid';";
-    $results = mysqli_query($con,$sql);
-    
-    }
-    
-if(isset($_POST['rateJo'])){
-    $rateScore = $_POST['rateScore'];
-    $ratingcomment = $_POST['ratingcomment'];
-    $joid = $_POST['joid2'];
-    $assigned = $_POST['misPersonnel'];
-    $requestor = $_POST['requestor'];
-
-    $sql = "UPDATE `request` SET `status2`='rated',`rating_final`='$rateScore',`requestor_remarks`='$ratingcomment' WHERE `id` = '$joid';";
-    $results = mysqli_query($con,$sql);
-
-    if($results){
-
-
-        
-            
-
-        $sql1 = "Select * FROM `user` WHERE `username` = '$assigned'";
-        $result = mysqli_query($con, $sql1);
-        while($list=mysqli_fetch_assoc($result))
-        {
-        $personnelEmail=$list["email"];
-        $perseonnelName=$list["name"];
-
-        }
+$_SESSION['jobOrderNo'] = "";
+$_SESSION['status'] = "";
+$_SESSION['requestor'] = "";
+$_SESSION['department'] = "";
+$_SESSION['dateFiled'] = "";
+$_SESSION['requestedSchedule'] = "";
+$_SESSION['type'] = "";
+$_SESSION['pcNumber'] = "";
+$_SESSION['details'] = "";
+$_SESSION['headsRemarks'] = "";
+$_SESSION['adminsRemarks'] = "";
+$_SESSION['assignedPersonnel'] = "";
+$_SESSION['section'] = "";
+$_SESSION['firstAction'] = "";
+$_SESSION['firstDate'] = "";
+$_SESSION['secondAction'] = "";
+$_SESSION['secondDate'] = "";
+$_SESSION['thirdAction'] = "";
+$_SESSION['thirdDate'] = "";
+$_SESSION['finalAction'] = "";
+$_SESSION['recommendation'] = "";
+$_SESSION['dateFinished'] = "";
+$_SESSION['ratedBy'] = "";
+$_SESSION['delivery'] = "";
+$_SESSION['quality'] = "";
+$_SESSION['totalRating'] = "";
+$_SESSION['ratingRemarks'] = "";
+$_SESSION['ratedDate'] = "";
+$_SESSION['preparedBy'] = "";
+$_SESSION['preparedDate'] = "";
 
 
-        $sql2 = "Select * FROM `sender`";
-        $result2 = mysqli_query($con, $sql2);
-        while($list=mysqli_fetch_assoc($result2))
-        {
-        $account=$list["email"];
-        $accountpass=$list["password"];
 
-          }    
+if(isset($_POST['print'])){
+   $_SESSION['jobOrderNo']= $_POST['jobOrderNo'] ;
+   $_SESSION['status']= $_POST['status'] ;
+   $_SESSION['requestor']= $_POST['requestor'] ;
+   $_SESSION['department']= $_POST['department'] ;
+   $_SESSION['dateFiled']= $_POST['dateFiled'] ;
+   $_SESSION['requestedSchedule']= $_POST['requestedSchedule'] ;
+   $_SESSION['type']= $_POST['type'] ;
+   $_SESSION['pcNumber']= $_POST['pcNumber'] ;
+   $_SESSION['details']= $_POST['details'] ;
+   $_SESSION['headsRemarks']= $_POST['headsRemarks'] ;
+   $_SESSION['adminsRemarks']= $_POST['adminsRemarks'] ;
+   $_SESSION['assignedPersonnel']= $_POST['assignedPersonnel'] ;
+   $_SESSION['section']= $_POST['section'] ;
+   $_SESSION['firstAction']= $_POST['firstAction'] ;
+   $_SESSION['firstDate']= $_POST['firstDate'] ;
+   $_SESSION['secondAction']= $_POST['secondAction'] ;
+   $_SESSION['secondDate']= $_POST['secondDate'] ;
+   $_SESSION['thirdAction']= $_POST['thirdAction'] ;
+   $_SESSION['thirdDate']= $_POST['thirdDate'] ;
+   $_SESSION['finalAction']= $_POST['finalAction'] ;
+   $_SESSION['recommendation']= $_POST['recommendation'] ;
+   $_SESSION['dateFinished']= $_POST['dateFinished'] ;
+   $_SESSION['ratedBy']= $_POST['ratedBy'] ;
+   $_SESSION['delivery']= $_POST['delivery'] ;
+   $_SESSION['quality']= $_POST['quality'] ;
+   $_SESSION['totalRating']= $_POST['totalRating'] ;
+   $_SESSION['ratingRemarks']= $_POST['ratingRemarks'] ;
+   $_SESSION['ratedDate']= $_POST['ratedDate'] ;
+   $_SESSION['preparedBy']= $_POST['preparedBy'] ;
+   $_SESSION['preparedDate']= $_POST['preparedDate'] ;
 
-        $subject ='Job Order Rating';
-        $message = 'Hi '.$perseonnelName.',<br> <br> Mr./Ms. '.$requestor.' rated your Job Order with '.$rateScore.'. Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
-        
-
-         require '../vendor/autoload.php';
-
-         $mail = new PHPMailer(true);       
-        //  email the admin               
-         try {
-          //Server settings
-            $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
-            $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = $account;     // Your Email/ Server Email
-            $mail->Password = $accountpass;                     // Your Password
-            $mail->SMTPOptions = array(
-                'ssl' => array(
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true
-                )
-                                        );                         
-            $mail->SMTPSecure = 'none';                           
-            $mail->Port = 25;                                   
-    
-            //Send Email
-            // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
-            
-            //Recipients
-            $mail->setFrom('mis.dev@glory.com.ph', 'Helpdesk');
-            $mail->addAddress($personnelEmail);              
-            $mail->isHTML(true);                                  
-            $mail->Subject = $subject;
-            $mail->Body    = $message;
-    
-            $mail->send();
-
-                  $_SESSION['message'] = 'Message has been sent';
-                  echo "<script>alert('Thank you! Your rating is now submitted.') </script>";
-                  echo "<script> location.href='index.php'; </script>";
+   header("location:Job Order Report.php");
+   
 
 
-                // header("location: form.php");
-            } catch (Exception $e) {
-                $_SESSION['message'] = 'Message could not be sent. Mailer Error: '.$mail->ErrorInfo;
-            echo "<script>alert('Message could not be sent. Mailer Error.') </script>";
 
-            }
-
-       
-       }
-    
-    }
+}
+ 
 
 
-    if(isset($_POST['cancelJO'])){
-        $joid = $_POST['joid2'];
-        $reasonCancel = $_POST['reasonCancel'];
-        $sql = "UPDATE `request` SET `status`='cancelled', `reasonOfCancellation`='$reasonCancel' WHERE `id` = '$joid';";
-        $results = mysqli_query($con,$sql);
-        
-        
-        }
 ?>
 
 
@@ -194,7 +156,6 @@ if(isset($_POST['rateJo'])){
   
     <link rel="stylesheet" href="../node_modules/DataTables/datatables.min.css">
     <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Responsive-2.3.0/css/responsive.dataTables.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Editor-2023-04-08-2.1.2/css/editor.dataTables.min.css"/>
 
     <link rel="stylesheet" href="index.css">
      <!-- tailwind play cdn -->
@@ -294,7 +255,7 @@ if(isset($_POST['rateJo'])){
             <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" id="tabExample" role="tablist">
                 <li  role="presentation">
                 <div class="p__uwg" style="width: 106px; margin-right: 0px;">
-                    <button id="headApprovalTab"  onclick="goToHead()" type="button" role="tab" aria-controls="headApproval"  class="_1QoxDw o4TrkA CA2Rbg Di_DSA cwOZMg zQlusQ uRvRjQ POMxOg _lWDfA"  aria-selected="false">
+                    <button id="headApprovalTab"  onclick="goToFinished()" type="button" role="tab" aria-controls="headApproval"  class="_1QoxDw o4TrkA CA2Rbg Di_DSA cwOZMg zQlusQ uRvRjQ POMxOg _lWDfA"  aria-selected="false">
                         <div class="_1cZINw">
                         <div class="_qiHHw Ut_ecQ kHy45A">
 
@@ -308,7 +269,7 @@ if(isset($_POST['rateJo'])){
                 <li  role="presentation">
                     
                 <div class="p__uwg" style="width: 113px; margin-left: 16px; margin-right: 0px;">
-                <button id="adminApprovalTab" onclick="goToAdmin()"
+                <button id="adminApprovalTab" onclick="goToCancelled()"
                         class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" type="button" tabindex="-1" role="tab" aria-controls="adminApproval" aria-selected="false">
                         <div class="_1cZINw">
                             <div class="_qiHHw Ut_ecQ kHy45A">
@@ -397,6 +358,36 @@ if(isset($_POST['rateJo'])){
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <form action="" method="POST">
             <!-- Modal header -->
+            <input type="text" id="jobOrderNo" name="jobOrderNo" class="hidden">
+            <input type="text" id="status" name="status" class="hidden">
+            <input type="text" id="requestor" name="requestor" class="hidden">
+            <input type="text" id="department" name="department" class="hidden">
+            <input type="text" id="dateFiled" name="dateFiled" class="hidden">
+            <input type="text" id="requestedSchedule" name="requestedSchedule" class="hidden">
+            <input type="text" id="type" name="type" class="hidden">
+            <input type="text" id="pcNumber" name="pcNumber" class="hidden">
+            <input type="text" id="details" name="details" class="hidden">
+            <input type="text" id="headsRemarks" name="headsRemarks" class="hidden">
+            <input type="text" id="adminsRemarks" name="adminsRemarks" class="hidden">
+            <input type="text" id="assignedPersonnel2" name="assignedPersonnel" class="hidden">
+            <input type="text" id="section" name="section" class="hidden">
+            <input type="text" id="firstAction" name="firstAction" class="hidden">
+            <input type="text" id="firstDate" name="firstDate" class="hidden">
+            <input type="text" id="secondAction" name="secondAction" class="hidden">
+            <input type="text" id="secondDate" name="secondDate" class="hidden">
+            <input type="text" id="thirdAction" name="thirdAction" class="hidden">
+            <input type="text" id="thirdDate" name="thirdDate" class="hidden">
+            <input type="text" id="finalAction" name="finalAction" class="hidden">
+            <input type="text" id="recommendation" name="recommendation" class="hidden">
+            <input type="text" id="dateFinished" name="dateFinished" class="hidden">
+            <input type="text" id="ratedBy" name="ratedBy" class="hidden">
+            <input type="text" id="delivery" name="delivery" class="hidden">
+            <input type="text" id="quality" name="quality" class="hidden">
+            <input type="text" id="totalRating" name="totalRating" class="hidden">
+            <input type="text" id="ratingRemarks" name="ratingRemarks" class="hidden">
+            <input type="text" id="ratedDate" name="ratedDate" class="hidden">
+
+
             <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     Job Order Details
@@ -408,7 +399,12 @@ if(isset($_POST['rateJo'])){
             </div>
             <!-- Modal body -->
             <div class=" items-center p-6 space-y-2">
-            <div id="assignedPersonnelDiv"class="hidden w-full">
+            <div id="cancelledByDiv"class="hidden w-full">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Cancelled by: </span><span id="cancelledBy"></span></h2>
+    
+         
+                </div>
+            <div id="assignedPersonnelDiv"class=" w-full">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Assigned Personnel : </span><span id="assignedPersonnel"></span></h2>
     
          
@@ -426,12 +422,12 @@ if(isset($_POST['rateJo'])){
                 <div class="w-full grid gap-4 grid-cols-2">
                 <div id="categoryDivParent" class="grid gap-4 grid-cols-2">
                 <h2 class="float-left font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Computer Name: </span></h2>
-                <input type="text" name="computername" id="computername"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input disabled type="text" name="computername" id="computername"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     
                 </div>
                      <div class="grid gap-4 grid-cols-2">
                 <h2 id="telephoneh2" class="pl-10 float-left font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Telephone</span></h2>
-                <input type="text" name="telephone" id="telephone"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input disabled type="text" name="telephone" id="telephone"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     
                 </div>
                 </div>
@@ -453,7 +449,7 @@ if(isset($_POST['rateJo'])){
                                             clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
-                                <input  id="datestart" onchange="testDate()" name="start" type="date"
+                                <input disabled  id="datestart" onchange="testDate()" name="start" type="date"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input"
                                     placeholder="Request date start" required="">
                             </div>
@@ -467,7 +463,7 @@ if(isset($_POST['rateJo'])){
                                             clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
-                                <input id="datefinish" onchange="endDate()"  name="finish" type="date"
+                                <input disabled id="datefinish" onchange="endDate()"  name="finish" type="date"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input"
                                     placeholder="Request date finish" required>
                             </div>
@@ -475,24 +471,47 @@ if(isset($_POST['rateJo'])){
                     </div>
 
                 </div>
-                
+                <div id="actualDateFinishedDiv" class="w-full grid gap-4 grid-cols-2">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Actual date finished : </span><span id="actualDateFinished"></span></h2>
+                    </div>
+                    <div id="actualDateFinishedDiv" class="w-full grid gap-4 grid-cols-12">
+                     <h2 class="col-span-2 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Ratings: </span> </h2>
+                     <div id="stars" class="grid col-span-10">
+<div class="flex items-center">
+    <div  id="stardiv" class="flex items-center"></div>
+    <p class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400"><span id="finalRatings"></span> out of 5</p>
+</div>
+</div>
+                    </div>
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Request Details</label>
-                <textarea id="message" name="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+                <textarea disabled id="message" name="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
                 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                <div id="actionDetailsDiv" class="hidden">
-                <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Details of action</label>
+                <div id="action1div" class="w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">First Action:  </span><span id="action1"></span></h2>
+                </div>
+                <div id="action2div" class="w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Second Action: </span><span id="action2"></span></h2>
+                </div>
+                <div id="action3div" class="w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Third Action: </span><span id="action3"></span></h2>
+                </div>
+                <div id="actionDetailsDiv" class="">
+                <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Final action</label>
                 <textarea disabled id="actionDetails" name="actionDetails" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
             
                 </div>
-                
-               
+                <div id="reasonCancelDiv" class="hidden">
+                <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Reason of Cancellation</label>
+                <textarea disabled id="reasonCancel" name="reasonCancel" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+            
+                </div>
+
             </div> 
             
             <div id="buttondiv" class=" items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
-            <button type="submit" name="updateJO" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Update</button>
+            <button type="submit" name="print" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Print</button>
 
-            <button type="button" onclick="cancellation()" data-modal-target="popup-modal" data-modal-toggle="popup-modal"  class="shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-pink-800/80  w-full text-white bg-gradient-to-br from-red-400 to-pink-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-200 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Cancel Request</button>
      
             </div>
             <div id="buttonRateDiv" class="hidden items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -534,62 +553,7 @@ if(isset($_POST['rateJo'])){
         </div>
     </div>
 </div>
-<div id="rateModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
-    <div class="relative w-full h-full max-w-2xl md:h-auto">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <!-- Modal header -->
-            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Job Order Details
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="rateModal">
-                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
-            <!-- Modal body -->
-            <div class=" items-center p-6 space-y-2">
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
 
-
-            <div class="flex justify-center  m-auto">
-                <input type="text" value="5" id="rateScore" name="rateScore" class="hidden">
-                <input type="text" id="misPersonnel" name="misPersonnel" class="hidden">
-                <input type="text" id="requestor" name="requestor" class="hidden">
-
-                
-
-    <svg aria-hidden="true" id="rate1" onclick = "rate('rate1')" class="cursor-pointer w-20 h-20 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>First star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-    <svg aria-hidden="true" id="rate2"  onclick = "rate('rate2')" class="cursor-pointer w-20 h-20 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-    <svg aria-hidden="true" id="rate3" onclick = "rate('rate3')" class="cursor-pointer w-20 h-20 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Third star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-    <svg aria-hidden="true" id="rate4"  onclick = "rate('rate4')" class="cursor-pointer w-20 h-20 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fourth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-    <svg aria-hidden="true" id="rate5"  onclick = "rate('rate5')" class="cursor-pointer w-20 h-20 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-</div> 
-<hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                <label for="ratingcomment" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">What is your thoughts about the service?</label>
-                <textarea id="ratingcomment" name="ratingcomment" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
-</div>
-            <div class=" items-center p-4 ">
-            <button type="submit" name="rateJo" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Submit</button>
-            <br>
-                
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-
-            </div>
-        </div>
-    </div>
-   
-
-</div>
         </form>
             
         </div>
@@ -610,9 +574,7 @@ if(isset($_POST['rateJo'])){
 
 <script type="text/javascript" src="../node_modules/DataTables/datatables.min.js"></script>
 
-<script type="text/javascript" src="../node_modules/DataTables/Editor-2023-04-08-2.1.2/js/dataTables.editor.min.js"></script>
     <script type="text/javascript" src="../node_modules/DataTables/Responsive-2.3.0/js/dataTables.responsive.min.js"></script>
-    <!-- <script type="text/javascript" src="../node_modules/DataTables/Editor-2023-04-08-2.1.2/js/editor.dataTables.js"></script> -->
     <script type="text/javascript" src="index.js"></script>
 
 <script>
@@ -654,12 +616,202 @@ function modalShow(element){
     document.getElementById("datefinish").value =element.getAttribute("data-end");
     document.getElementById("message").value =element.getAttribute("data-details");
     document.getElementById("actionDetails").value =element.getAttribute("data-action");
-    document.getElementById("misPersonnel").value =element.getAttribute("data-personnel");
+    // document.getElementById("misPersonnel").value =element.getAttribute("data-personnel");
     document.getElementById("requestor").value =element.getAttribute("data-requestor");
     document.getElementById("assignedPersonnel").innerHTML =element.getAttribute("data-assignedpersonnel");
+    document.getElementById("cancelledBy").innerHTML =element.getAttribute("data-cancelledby");
+    document.getElementById("reasonCancel").innerHTML =element.getAttribute("data-reason");
+    document.getElementById("actualDateFinished").innerHTML =element.getAttribute("data-actualdatefinished");
+    document.getElementById("finalRatings").innerHTML =element.getAttribute("data-ratings");
+    document.getElementById("action1").innerHTML =element.getAttribute("data-action1");
+    document.getElementById("action2").innerHTML =element.getAttribute("data-action2");
+    document.getElementById("action3").innerHTML =element.getAttribute("data-action3");
 
-     
+    document.getElementById("jobOrderNo").value = element.getAttribute("data-joidprint");
+document.getElementById("status").value = element.getAttribute("data-status");
+document.getElementById("requestor").value = element.getAttribute("data-requestor");
+document.getElementById("department").value = element.getAttribute("data-department");
+document.getElementById("dateFiled").value = element.getAttribute("data-datefiled");
+document.getElementById("requestedSchedule").value = element.getAttribute("data-start") + " to " +element.getAttribute("data-end");
+document.getElementById("type").value = element.getAttribute("data-category");
+document.getElementById("pcNumber").value = element.getAttribute("data-comname");
+document.getElementById("details").value = element.getAttribute("data-details");
+document.getElementById("headsRemarks").value = element.getAttribute("data-headremarks");
+document.getElementById("adminsRemarks").value = element.getAttribute("data-adminremarks");
+document.getElementById("assignedPersonnel2").value = element.getAttribute("data-assignedpersonnel");
+document.getElementById("section").value = element.getAttribute("data-section");
+document.getElementById("firstAction").value = element.getAttribute("data-action1");
+document.getElementById("firstDate").value = element.getAttribute("data-action1date");
+document.getElementById("secondAction").value = element.getAttribute("data-action2");
+document.getElementById("secondDate").value = element.getAttribute("data-action2date");
+document.getElementById("thirdAction").value = element.getAttribute("data-action3");
+document.getElementById("thirdDate").value = element.getAttribute("data-action3date");
+document.getElementById("finalAction").value = element.getAttribute("data-action");
+document.getElementById("recommendation").value = element.getAttribute("data-recommendation");
+document.getElementById("dateFinished").value = element.getAttribute("data-actualdatefinished");
+document.getElementById("ratedBy").value = element.getAttribute("data-ratedby");
+document.getElementById("delivery").value = element.getAttribute("data-delivery");
+document.getElementById("quality").value = element.getAttribute("data-quality");
+document.getElementById("totalRating").value = element.getAttribute("data-ratings");
+document.getElementById("ratingRemarks").value = element.getAttribute("data-requestorremarks");
+document.getElementById("ratedDate").value = element.getAttribute("data-daterate");
 
+
+
+
+
+
+
+
+
+
+element.getAttribute("data-ratings");
+element.getAttribute("data-actualdatefinished");
+
+
+element.getAttribute("data-personnel");
+
+var action1 = element.getAttribute("data-action1");
+var action2 = element.getAttribute("data-action2");
+var action3 = element.getAttribute("data-action3");
+
+
+
+    
+$("#action1div").addClass("hidden");
+$("#action1div").removeClass("hidden");
+
+$("#action2div").addClass("hidden");
+$("#action2div").removeClass("hidden");
+
+$("#action3div").addClass("hidden");
+$("#action3div").removeClass("hidden");
+
+if(action1 == ""){
+    $("#action1div").addClass("hidden");
+
+}
+if(action2 == "") {
+    $("#action2div").addClass("hidden");
+}
+if(action3 == "") {
+    $("#action3div").addClass("hidden");
+}
+else if(action3 != ""){
+    $("#addAction").addClass("hidden");
+
+}
+
+
+
+
+
+    var parentElement = document.getElementById("stardiv");
+
+// Loop through all child elements and remove them one by one
+while (parentElement.firstChild) {
+  parentElement.removeChild(parentElement.firstChild);
+}
+    var finalRatings =element.getAttribute("data-ratings");
+var  DivProdContainer = document.getElementById("stardiv");
+
+                 for(var  i = 1; i<=5; i++){
+
+                    if(i<=finalRatings){
+        var b = i +1;
+        console.log(i)
+
+        console.log(finalRatings)
+
+        console.log(b)
+
+                        const newDiv=document.createElement("div");
+        
+        var svg='<svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainer.appendChild(newDiv);
+
+        console.log("star")
+
+        if(finalRatings>i && finalRatings<b ){
+            console.log("true")
+            const newDiv=document.createElement("div");
+        
+        var svg='<svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainer.appendChild(newDiv);
+            var svg='<svg  class="w-5 h-5 "  viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <defs>  <linearGradient id="grad"> <stop offset="50%" stop-color=" rgb(250 204 21 )"/> <stop offset="50%" stop-color="rgb(209 213 219)"/>  </linearGradient> </defs> <path fill="url(#grad)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainer.appendChild(newDiv);
+        console.log("halfstar")
+            
+        i++;
+        }
+
+                    }
+                    else{
+                        const newDiv=document.createElement("div");
+                        var svg1='<svg aria-hidden="true" class="w-5 h-5 text-gray-300 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg1;
+        DivProdContainer.appendChild(newDiv);
+                    
+                    }
+                 }
+    var ratings = element.getAttribute("data-ratings");
+    $("#star1").removeClass("text-yellow-400");
+        $("#star2").removeClass("text-yellow-400");
+        $("#star3").removeClass("text-yellow-400");
+        $("#star4").removeClass("text-yellow-400");
+        $("#star5").removeClass("text-yellow-400");
+
+        $("#star1").removeClass("text-gray-300");
+        $("#star2").removeClass("text-gray-300");
+        $("#star3").removeClass("text-gray-300");
+        $("#star4").removeClass("text-gray-300");
+        $("#star5").removeClass("text-gray-300");
+    if(ratings == '1'){
+
+
+        $("#star1").addClass("text-yellow-400");
+        $("#star2").addClass("text-gray-300");
+        $("#star3").addClass("text-gray-300");
+        $("#star4").addClass("text-gray-300");
+        $("#star5").addClass("text-gray-300");
+
+    }
+    else if(ratings == '2'){
+        $("#star1").addClass("text-yellow-400");
+        $("#star2").addClass("text-yellow-400");
+        $("#star3").addClass("text-gray-300");
+        $("#star4").addClass("text-gray-300");
+        $("#star5").addClass("text-gray-300");
+
+    }
+    else if(ratings == '3'){
+        $("#star1").addClass("text-yellow-400");
+        $("#star2").addClass("text-yellow-400");
+        $("#star3").addClass("text-yellow-400");
+        $("#star4").addClass("text-gray-300");
+        $("#star5").addClass("text-gray-300");
+
+    }
+    else if(ratings == '4'){
+        $("#star1").addClass("text-yellow-400");
+        $("#star2").addClass("text-yellow-400");
+        $("#star3").addClass("text-yellow-400");
+        $("#star4").addClass("text-yellow-400");
+        $("#star5").addClass("text-gray-300");
+
+    }
+    else if(ratings == '5'){
+        $("#star1").addClass("text-yellow-400");
+        $("#star2").addClass("text-yellow-400");
+        $("#star3").addClass("text-yellow-400");
+        $("#star4").addClass("text-yellow-400");
+        $("#star5").addClass("text-yellow-400");
+
+    }
+    
     var category = element.getAttribute("data-category");
     var attachment = element.getAttribute("data-attachment");
 
@@ -791,7 +943,7 @@ function goToAdmin(){
     $("#assignedPersonnelDiv").addClass("hidden");
 
     $("#buttondiv").addClass("hidden");
-    $("#buttonRateDiv").addClass("hidden");
+
     $("#actionDetailsDiv").addClass("hidden");
 
     
@@ -813,7 +965,7 @@ function goToMis(){
     $("#assignedPersonnelDiv").removeClass("hidden");
     $("#buttondiv").addClass("hidden");
 
-    $("#buttonRateDiv").addClass("hidden");
+
     $("#actionDetailsDiv").addClass("hidden");
 
     const myElement = document.querySelector('#diamond');
@@ -832,7 +984,7 @@ function goToRate(){
     document.getElementById("computername").disabled = true;
     $("#assignedPersonnelDiv").removeClass("hidden");
 
-    $("#buttonRateDiv").removeClass("hidden");
+
     $("#actionDetailsDiv").removeClass("hidden");
 
     $("#buttondiv").addClass("hidden");
@@ -846,9 +998,60 @@ const currentTransform = myElement.style.transform = 'translateX(420px) translat
 
 // transform: translateX(55px) translateY(2px) rotate(135deg);
 }
+function goToFinished(){
+    document.getElementById("telephone").disabled = true;
+    document.getElementById("datestart").disabled = true;
+    document.getElementById("datefinish").disabled = true;
+    document.getElementById("message").disabled = true;
+    document.getElementById("computername").disabled = true;
+    $("#assignedPersonnelDiv").removeClass("hidden");
+
+
+    $("#actionDetailsDiv").removeClass("hidden");
+
+    $("#buttondiv").removeClass("hidden");
+    $("#reasonCancelDiv").addClass("hidden");
+    $("#cancelledByDiv").addClass("hidden");
+    $("#actualDateFinishedDiv").removeClass("hidden");
+    const myElement = document.querySelector('#diamond');
+
+// Get the current transform value
+const currentTransform = myElement.style.transform = 'translateX(50px) translateY(2px) rotate(135deg)';
+
+
+// transform: translateX(55px) translateY(2px) rotate(135deg);
+}
+function goToCancelled(){
+    document.getElementById("telephone").disabled = true;
+    document.getElementById("datestart").disabled = true;
+    document.getElementById("datefinish").disabled = true;
+    document.getElementById("message").disabled = true;
+    document.getElementById("computername").disabled = true;
+    $("#assignedPersonnelDiv").addClass("hidden");
+    $("#reasonCancelDiv").removeClass("hidden");
+    $("#cancelledByDiv").removeClass("hidden");
+    $("#actualDateFinishedDiv").addClass("hidden");
+
+    
+
+
+    
+    $("#actionDetailsDiv").addClass("hidden");
+
+    $("#buttondiv").addClass("hidden");
+
+
+    const myElement = document.querySelector('#diamond');
+
+// Get the current transform value
+const currentTransform = myElement.style.transform = 'translateX(180px) translateY(2px) rotate(135deg)';
+
+
+// transform: translateX(55px) translateY(2px) rotate(135deg);
+}
 function goToHead(){
     $("#buttondiv").removeClass("hidden");
-    $("#buttonRateDiv").addClass("hidden");
+   
     $("#actionDetailsDiv").addClass("hidden");
     $("#assignedPersonnelDiv").addClass("hidden");
 

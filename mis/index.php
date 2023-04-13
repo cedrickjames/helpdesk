@@ -38,9 +38,32 @@
         $user_dept = $_SESSION['department'];
         $user_level=$_SESSION['level'];
 
-    
+        
 
+        if(isset($_POST['addAction'])){
+            $requestID = $_POST['joid2'];
+            $action = $_POST['action'];
+            $date = new DateTime(); 
+            $date = $date->format('F d, Y');
+            $sql="select * from `request` WHERE `id` ='$requestID'";
+            $result = mysqli_query($con,$sql);
 
+          while($row=mysqli_fetch_assoc($result)){
+            if($row['action1'] ==""){
+                $sql = "UPDATE `request` SET `action1`='$action', `action1Date`='$date' WHERE `id` = '$requestID';";
+                $results = mysqli_query($con,$sql);
+            }
+            else if($row['action1'] !="" && $row['action2'] ==""){
+                $sql = "UPDATE `request` SET `action2`='$action', `action2Date`='$date' WHERE `id` = '$requestID';";
+                $results = mysqli_query($con,$sql);
+            }
+            else if($row['action1'] !="" && $row['action2'] !="" && $row['action3'] ==""){
+                $sql = "UPDATE `request` SET `action3`='$action', `action3Date`='$date' WHERE `id` = '$requestID';";
+                $results = mysqli_query($con,$sql);
+            }
+          }
+
+        }
         if(isset($_POST['approveRequest'])){
             $requestID = $_POST['joid2'];
             $completejoid = $_POST['completejoid'];
@@ -410,7 +433,7 @@
                             <th>JO Number</th>
                             <th>Action</th>
                             <th>Details</th>
-                            <th>Date Filed</th>
+                            <th>Date Approved</th>
                             <th>Category</th>
                             <th>Assigned to</th>
                         </tr>
@@ -433,7 +456,7 @@
              
               <td>
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
-                    <button type="button" id="viewdetails" onclick="modalShow(this)" data-telephone="<?php echo $row['telephone']; ?>" data-attachment="<?php echo $row['attachment']; ?>" data-action="<?php echo $row['action']; ?>" data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-headremarks="<?php echo $row['head_remarks']; ?>" data-adminremarks="<?php echo $row['admin_remarks']; ?>"  data-joid="<?php echo $row['id']; ?>" data-requestoremail="<?php echo $row['email']; ?>"  data-requestor="<?php echo $row['requestor']; ?>"  data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] == "fem"){  echo "FEM";} else if($row['request_to'] == "mis"){ echo "MIS";}?>" data-category="<?php echo $row['request_category'];?>" data-comname="<?php echo $row['computerName']; ?>" data-start="<?php echo $row['reqstart_date']; ?>" data-end="<?php echo $row['reqfinish_date']; ?>" data-details="<?php echo $row['request_details']; ?>" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
+                    <button type="button" id="viewdetails" onclick="modalShow(this)" data-action1="<?php echo $row['action1'] ?>" data-action2="<?php echo $row['action2'] ?>" data-action3="<?php echo $row['action3'] ?>" data-telephone="<?php echo $row['telephone']; ?>" data-attachment="<?php echo $row['attachment']; ?>" data-action="<?php echo $row['action']; ?>" data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-headremarks="<?php echo $row['head_remarks']; ?>" data-adminremarks="<?php echo $row['admin_remarks']; ?>"  data-joid="<?php echo $row['id']; ?>" data-requestoremail="<?php echo $row['email']; ?>"  data-requestor="<?php echo $row['requestor']; ?>"  data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] == "fem"){  echo "FEM";} else if($row['request_to'] == "mis"){ echo "MIS";}?>" data-category="<?php echo $row['request_category'];?>" data-comname="<?php echo $row['computerName']; ?>" data-start="<?php echo $row['reqstart_date']; ?>" data-end="<?php echo $row['reqfinish_date']; ?>" data-details="<?php echo $row['request_details']; ?>" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
                     View more
                     </button>
                 </td>
@@ -446,7 +469,7 @@
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php 
-              $date = new DateTime($row['date_filled']);
+              $date = new DateTime($row['admin_approved_date']);
               $date = $date->format('F d, Y');
               echo $date;?> 
               
@@ -490,7 +513,7 @@
                             <th>JO Number</th>
                             <th>Action</th>
                             <th>Details</th>
-                            <th>Date Filed</th>
+                            <th>Date Approved</th>
                             <th>Category</th>
                             <th>Assigned to</th>
                         </tr>
@@ -513,7 +536,7 @@
              
               <td >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
-                    <button type="button" id="viewdetails" onclick="modalShow(this)" data-telephone="<?php echo $row['telephone']; ?>" data-attachment="<?php echo $row['attachment']; ?>" data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-headremarks="<?php echo $row['head_remarks']; ?>" data-action="<?php echo $row['action']; ?>"  data-adminremarks="<?php echo $row['admin_remarks']; ?>"  data-joid="<?php echo $row['id']; ?>" data-requestoremail="<?php echo $row['email']; ?>"  data-requestor="<?php echo $row['requestor']; ?>"  data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] == "fem"){  echo "FEM";} else if($row['request_to'] == "mis"){ echo "MIS";}?>" data-category="<?php echo $row['request_category'];?>" data-comname="<?php echo $row['computerName']; ?>" data-start="<?php echo $row['reqstart_date']; ?>" data-end="<?php echo $row['reqfinish_date']; ?>" data-details="<?php echo $row['request_details']; ?>" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
+                    <button type="button" id="viewdetails" onclick="modalShow(this)"  data-action1="<?php echo $row['action1'] ?>" data-action2="<?php echo $row['action2'] ?>" data-action3="<?php echo $row['action3'] ?>"  data-telephone="<?php echo $row['telephone']; ?>" data-attachment="<?php echo $row['attachment']; ?>" data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-headremarks="<?php echo $row['head_remarks']; ?>" data-action="<?php echo $row['action']; ?>"  data-adminremarks="<?php echo $row['admin_remarks']; ?>"  data-joid="<?php echo $row['id']; ?>" data-requestoremail="<?php echo $row['email']; ?>"  data-requestor="<?php echo $row['requestor']; ?>"  data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] == "fem"){  echo "FEM";} else if($row['request_to'] == "mis"){ echo "MIS";}?>" data-category="<?php echo $row['request_category'];?>" data-comname="<?php echo $row['computerName']; ?>" data-start="<?php echo $row['reqstart_date']; ?>" data-end="<?php echo $row['reqfinish_date']; ?>" data-details="<?php echo $row['request_details']; ?>" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
                     View more
                     </button>
                 </td>
@@ -526,7 +549,7 @@
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php 
-              $date = new DateTime($row['date_filled']);
+              $date = new DateTime($row['admin_approved_date']);
               $date = $date->format('F d, Y');
               echo $date;?> 
               
@@ -570,7 +593,7 @@
                             <th>JO Number</th>
                             <th>Action</th>
                             <th>Details</th>
-                            <th>Date Filed</th>
+                            <th>Date Approved</th>
                             <th>Comments</th>
                             <th>Ratings</th>
                         </tr>
@@ -593,7 +616,7 @@
              
               <td >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
-                    <button type="button" id="viewdetails" onclick="modalShow(this)" data-telephone="<?php echo $row['telephone']; ?>" data-attachment="<?php echo $row['attachment']; ?>" data-action="<?php echo $row['action']; ?>" data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-headremarks="<?php echo $row['head_remarks']; ?>" data-adminremarks="<?php echo $row['admin_remarks']; ?>"  data-joid="<?php echo $row['id']; ?>" data-requestoremail="<?php echo $row['email']; ?>"  data-requestor="<?php echo $row['requestor']; ?>"  data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] == "fem"){  echo "FEM";} else if($row['request_to'] == "mis"){ echo "MIS";}?>" data-category="<?php echo $row['request_category'];?>" data-comname="<?php echo $row['computerName']; ?>" data-start="<?php echo $row['reqstart_date']; ?>" data-end="<?php echo $row['reqfinish_date']; ?>" data-details="<?php echo $row['request_details']; ?>" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
+                    <button type="button" id="viewdetails" onclick="modalShow(this)"  data-action1="<?php echo $row['action1'] ?>" data-action2="<?php echo $row['action2'] ?>" data-action3="<?php echo $row['action3'] ?>" data-telephone="<?php echo $row['telephone']; ?>" data-attachment="<?php echo $row['attachment']; ?>" data-action="<?php echo $row['action']; ?>" data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-headremarks="<?php echo $row['head_remarks']; ?>" data-adminremarks="<?php echo $row['admin_remarks']; ?>"  data-joid="<?php echo $row['id']; ?>" data-requestoremail="<?php echo $row['email']; ?>"  data-requestor="<?php echo $row['requestor']; ?>"  data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] == "fem"){  echo "FEM";} else if($row['request_to'] == "mis"){ echo "MIS";}?>" data-category="<?php echo $row['request_category'];?>" data-comname="<?php echo $row['computerName']; ?>" data-start="<?php echo $row['reqstart_date']; ?>" data-end="<?php echo $row['reqfinish_date']; ?>" data-details="<?php echo $row['request_details']; ?>" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
                     View more
                     </button>
                 </td>
@@ -606,7 +629,7 @@
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php 
-              $date = new DateTime($row['date_filled']);
+              $date = new DateTime($row['actual_finish_date']);
               $date = $date->format('F d, Y');
               echo $date;?> 
               
@@ -616,12 +639,30 @@
               </td>
               <td class=" text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 <h2>
-                <span class="flex items-center">
+                <span class="flex justify-center items-center">
                 <?php for($i = 1; $i<=5; $i++){
                     if($i<=$row['rating_final']){
+             
+                        $b = $i+1;
+
+                      
                         ?>
                         <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                         <?php
+                          if($row['rating_final']>$i && $row['rating_final']<$b ){
+                               ?>
+                                <svg  class="w-5 h-5 "  viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <defs>
+      <linearGradient id="grad">
+        <stop offset="50%" stop-color=" rgb(250 204 21 )"/>
+        <stop offset="50%" stop-color="rgb(209 213 219)"/>
+      </linearGradient>
+    </defs>
+                        <path fill="url(#grad)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+
+                               <?php 
+                                $i++;
+                          }
                     }
                     else{
                         ?>
@@ -629,7 +670,9 @@
                         <?php
                     }
                 } ?>   
-                <span class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">4.95 out of 5</span> 
+                       
+         
+                <span class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400"><?php echo  $row['rating_final'];?> out of 5</span> 
                <!-- <?php echo ' '.$row['rating_final']?>   -->
                 </span></h2>
               </td>
@@ -764,8 +807,18 @@
                 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Action</label>
                 <textarea required id="action" name="action" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="State your action..."> </textarea>
+                <div id="action1div" class="w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 1: </span><span id="action1"></span></h2>
+                </div>
+                <div id="action2div" class="w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 2: </span><span id="action2"></span></h2>
+                </div>
+                <div id="action3div" class="w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 3: </span><span id="action3"></span></h2>
+                </div>
             </div>
-            <div id="buttonDiv" class=" items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
+            <div id="buttonDiv" class="flex items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
+            <button type="button" id="addAction" data-modal-target="popup-modal-addaction" data-modal-toggle="popup-modal-addaction" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Add Action</button>
             <button type="button" data-modal-target="popup-modal-approve" data-modal-toggle="popup-modal-approve" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Done</button>
             <button type="button"  onclick="cancellation()" data-modal-target="popup-modal-cancel" data-modal-toggle="popup-modal-cancel"  class="shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-pink-800/80  w-full text-white bg-gradient-to-br from-red-400 to-pink-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-200 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Cancel Request</button>
      
@@ -823,7 +876,7 @@
             </button>
             <div class="p-6 text-center">
                 <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to approve this request?</h3>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to finish this request?</h3>
                 <button type="submit" name="approveRequest" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                     Yes, I'm sure
                 </button>
@@ -832,10 +885,29 @@
         </div>
     </div>
 </div>
+<div id="popup-modal-addaction" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+    <div class="relative w-full h-full max-w-md md:h-auto">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" data-modal-toggle="popup-modal-addaction" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" >
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-6 text-center">
+                <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to add this action?</h3>
+                <button type="submit" name="addAction" class="text-white bg-gradient-to-br  from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                    Yes, I'm sure
+                </button>
+                <button data-modal-toggle="popup-modal-addaction" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
         </form>
             
         </div>
     </div>
+    
 </div>
 
 <script src="../node_modules/flowbite/dist/flowbite.js"></script>
@@ -898,8 +970,40 @@ function modalShow(element){
     document.getElementById("requestorinput").value =element.getAttribute("data-requestor");
     document.getElementById("requestoremailinput").value =element.getAttribute("data-requestoremail");
     document.getElementById("action").value =element.getAttribute("data-action");
+    document.getElementById("action1").innerHTML =element.getAttribute("data-action1");
+    document.getElementById("action2").innerHTML =element.getAttribute("data-action2");
+    document.getElementById("action3").innerHTML =element.getAttribute("data-action3");
 
+var action1 = element.getAttribute("data-action1");
+var action2 = element.getAttribute("data-action2");
+var action3 = element.getAttribute("data-action3");
 
+$("#addAction").addClass("hidden");
+$("#addAction").removeClass("hidden");
+
+$("#action1div").addClass("hidden");
+$("#action1div").removeClass("hidden");
+
+$("#action2div").addClass("hidden");
+$("#action2div").removeClass("hidden");
+
+$("#action3div").addClass("hidden");
+$("#action3div").removeClass("hidden");
+
+if(action1 == ""){
+    $("#action1div").addClass("hidden");
+
+}
+if(action2 == "") {
+    $("#action2div").addClass("hidden");
+}
+if(action3 == "") {
+    $("#action3div").addClass("hidden");
+}
+else if(action3 != ""){
+    $("#addAction").addClass("hidden");
+
+}
 
 
 

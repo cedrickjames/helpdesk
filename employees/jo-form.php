@@ -235,7 +235,6 @@ else
   
     <link rel="stylesheet" href="../node_modules/DataTables/datatables.min.css">
     <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Responsive-2.3.0/css/responsive.dataTables.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Editor-2023-04-08-2.1.2/css/editor.dataTables.min.css"/>
 
     <link rel="stylesheet" href="index.css">
      <!-- tailwind play cdn -->
@@ -468,9 +467,7 @@ else
 
 <script type="text/javascript" src="../node_modules/DataTables/datatables.min.js"></script>
 
-<script type="text/javascript" src="../node_modules/DataTables/Editor-2023-04-08-2.1.2/js/dataTables.editor.min.js"></script>
     <script type="text/javascript" src="../node_modules/DataTables/Responsive-2.3.0/js/dataTables.responsive.min.js"></script>
-    <!-- <script type="text/javascript" src="../node_modules/DataTables/Editor-2023-04-08-2.1.2/js/editor.dataTables.js"></script> -->
     <script type="text/javascript" src="index.js"></script>
 
 <script>

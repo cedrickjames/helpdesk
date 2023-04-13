@@ -33,7 +33,7 @@ if(isset($_POST['approveRequest'])){
                 <th>JO Number</th>
                 <th>Action</th>
                 <th>Details</th>
-                <th>Date Filed</th>
+                <th>Date Approved</th>
                 <th>Category</th>
                 <th>Assigned to</th>
             </tr>
@@ -66,7 +66,7 @@ if(isset($_POST['approveRequest'])){
 
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              <?php echo $row['date_filled'];?> 
+              <?php echo $row['head_approval_date'];?> 
               
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">

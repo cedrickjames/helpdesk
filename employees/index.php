@@ -51,7 +51,6 @@ session_start();
     }
 
 
-    
 // connection php and transfer of session
 include ("../includes/connect.php");
 $user_dept = $_SESSION['department'];
@@ -59,6 +58,78 @@ $user_level=$_SESSION['level'];
 $username = $_SESSION['username'];
 
 
+$_SESSION['jobOrderNo'] = "";
+$_SESSION['status'] = "";
+$_SESSION['requestor'] = "";
+$_SESSION['department'] = "";
+$_SESSION['dateFiled'] = "";
+$_SESSION['requestedSchedule'] = "";
+$_SESSION['type'] = "";
+$_SESSION['pcNumber'] = "";
+$_SESSION['details'] = "";
+$_SESSION['headsRemarks'] = "";
+$_SESSION['adminsRemarks'] = "";
+$_SESSION['assignedPersonnel'] = "";
+$_SESSION['section'] = "";
+$_SESSION['firstAction'] = "";
+$_SESSION['firstDate'] = "";
+$_SESSION['secondAction'] = "";
+$_SESSION['secondDate'] = "";
+$_SESSION['thirdAction'] = "";
+$_SESSION['thirdDate'] = "";
+$_SESSION['finalAction'] = "";
+$_SESSION['recommendation'] = "";
+$_SESSION['dateFinished'] = "";
+$_SESSION['ratedBy'] = "";
+$_SESSION['delivery'] = "";
+$_SESSION['quality'] = "";
+$_SESSION['totalRating'] = "";
+$_SESSION['ratingRemarks'] = "";
+$_SESSION['ratedDate'] = "";
+$_SESSION['preparedBy'] = "";
+$_SESSION['preparedDate'] = "";
+
+
+
+if(isset($_POST['print'])){
+   $_SESSION['jobOrderNo']= $_POST['pjobOrderNo'] ;
+   $_SESSION['status']= $_POST['pstatus'] ;
+   $_SESSION['requestor']= $_POST['prequestor'] ;
+   $_SESSION['department']= $_POST['pdepartment'] ;
+   $_SESSION['dateFiled']= $_POST['pdateFiled'] ;
+   $_SESSION['requestedSchedule']= $_POST['prequestedSchedule'] ;
+   $_SESSION['type']= $_POST['ptype'] ;
+   $_SESSION['pcNumber']= $_POST['ppcNumber'] ;
+   $_SESSION['details']= $_POST['pdetails'] ;
+   $_SESSION['headsRemarks']= $_POST['pheadsRemarks'] ;
+   $_SESSION['adminsRemarks']= $_POST['padminsRemarks'] ;
+   $_SESSION['assignedPersonnel']= $_POST['passignedPersonnel'] ;
+   $_SESSION['section']= $_POST['psection'] ;
+   $_SESSION['firstAction']= $_POST['pfirstAction'] ;
+   $_SESSION['firstDate']= $_POST['pfirstDate'] ;
+   $_SESSION['secondAction']= $_POST['psecondAction'] ;
+   $_SESSION['secondDate']= $_POST['psecondDate'] ;
+   $_SESSION['thirdAction']= $_POST['pthirdAction'] ;
+   $_SESSION['thirdDate']= $_POST['pthirdDate'] ;
+   $_SESSION['finalAction']= $_POST['pfinalAction'] ;
+   $_SESSION['recommendation']= $_POST['precommendation'] ;
+   $_SESSION['dateFinished']= $_POST['pdateFinished'] ;
+   $_SESSION['ratedBy']= $_POST['pratedBy'] ;
+   $_SESSION['delivery']= $_POST['pdelivery'] ;
+   $_SESSION['quality']= $_POST['pquality'] ;
+   $_SESSION['totalRating']= $_POST['ptotalRating'] ;
+   $_SESSION['ratingRemarks']= $_POST['pratingRemarks'] ;
+   $_SESSION['ratedDate']= $_POST['pratedDate'] ;
+   $_SESSION['preparedBy']= $_POST['ppreparedBy'] ;
+   $_SESSION['preparedDate']= $_POST['ppreparedDate'] ;
+
+   header("location:Job Order Report.php");
+   
+
+
+
+}
+ 
 if(isset($_POST['updateJO'])){
     $computername = $_POST['computername'];
     $start = $_POST['start'];
@@ -75,12 +146,14 @@ if(isset($_POST['updateJO'])){
     
 if(isset($_POST['rateJo'])){
     $rateScore = $_POST['rateScore'];
+    $rateScoreQuality = $_POST['rateScoreQuality'];
+$final_rating = ($rateScore + $rateScoreQuality)/2;
     $ratingcomment = $_POST['ratingcomment'];
     $joid = $_POST['joid2'];
     $assigned = $_POST['misPersonnel'];
     $requestor = $_POST['requestor'];
 
-    $sql = "UPDATE `request` SET `status2`='rated',`rating_final`='$rateScore',`requestor_remarks`='$ratingcomment' WHERE `id` = '$joid';";
+    $sql = "UPDATE `request` SET `status2`='rated',`rating_delivery`='$rateScore', `rating_quality`='$rateScoreQuality', `rating_final`='$final_rating',`requestor_remarks`='$ratingcomment' WHERE `id` = '$joid';";
     $results = mysqli_query($con,$sql);
 
     if($results){
@@ -194,7 +267,6 @@ if(isset($_POST['rateJo'])){
   
     <link rel="stylesheet" href="../node_modules/DataTables/datatables.min.css">
     <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Responsive-2.3.0/css/responsive.dataTables.min.css"/>
-    <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Editor-2023-04-08-2.1.2/css/editor.dataTables.min.css"/>
 
     <link rel="stylesheet" href="index.css">
      <!-- tailwind play cdn -->
@@ -430,6 +502,34 @@ if(isset($_POST['rateJo'])){
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <form action="" method="POST">
+        <input type="text" id="pjobOrderNo" name="pjobOrderNo" class="hidden">
+            <input type="text" id="pstatus" name="pstatus" class="hidden">
+            <input type="text" id="prequestor" name="prequestor" class="hidden">
+            <input type="text" id="pdepartment" name="pdepartment" class="hidden">
+            <input type="text" id="pdateFiled" name="pdateFiled" class="hidden">
+            <input type="text" id="prequestedSchedule" name="prequestedSchedule" class="hidden">
+            <input type="text" id="ptype" name="ptype" class="hidden">
+            <input type="text" id="ppcNumber" name="ppcNumber" class="hidden">
+            <input type="text" id="pdetails" name="pdetails" class="hidden">
+            <input type="text" id="pheadsRemarks" name="pheadsRemarks" class="hidden">
+            <input type="text" id="padminsRemarks" name="padminsRemarks" class="hidden">
+            <input type="text" id="passignedPersonnel2" name="passignedPersonnel" class="hidden">
+            <input type="text" id="psection" name="psection" class="hidden">
+            <input type="text" id="pfirstAction" name="pfirstAction" class="hidden">
+            <input type="text" id="pfirstDate" name="pfirstDate" class="hidden">
+            <input type="text" id="psecondAction" name="psecondAction" class="hidden">
+            <input type="text" id="psecondDate" name="psecondDate" class="hidden">
+            <input type="text" id="pthirdAction" name="pthirdAction" class="hidden">
+            <input type="text" id="pthirdDate" name="pthirdDate" class="hidden">
+            <input type="text" id="pfinalAction" name="pfinalAction" class="hidden">
+            <input type="text" id="precommendation" name="precommendation" class="hidden">
+            <input type="text" id="pdateFinished" name="pdateFinished" class="hidden">
+            <input type="text" id="pratedBy" name="pratedBy" class="hidden">
+            <input type="text" id="pdelivery" name="pdelivery" class="hidden">
+            <input type="text" id="pquality" name="pquality" class="hidden">
+            <input type="text" id="ptotalRating" name="ptotalRating" class="hidden">
+            <input type="text" id="pratingRemarks" name="pratingRemarks" class="hidden">
+            <input type="text" id="pratedDate" name="pratedDate" class="hidden">
             <!-- Modal header -->
             <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -470,7 +570,7 @@ if(isset($_POST['rateJo'])){
                 </div>
                 </div>
                 
-                <a type="button" name="attachment" id="attachment" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">View Attachment</a>
+                <a type="button" name="attachment" id="attachment" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">View Attachment</a>
 
                 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <div>
@@ -519,7 +619,15 @@ if(isset($_POST['rateJo'])){
                 <textarea disabled id="actionDetails" name="actionDetails" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
             
                 </div>
-                
+                <div id="action1div" class="w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 1: </span><span id="action1"></span></h2>
+                </div>
+                <div id="action2div" class="w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 2: </span><span id="action2"></span></h2>
+                </div>
+                <div id="action3div" class="w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 3: </span><span id="action3"></span></h2>
+                </div> 
                
             </div> 
             
@@ -532,7 +640,9 @@ if(isset($_POST['rateJo'])){
             <div id="buttonRateDiv" class="hidden items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
             <button  type="button" data-modal-target="rateModal" data-modal-toggle="rateModal"   class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Rate</button>
             </div>
-            
+            <div id="buttonPrintDiv" class="hidden items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
+            <button type="submit" name="print" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Print</button>
+            </div>
 
 
             <div id="popup-modal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
@@ -547,6 +657,10 @@ if(isset($_POST['rateJo'])){
             <br>
               <br><br>
               <br><br>
+              <br>
+                 <br>
+              <br>
+              <br>
               <br>
                 <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">If you're sure about canceling, please give a reason.</h3>
@@ -564,6 +678,10 @@ if(isset($_POST['rateJo'])){
               <br>
               <br>
               <br>
+              <br>
+              <br>
+              <br>
+              <br>
             </div>
         </div>
     </div>
@@ -575,7 +693,7 @@ if(isset($_POST['rateJo'])){
             <!-- Modal header -->
             <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Job Order Details
+                    Rate
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="rateModal">
                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -584,27 +702,45 @@ if(isset($_POST['rateJo'])){
             </div>
             <!-- Modal body -->
             <div class=" items-center p-6 space-y-2">
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
+  
 
-
-            <div class="flex justify-center  m-auto">
-                <input type="text" value="5" id="rateScore" name="rateScore" class="hidden">
                 <input type="text" id="misPersonnel" name="misPersonnel" class="hidden">
                 <input type="text" id="requestor" name="requestor" class="hidden">
 
-                
+            <div class="flex justify-center  m-auto">
+                <input type="text" value="5" id="rateScore" name="rateScore" class="hidden">
 
-    <svg aria-hidden="true" id="rate1" onclick = "rate('rate1')" class="cursor-pointer w-20 h-20 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>First star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-    <svg aria-hidden="true" id="rate2"  onclick = "rate('rate2')" class="cursor-pointer w-20 h-20 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-    <svg aria-hidden="true" id="rate3" onclick = "rate('rate3')" class="cursor-pointer w-20 h-20 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Third star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-    <svg aria-hidden="true" id="rate4"  onclick = "rate('rate4')" class="cursor-pointer w-20 h-20 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fourth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-    <svg aria-hidden="true" id="rate5"  onclick = "rate('rate5')" class="cursor-pointer w-20 h-20 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                
+                <div class="justify-center flex">
+                <label for="ratingcomment" class="inline-block align-middle m-auto mr-20 col-span-1 font-semibold text-gray-900 dark:text-gray-900">Delivery</label>
+                </div>
+
+    <svg aria-hidden="true" id="rate1" onclick = "rate('rate1')" class="cursor-pointer w-20 h-20 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>First star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+    <svg aria-hidden="true" id="rate2"  onclick = "rate('rate2')" class="cursor-pointer w-20 h-20 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+    <svg aria-hidden="true" id="rate3" onclick = "rate('rate3')" class="cursor-pointer w-20 h-20 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Third star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+    <svg aria-hidden="true" id="rate4"  onclick = "rate('rate4')" class="cursor-pointer w-20 h-20 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fourth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+    <svg aria-hidden="true" id="rate5"  onclick = "rate('rate5')" class="cursor-pointer w-20 h-20 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+
 </div> 
+
+<div class="flex justify-center  m-auto">
+                <input type="text" value="5" id="rateScoreQuality" name="rateScoreQuality" class="hidden">
+
+                
+                <div class="justify-center flex">
+                <label for="ratingcomment" class="inline-block align-middle m-auto mr-20 col-span-1 font-semibold text-gray-900 dark:text-gray-900">Quality</label>
+                </div>
+
+    <svg aria-hidden="true" id="rateq1" onclick = "rateq('rate1')" class="cursor-pointer w-20 h-20 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>First star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+    <svg aria-hidden="true" id="rateq2"  onclick = "rateq('rate2')" class="cursor-pointer w-20 h-20 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+    <svg aria-hidden="true" id="rateq3" onclick = "rateq('rate3')" class="cursor-pointer w-20 h-20 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Third star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+    <svg aria-hidden="true" id="rateq4"  onclick = "rateq('rate4')" class="cursor-pointer w-20 h-20 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fourth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+    <svg aria-hidden="true" id="rateq5"  onclick = "rateq('rate5')" class="cursor-pointer w-20 h-20 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+
+</div>
 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+<br>
+                <br>
                 <label for="ratingcomment" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">What is your thoughts about the service?</label>
                 <textarea id="ratingcomment" name="ratingcomment" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
 </div>
@@ -617,6 +753,15 @@ if(isset($_POST['rateJo'])){
                 <br>
                 <br>
                 <br>
+                <br>
+                <br>
+                <br>
+              <br>
+                
+                
+                
+                
+                
 
             </div>
         </div>
@@ -644,9 +789,7 @@ if(isset($_POST['rateJo'])){
 
 <script type="text/javascript" src="../node_modules/DataTables/datatables.min.js"></script>
 
-<script type="text/javascript" src="../node_modules/DataTables/Editor-2023-04-08-2.1.2/js/dataTables.editor.min.js"></script>
     <script type="text/javascript" src="../node_modules/DataTables/Responsive-2.3.0/js/dataTables.responsive.min.js"></script>
-    <!-- <script type="text/javascript" src="../node_modules/DataTables/Editor-2023-04-08-2.1.2/js/editor.dataTables.js"></script> -->
     <script type="text/javascript" src="index.js"></script>
 
 <script>
@@ -693,7 +836,68 @@ function modalShow(element){
     document.getElementById("assignedPersonnel").innerHTML =element.getAttribute("data-assignedpersonnel");
 
      
+    document.getElementById("action1").innerHTML =element.getAttribute("data-action1");
+    document.getElementById("action2").innerHTML =element.getAttribute("data-action2");
+    document.getElementById("action3").innerHTML =element.getAttribute("data-action3");
 
+    
+    document.getElementById("pjobOrderNo").value = element.getAttribute("data-joidprint");
+document.getElementById("pstatus").value = element.getAttribute("data-status");
+document.getElementById("prequestor").value = element.getAttribute("data-requestor");
+document.getElementById("pdepartment").value = element.getAttribute("data-department");
+document.getElementById("pdateFiled").value = element.getAttribute("data-datefiled");
+document.getElementById("prequestedSchedule").value = element.getAttribute("data-start") + " to " +element.getAttribute("data-end");
+document.getElementById("ptype").value = element.getAttribute("data-category");
+document.getElementById("ppcNumber").value = element.getAttribute("data-comname");
+document.getElementById("pdetails").value = element.getAttribute("data-details");
+document.getElementById("pheadsRemarks").value = element.getAttribute("data-headremarks");
+document.getElementById("padminsRemarks").value = element.getAttribute("data-adminremarks");
+document.getElementById("passignedPersonnel2").value = element.getAttribute("data-assignedpersonnel");
+document.getElementById("psection").value = element.getAttribute("data-section");
+document.getElementById("pfirstAction").value = element.getAttribute("data-action1");
+document.getElementById("pfirstDate").value = element.getAttribute("data-action1date");
+document.getElementById("psecondAction").value = element.getAttribute("data-action2");
+document.getElementById("psecondDate").value = element.getAttribute("data-action2date");
+document.getElementById("pthirdAction").value = element.getAttribute("data-action3");
+document.getElementById("pthirdDate").value = element.getAttribute("data-action3date");
+document.getElementById("pfinalAction").value = element.getAttribute("data-action");
+document.getElementById("precommendation").value = element.getAttribute("data-recommendation");
+document.getElementById("pdateFinished").value = element.getAttribute("data-actualdatefinished");
+document.getElementById("pratedBy").value = element.getAttribute("data-ratedby");
+document.getElementById("pdelivery").value = element.getAttribute("data-delivery");
+document.getElementById("pquality").value = element.getAttribute("data-quality");
+document.getElementById("ptotalRating").value = element.getAttribute("data-ratings");
+document.getElementById("pratingRemarks").value = element.getAttribute("data-requestorremarks");
+document.getElementById("pratedDate").value = element.getAttribute("data-daterate");
+
+var action1 = element.getAttribute("data-action1");
+var action2 = element.getAttribute("data-action2");
+var action3 = element.getAttribute("data-action3");
+
+
+$("#action1div").addClass("hidden");
+$("#action1div").removeClass("hidden");
+
+$("#action2div").addClass("hidden");
+$("#action2div").removeClass("hidden");
+
+$("#action3div").addClass("hidden");
+$("#action3div").removeClass("hidden");
+
+if(action1 == ""){
+    $("#action1div").addClass("hidden");
+
+}
+if(action2 == "") {
+    $("#action2div").addClass("hidden");
+}
+if(action3 == "") {
+    $("#action3div").addClass("hidden");
+}
+else if(action3 != ""){
+    $("#addAction").addClass("hidden");
+
+}
     var category = element.getAttribute("data-category");
     var attachment = element.getAttribute("data-attachment");
 
@@ -837,6 +1041,7 @@ function goToAdmin(){
     $("#buttondiv").addClass("hidden");
     $("#buttonRateDiv").addClass("hidden");
     $("#actionDetailsDiv").addClass("hidden");
+    $("#buttonPrintDiv").addClass("hidden");
 
     
 
@@ -860,6 +1065,9 @@ function goToMis(){
     $("#buttonRateDiv").addClass("hidden");
     $("#actionDetailsDiv").addClass("hidden");
 
+    $("#buttonPrintDiv").removeClass("hidden");
+
+    
     const myElement = document.querySelector('#diamond');
 
 // Get the current transform value
@@ -881,6 +1089,7 @@ function goToRate(){
 
     $("#buttondiv").addClass("hidden");
 
+    $("#buttonPrintDiv").removeClass("hidden");
 
     const myElement = document.querySelector('#diamond');
 
@@ -902,6 +1111,7 @@ function goToHead(){
     document.getElementById("datefinish").disabled = false;
     document.getElementById("message").disabled = false;
     const myElement = document.querySelector('#diamond');
+    $("#buttonPrintDiv").addClass("hidden");
 
 // Get the current transform value
 const currentTransform = myElement.style.transform = 'translateX(50px) translateY(2px) rotate(135deg)';
@@ -1093,6 +1303,124 @@ function rate(id){
     
     }
 }
+
+function rateq(id){
+    console.log(id);
+
+    if(id=="rate1"){
+        document.getElementById("rateScoreQuality").value='1';
+        $("#rateq1").removeClass("text-gray-300");
+        $("#rateq2").removeClass("text-gray-300");
+        $("#rateq3").removeClass("text-gray-300");
+        $("#rateq4").removeClass("text-gray-300");
+        $("#rateq5").removeClass("text-gray-300");
+
+        $("#rateq1").removeClass("text-yellow-400");
+        $("#rateq2").removeClass("text-yellow-400");
+        $("#rateq3").removeClass("text-yellow-400");
+        $("#rateq4").removeClass("text-yellow-400");
+        $("#rateq5").removeClass("text-yellow-400");
+
+        $("#rateq1").addClass("text-yellow-400");
+        $("#rateq2").addClass("text-gray-300");
+        $("#rateq3").addClass("text-gray-300");
+        $("#rateq4").addClass("text-gray-300");
+        $("#rateq5").addClass("text-gray-300");
+    }
+    else if(id=="rate2"){
+        document.getElementById("rateScoreQuality").value='2';
+
+        $("#rateq1").removeClass("text-gray-300");
+        $("#rateq2").removeClass("text-gray-300");
+        $("#rateq3").removeClass("text-gray-300");
+        $("#rateq4").removeClass("text-gray-300");
+        $("#rateq5").removeClass("text-gray-300");
+
+        $("#rateq1").removeClass("text-yellow-400");
+        $("#rateq2").removeClass("text-yellow-400");
+        $("#rateq3").removeClass("text-yellow-400");
+        $("#rateq4").removeClass("text-yellow-400");
+        $("#rateq5").removeClass("text-yellow-400");
+
+        $("#rateq1").addClass("text-yellow-400");
+        $("#rateq2").addClass("text-yellow-400");
+
+        $("#rateq3").addClass("text-gray-300");
+        $("#rateq4").addClass("text-gray-300");
+        $("#rateq5").addClass("text-gray-300");
+    
+    }
+    else if(id=="rate3"){
+        document.getElementById("rateScoreQuality").value='3';
+
+        $("#rateq1").removeClass("text-gray-300");
+        $("#rateq2").removeClass("text-gray-300");
+        $("#rateq3").removeClass("text-gray-300");
+        $("#rateq4").removeClass("text-gray-300");
+        $("#rateq5").removeClass("text-gray-300");
+
+        $("#rateq1").removeClass("text-yellow-400");
+        $("#rateq2").removeClass("text-yellow-400");
+        $("#rateq3").removeClass("text-yellow-400");
+        $("#rateq4").removeClass("text-yellow-400");
+        $("#rateq5").removeClass("text-yellow-400");
+
+        $("#rateq1").addClass("text-yellow-400");
+        $("#rateq2").addClass("text-yellow-400");
+        $("#rateq3").addClass("text-yellow-400");
+
+        $("#rateq4").addClass("text-gray-300");
+        $("#rateq5").addClass("text-gray-300");
+    
+    }
+    else if(id=="rate4"){
+        document.getElementById("rateScoreQuality").value='4';
+
+        $("#rateq1").removeClass("text-gray-300");
+        $("#rateq2").removeClass("text-gray-300");
+        $("#rateq3").removeClass("text-gray-300");
+        $("#rateq4").removeClass("text-gray-300");
+        $("#rateq5").removeClass("text-gray-300");
+
+        $("#rateq1").removeClass("text-yellow-400");
+        $("#rateq2").removeClass("text-yellow-400");
+        $("#rateq3").removeClass("text-yellow-400");
+        $("#rateq4").removeClass("text-yellow-400");
+        $("#rateq5").removeClass("text-yellow-400");
+
+        $("#rateq1").addClass("text-yellow-400");
+        $("#rateq2").addClass("text-yellow-400");
+        $("#rateq3").addClass("text-yellow-400");
+        $("#rateq4").addClass("text-yellow-400");
+
+        $("#rateq5").addClass("text-gray-300");
+    
+    }
+    else if(id=="rate5"){
+        document.getElementById("rateScoreQuality").value='5';
+
+        $("#rateq1").removeClass("text-gray-300");
+        $("#rateq2").removeClass("text-gray-300");
+        $("#rateq3").removeClass("text-gray-300");
+        $("#rateq4").removeClass("text-gray-300");
+        $("#rateq5").removeClass("text-gray-300");
+
+        $("#rateq1").removeClass("text-yellow-400");
+        $("#rateq2").removeClass("text-yellow-400");
+        $("#rateq3").removeClass("text-yellow-400");
+        $("#rateq4").removeClass("text-yellow-400");
+        $("#rateq5").removeClass("text-yellow-400");
+
+        $("#rateq1").addClass("text-yellow-400");
+        $("#rateq2").addClass("text-yellow-400");
+        $("#rateq3").addClass("text-yellow-400");
+        $("#rateq4").addClass("text-yellow-400");
+        $("#rateq5").addClass("text-yellow-400");
+
+    
+    }
+}
+
 $("#sidehome").addClass("bg-gray-200");
 $("#sidehistory").removeClass("bg-gray-200");
 $("#sidepms").removeClass("bg-gray-200");
