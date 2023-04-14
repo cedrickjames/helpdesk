@@ -135,9 +135,9 @@ while($field=mysqli_fetch_assoc($resultLevel))
 </nav>
 
 <!-- side bar drawer component -->
-<div id="sidebar" class="mt-2 fixed top-16 left-0 z-40 h-screen p-4 pr-0 overflow-y-auto transition-transform bg-white w-80 dark:bg-gray-800 transform-none" tabindex="-1" aria-labelledby="sidebar-label" aria-modal="true" role="dialog">
+<div id="sidebar" class="mt-2 fixed top-16 left-0 z-40 h-screen  pl-4 pt-10 pr-0 overflow-y-auto transition-transform bg-white w-80 dark:bg-gray-800 transform-none" tabindex="-1" aria-labelledby="sidebar-label" aria-modal="true" role="dialog">
 
-  <div class="px-4">
+  <div class="px-4 pb-10">
   <div class="overflow-visible relative max-w-sm mx-auto bg-white shadow-lg ring-1 ring-black/5 rounded-xl flex items-center gap-6 dark:bg-slate-800 dark:highlight-white/5">
     <img class="absolute -left-6 w-24 h-24 rounded-full shadow-lg" src="https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=80">
     <div class="overflow-hidden flex flex-col py-2 pl-24">

@@ -37,7 +37,78 @@
 
     
 
+  
 
+        $_SESSION['jobOrderNo'] = "";
+        $_SESSION['status'] = "";
+        $_SESSION['requestor'] = "";
+        $_SESSION['pdepartment'] = "";
+        $_SESSION['dateFiled'] = "";
+        $_SESSION['requestedSchedule'] = "";
+        $_SESSION['type'] = "";
+        $_SESSION['pcNumber'] = "";
+        $_SESSION['details'] = "";
+        $_SESSION['headsRemarks'] = "";
+        $_SESSION['adminsRemarks'] = "";
+        $_SESSION['assignedPersonnel'] = "";
+        $_SESSION['section'] = "";
+        $_SESSION['firstAction'] = "";
+        $_SESSION['firstDate'] = "";
+        $_SESSION['secondAction'] = "";
+        $_SESSION['secondDate'] = "";
+        $_SESSION['thirdAction'] = "";
+        $_SESSION['thirdDate'] = "";
+        $_SESSION['finalAction'] = "";
+        $_SESSION['recommendation'] = "";
+        $_SESSION['dateFinished'] = "";
+        $_SESSION['ratedBy'] = "";
+        $_SESSION['delivery'] = "";
+        $_SESSION['quality'] = "";
+        $_SESSION['totalRating'] = "";
+        $_SESSION['ratingRemarks'] = "";
+        $_SESSION['ratedDate'] = "";
+        
+        
+        
+        
+        if(isset($_POST['print'])){
+           $_SESSION['jobOrderNo']= $_POST['pjobOrderNo'] ;
+           $_SESSION['status']= $_POST['pstatus'] ;
+           $_SESSION['requestor']= $_POST['prequestor'] ;
+           $_SESSION['pdepartment']= $_POST['pdepartment'] ;
+           $_SESSION['dateFiled']= $_POST['pdateFiled'] ;
+           $_SESSION['requestedSchedule']= $_POST['prequestedSchedule'] ;
+           $_SESSION['type']= $_POST['ptype'] ;
+           $_SESSION['pcNumber']= $_POST['ppcNumber'] ;
+           $_SESSION['details']= $_POST['pdetails'] ;
+           $_SESSION['headsRemarks']= $_POST['pheadsRemarks'] ;
+           $_SESSION['adminsRemarks']= $_POST['padminsRemarks'] ;
+           $_SESSION['assignedPersonnel']= $_POST['passignedPersonnel'] ;
+           $_SESSION['section']= $_POST['psection'] ;
+           $_SESSION['firstAction']= $_POST['pfirstAction'] ;
+           $_SESSION['firstDate']= $_POST['pfirstDate'] ;
+           $_SESSION['secondAction']= $_POST['psecondAction'] ;
+           $_SESSION['secondDate']= $_POST['psecondDate'] ;
+           $_SESSION['thirdAction']= $_POST['pthirdAction'] ;
+           $_SESSION['thirdDate']= $_POST['pthirdDate'] ;
+           $_SESSION['finalAction']= $_POST['pfinalAction'] ;
+           $_SESSION['recommendation']= $_POST['precommendation'] ;
+           $_SESSION['dateFinished']= $_POST['pdateFinished'] ;
+           $_SESSION['ratedBy']= $_POST['pratedBy'] ;
+           $_SESSION['delivery']= $_POST['pdelivery'] ;
+           $_SESSION['quality']= $_POST['pquality'] ;
+           $_SESSION['totalRating']= $_POST['ptotalRating'] ;
+           $_SESSION['ratingRemarks']= $_POST['pratingRemarks'] ;
+           $_SESSION['ratedDate']= $_POST['pratedDate'] ;
+        
+           ?>
+           <script type="text/javascript">
+               window.open('./Job Order Report.php', '_blank');
+           </script>
+        <?php
+        
+        
+        }
         if(isset($_POST['approveRequest'])){
             $requestID = $_POST['joid2'];
             $completejoid = $_POST['completejoid'];
@@ -173,7 +244,8 @@
                 $requestorEmail = $_POST['requestoremail'];
                 $requestor = $_POST['requestor'];
                 $completejoid = $_POST['completejoid'];
-                $sql = "UPDATE `request` SET `status2`='cancelled', `reasonOfCancellation`='$reasonCancel' WHERE `id` = '$joid';";
+                $username = $_SESSION['name'];
+                $sql = "UPDATE `request` SET `status2`='cancelled',`cancelledBy`='$username', `reasonOfCancellation`='$reasonCancel' WHERE `id` = '$joid';";
                 $results = mysqli_query($con,$sql);
                 if($results){
                     $sql2 = "Select * FROM `sender`";
@@ -436,9 +508,9 @@
                             <th>JO Number</th>
                             <th>Action</th>
                             <th>Details</th>
-                            <th>Date Filed</th>
+                            <th>Date Approved</th>
                             <th>Category</th>
-                            <th>Assigned to</th>
+                            <th>Assigned Section</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -453,13 +525,37 @@
               <tr class="">
               <td class="">
               <?php 
-              $date = new DateTime($row['date_filled']);
+              $date = new DateTime($row['head_approval_date']);
               $date = $date->format('ym');
               echo $date.'-'.$row['id'];?> 
-             
+             </td>
               <td >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
-                    <button type="button" id="viewdetails" onclick="modalShow(this)"data-telephone="<?php echo $row['telephone']; ?>" data-attachment="<?php echo $row['attachment']; ?>" data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-headremarks="<?php echo $row['head_remarks']; ?>" data-adminremarks="<?php echo $row['admin_remarks']; ?>" data-joid="<?php echo $row['id']; ?>" data-requestoremail="<?php echo $row['email']; ?>"  data-requestor="<?php echo $row['requestor']; ?>"  data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] == "fem"){  echo "FEM";} else if($row['request_to'] == "mis"){ echo "MIS";}?>" data-category="<?php echo $row['request_category']; ?>" data-comname="<?php echo $row['computerName']; ?>" data-start="<?php echo $row['reqstart_date']; ?>" data-end="<?php echo $row['reqfinish_date']; ?>" data-details="<?php echo $row['request_details']; ?>" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
+                   
+                    <button type="button" id="viewdetails" onclick="modalShow(this)" 
+                    data-recommendation="<?php echo $row['recommendation'] ?>" 
+                    data-requestorremarks="<?php echo $row['requestor_remarks'] ?>" 
+                    data-quality="<?php echo $row['rating_quality'] ?>" 
+                    data-delivery="<?php echo $row['rating_delivery'] ?>" 
+                    data-ratedby="<?php echo $row['ratedBy'] ?>" 
+                    data-daterate="<?php echo $row['rateDate'] ?>" 
+                    data-action1date="<?php echo $row['action1Date'] ?>" 
+                    data-action2date="<?php echo $row['action2Date'] ?>" 
+                    data-action3date="<?php echo $row['action3Date'] ?>" 
+                    data-headremarks="<?php echo $row['head_remarks']; ?>" 
+                    data-adminremarks="<?php echo $row['admin_remarks']; ?>" 
+                    data-department="<?php echo $row['department'] ?>" 
+                    data-status="<?php echo $row['status2'] ?>" 
+                    data-action1="<?php echo $row['action1'] ?>" 
+                    data-action2="<?php echo $row['action2'] ?>" 
+                    data-action3="<?php echo $row['action3'] ?>" 
+                    data-ratings = "<?php echo $row['rating_final'];?>"
+                    data-actualdatefinished=""  
+                    data-assignedpersonnel="<?php echo $row['assignedPersonnelName'] ?> " 
+                    data-requestor="<?php echo $row['requestor'] ?>"  
+                    data-personnel="<?php echo $row['assignedPersonnel'] ?>"
+                    data-action="<?php echo $row['action'] ?>" 
+                    data-telephone="<?php echo $row['telephone']; ?>" data-attachment="<?php echo $row['attachment']; ?>" data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-headremarks="<?php echo $row['head_remarks']; ?>" data-adminremarks="<?php echo $row['admin_remarks']; ?>" data-joid="<?php echo $row['id']; ?>" data-requestoremail="<?php echo $row['email']; ?>"  data-requestor="<?php echo $row['requestor']; ?>"  data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] == "fem"){  echo "FEM";} else if($row['request_to'] == "mis"){ echo "MIS";}?>" data-category="<?php echo $row['request_category']; ?>" data-comname="<?php echo $row['computerName']; ?>" data-start="<?php echo $row['reqstart_date']; ?>" data-end="<?php echo $row['reqfinish_date']; ?>" data-details="<?php echo $row['request_details']; ?>" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
                     View more
                     </button>
                 </td>
@@ -472,8 +568,11 @@
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php 
-              $date = new DateTime($row['date_filled']);
+              $date = new DateTime($row['head_approval_date']);
               $date = $date->format('F d, Y');
+              if($row['head_approval_date'] == ""){
+                $date="";
+              }
               echo $date;?> 
               
               </td>
@@ -516,9 +615,11 @@
                             <th>JO Number</th>
                             <th>Action</th>
                             <th>Details</th>
-                            <th>Date Filed</th>
+                            <th>Date Approved</th>
                             <th>Category</th>
                             <th>Assigned to</th>
+                            <th>Assigned Section</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -536,10 +637,43 @@
               $date = new DateTime($row['date_filled']);
               $date = $date->format('ym');
               echo $date.'-'.$row['id'];?> 
-             
+             </td>
               <td >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
-                    <button type="button" id="viewdetails" onclick="modalShow(this)"data-telephone="<?php echo $row['telephone']; ?>" data-attachment="<?php echo $row['attachment']; ?>" data-assignedpersonnel="<?php echo $row['assignedPersonnelName'] ?> " data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-headremarks="<?php echo $row['head_remarks']; ?>" data-action="<?php echo $row['action']; ?>"  data-adminremarks="<?php echo $row['admin_remarks']; ?>"  data-joid="<?php echo $row['id']; ?>" data-requestoremail="<?php echo $row['email']; ?>"  data-requestor="<?php echo $row['requestor']; ?>"  data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] == "fem"){  echo "FEM";} else if($row['request_to'] == "mis"){ echo "MIS";}?>" data-category="<?php echo $row['request_category'];?>" data-comname="<?php echo $row['computerName']; ?>" data-start="<?php echo $row['reqstart_date']; ?>" data-end="<?php echo $row['reqfinish_date']; ?>" data-details="<?php echo $row['request_details']; ?>" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
+                    <button type="button" id="viewdetails" onclick="modalShow(this)"  
+                    data-recommendation="<?php echo $row['recommendation'] ?>" 
+                    data-requestorremarks="<?php echo $row['requestor_remarks'] ?>" 
+                    data-quality="<?php echo $row['rating_quality'] ?>" 
+                    data-delivery="<?php echo $row['rating_delivery'] ?>" 
+                    data-ratedby="<?php echo $row['ratedBy'] ?>" 
+                    data-daterate="<?php echo $row['rateDate'] ?>" 
+                    data-action1date="<?php echo $row['action1Date'] ?>" 
+                    data-action2date="<?php echo $row['action2Date'] ?>" 
+                    data-action3date="<?php echo $row['action3Date'] ?>" 
+                    data-headremarks="<?php echo $row['head_remarks']; ?>" 
+                    data-adminremarks="<?php echo $row['admin_remarks']; ?>" 
+                    data-department="<?php echo $row['department'] ?>" 
+                    data-status="<?php echo $row['status2'] ?>" 
+                    data-action1="<?php echo $row['action1'] ?>" 
+                    data-action2="<?php echo $row['action2'] ?>" 
+                    data-action3="<?php echo $row['action3'] ?>" 
+                    data-ratings = "<?php echo $row['rating_final'];?>"
+                    data-actualdatefinished=""  
+                    data-assignedpersonnel="<?php echo $row['assignedPersonnelName'] ?> " 
+                    data-requestoremail="<?php echo $row['email']; ?>" 
+
+                    data-requestor="<?php echo $row['requestor'] ?>"  
+                    data-personnel="<?php echo $row['assignedPersonnel'] ?>"
+                    data-action="<?php echo $row['action'] ?>" 
+                    data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-joid="<?php echo $row['id']; ?>" data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] === "fem"){  echo "FEM";} else if($row['request_to'] === "mis"){ echo "MIS";  }?> " 
+                    data-category="<?php echo $row['request_category']; ?>" 
+                    data-telephone="<?php echo $row['telephone']; ?>" 
+                    data-attachment="<?php echo $row['attachment']; ?>"  
+                    data-comname="<?php echo $row['computerName']; ?>" 
+                    data-start="<?php echo $row['reqstart_date']; ?>" 
+                    data-end="<?php echo $row['reqfinish_date']; ?>"
+                    data-details="<?php echo $row['request_details']; ?>"
+                        class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
                     View more
                     </button>
                 </td>
@@ -552,7 +686,7 @@
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php 
-              $date = new DateTime($row['date_filled']);
+              $date = new DateTime($row['admin_approved_date']);
               $date = $date->format('F d, Y');
               echo $date;?> 
               
@@ -560,6 +694,12 @@
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['request_category'];?> 
               </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+
+              <?php echo $row['assignedPersonnelName'];
+                ?> 
+              </td>
+              
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 
               <?php if($row['request_to'] == "fem"){
@@ -598,14 +738,19 @@
                             <th>Details</th>
                             <th>Date Filed</th>
                             <th>Comments</th>
+                            <th>Assigned to</th>
+                            <th>Assigned Section</th>
                             <th>Ratings</th>
                         </tr>
                     </thead>
                     <tbody>
               <?php
                 $a=1;
+                $date1 = new DateTime();
+                $dateMonth = $date1->format('M');
+                $dateYear = $date1->format('Y');
 
-                  $sql="select * from `request` WHERE `status2` ='rated' OR `status2` = 'Done'  order by id asc  ";
+                  $sql="select * from `request` WHERE `status2` ='rated' OR `status2` = 'Done' AND `month`='$dateMonth' AND `year` = '$dateYear'  order by id asc  ";
                   $result = mysqli_query($con,$sql);
 
                 while($row=mysqli_fetch_assoc($result)){
@@ -616,10 +761,42 @@
               $date = new DateTime($row['date_filled']);
               $date = $date->format('ym');
               echo $date.'-'.$row['id'];?> 
-             
+             </td>
               <td >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
-                    <button type="button" id="viewdetails" onclick="modalShow(this)" data-telephone="<?php echo $row['telephone']; ?>" data-attachment="<?php echo $row['attachment']; ?>" data-assignedpersonnel="<?php echo $row['assignedPersonnelName'] ?> " data-assignedpersonnel="<?php echo $row['assignedPersonnelName'] ?> " data-action="<?php echo $row['action']; ?>" data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-headremarks="<?php echo $row['head_remarks']; ?>" data-adminremarks="<?php echo $row['admin_remarks']; ?>"  data-joid="<?php echo $row['id']; ?>" data-requestoremail="<?php echo $row['email']; ?>"  data-requestor="<?php echo $row['requestor']; ?>"  data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] == "fem"){  echo "FEM";} else if($row['request_to'] == "mis"){ echo "MIS";}?>" data-category="<?php echo $row['request_category'];?>" data-comname="<?php echo $row['computerName']; ?>" data-start="<?php echo $row['reqstart_date']; ?>" data-end="<?php echo $row['reqfinish_date']; ?>" data-details="<?php echo $row['request_details']; ?>" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
+                    <button type="button" id="viewdetails" onclick="modalShow(this)"  
+                    data-recommendation="<?php echo $row['recommendation'] ?>" 
+                    data-requestorremarks="<?php echo $row['requestor_remarks'] ?>" 
+                    data-quality="<?php echo $row['rating_quality'] ?>" 
+                    data-delivery="<?php echo $row['rating_delivery'] ?>" 
+                    data-ratedby="<?php echo $row['ratedBy'] ?>" 
+                    data-daterate="<?php echo $row['rateDate'] ?>" 
+                    data-action1date="<?php echo $row['action1Date'] ?>" 
+                    data-action2date="<?php echo $row['action2Date'] ?>" 
+                    data-action3date="<?php echo $row['action3Date'] ?>" 
+                    data-headremarks="<?php echo $row['head_remarks']; ?>" 
+                    data-adminremarks="<?php echo $row['admin_remarks']; ?>" 
+                    data-department="<?php echo $row['department'] ?>" 
+                    data-status="<?php echo $row['status2'] ?>" 
+                    data-action1="<?php echo $row['action1'] ?>" 
+                    data-action2="<?php echo $row['action2'] ?>" 
+                    data-action3="<?php echo $row['action3'] ?>" 
+                    data-ratings = "<?php echo $row['rating_final'];?>"
+                    data-actualdatefinished=""  
+                    data-assignedpersonnel="<?php echo $row['assignedPersonnelName'] ?> " 
+                    data-requestor="<?php echo $row['requestor'] ?>"  
+                    data-personnel="<?php echo $row['assignedPersonnel'] ?>"
+                    data-action="<?php echo $row['action'] ?>" 
+                    data-requestoremail="<?php echo $row['email']; ?>" 
+                    data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-joid="<?php echo $row['id']; ?>" data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] === "fem"){  echo "FEM";} else if($row['request_to'] === "mis"){ echo "MIS";  }?> " 
+                    data-category="<?php echo $row['request_category']; ?>" 
+                    data-telephone="<?php echo $row['telephone']; ?>" 
+                    data-attachment="<?php echo $row['attachment']; ?>"  
+                    data-comname="<?php echo $row['computerName']; ?>" 
+                    data-start="<?php echo $row['reqstart_date']; ?>" 
+                    data-end="<?php echo $row['reqfinish_date']; ?>"
+                    data-details="<?php echo $row['request_details']; ?>"
+                        class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
                     View more
                     </button>
                 </td>
@@ -637,13 +814,62 @@
               echo $date;?> 
               
               </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap truncate " style="max-width: 40px;">
               <?php echo $row['requestor_remarks'];?> 
               </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap truncate" style="max-width: 10px;">
 
-              <?php echo $row['rating_final']
-                ?> 
+            <?php echo $row['assignedPersonnelName'];
+            ?> 
+            </td>
+          
+            <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+
+            <?php if($row['request_to'] == "fem"){
+            echo "FEM";}
+            else if($row['request_to'] == "mis"){
+            echo "MIS";
+            }
+            ?> 
+            </td>
+              <td class=" text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                <h2>
+                <span class="flex justify-center items-center">
+                <?php for($i = 1; $i<=5; $i++){
+                    if($i<=$row['rating_final']){
+             
+                        $b = $i+1;
+
+                      
+                        ?>
+                        <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <?php
+                          if($row['rating_final']>$i && $row['rating_final']<$b ){
+                               ?>
+                                <svg  class="w-5 h-5 "  viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <defs>
+      <linearGradient id="grad">
+        <stop offset="50%" stop-color=" rgb(250 204 21 )"/>
+        <stop offset="50%" stop-color="rgb(209 213 219)"/>
+      </linearGradient>
+    </defs>
+                        <path fill="url(#grad)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+
+                               <?php 
+                                $i++;
+                          }
+                    }
+                    else{
+                        ?>
+                            <svg aria-hidden="true" class="w-5 h-5 text-gray-300 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <?php
+                    }
+                } ?>   
+                       
+         
+                <span class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400"><?php echo  $row['rating_final'];?> </span> 
+               <!-- <?php echo ' '.$row['rating_final']?>   -->
+                </span></h2>
               </td>
 
 
@@ -681,6 +907,34 @@
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <form action="" method="POST">
             <!-- Modal header -->
+            <input type="text" id="pjobOrderNo" name="pjobOrderNo" class="hidden">
+            <input type="text" id="pstatus" name="pstatus" class="hidden">
+            <input type="text" id="prequestor" name="prequestor" class="hidden">
+            <input type="text" id="pdepartment" name="pdepartment" class="hidden">
+            <input type="text" id="pdateFiled" name="pdateFiled" class="hidden">
+            <input type="text" id="prequestedSchedule" name="prequestedSchedule" class="hidden">
+            <input type="text" id="ptype" name="ptype" class="hidden">
+            <input type="text" id="ppcNumber" name="ppcNumber" class="hidden">
+            <input type="text" id="pdetails" name="pdetails" class="hidden">
+            <input type="text" id="pheadsRemarks" name="pheadsRemarks" class="hidden">
+            <input type="text" id="padminsRemarks" name="padminsRemarks" class="hidden">
+            <input type="text" id="passignedPersonnel2" name="passignedPersonnel" class="hidden">
+            <input type="text" id="psection" name="psection" class="hidden">
+            <input type="text" id="pfirstAction" name="pfirstAction" class="hidden">
+            <input type="text" id="pfirstDate" name="pfirstDate" class="hidden">
+            <input type="text" id="psecondAction" name="psecondAction" class="hidden">
+            <input type="text" id="psecondDate" name="psecondDate" class="hidden">
+            <input type="text" id="pthirdAction" name="pthirdAction" class="hidden">
+            <input type="text" id="pthirdDate" name="pthirdDate" class="hidden">
+            <input type="text" id="pfinalAction" name="pfinalAction" class="hidden">
+            <input type="text" id="precommendation" name="precommendation" class="hidden">
+            <input type="text" id="pdateFinished" name="pdateFinished" class="hidden">
+            <input type="text" id="pratedBy" name="pratedBy" class="hidden">
+            <input type="text" id="pdelivery" name="pdelivery" class="hidden">
+            <input type="text" id="pquality" name="pquality" class="hidden">
+            <input type="text" id="ptotalRating" name="ptotalRating" class="hidden">
+            <input type="text" id="pratingRemarks" name="pratingRemarks" class="hidden">
+            <input type="text" id="pratedDate" name="pratedDate" class="hidden">
             <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     Job Order Details
@@ -750,7 +1004,7 @@
                     
                 </div>
                 </div>
-                <a type="button" name="attachment" id="attachment" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">View Attachment</a>
+                <a type="button" name="attachment" id="attachment" target="_blank" class="shadow-lg shadow-purple-500/10 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">View Attachment</a>
 
                 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <div>
@@ -796,14 +1050,31 @@
                 <div id="adminremarksDiv" class="hidden w-full grid gap-4 grid-col-1">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Admin Remarks: </span><span id="adminremarks"></span></h2>
                 </div>
+
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Request Details</label>
-                <textarea disabled id="message" name="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" > </textarea>
-               
+        <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Request Details</label>
+                <textarea disabled id="message" name="message" rows="2" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" > </textarea>
+        <div id="actionDetailsDiv" class="hidden">
+                <hr class="h-px  bg-gray-200 border-0 dark:bg-gray-700">
+
+                <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Details of action</label>
+                <textarea disabled id="actionDetails" name="actionDetails" rows="3" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+            
+                </div>
+              
+                <div id="action1div" class="w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 1: </span><span id="action1"></span></h2>
+                </div>
+                <div id="action2div" class="w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 2: </span><span id="action2"></span></h2>
+                </div>
+                <div id="action3div" class="w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 3: </span><span id="action3"></span></h2>
+                </div> 
                 <div id="remarksDiv">
-                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                <hr class="h-px  bg-gray-200 border-0 dark:bg-gray-700">
                 <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Remarks</label>
-                <textarea id="remarks" name="remarks" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave  remarks..."> </textarea>
+                <textarea id="remarks" name="remarks" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave  remarks..."> </textarea>
                 </div>
                 
             </div>
@@ -812,7 +1083,9 @@
             <button type="button"  onclick="cancellation()" data-modal-target="popup-modal-cancel" data-modal-toggle="popup-modal-cancel"  class="shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-pink-800/80  w-full text-white bg-gradient-to-br from-red-400 to-pink-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-200 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Cancel Request</button>
      
             </div>
-            
+            <div id="buttonPrintDiv" class="hidden items-center px-4 rounded-b dark:border-gray-600">
+            <button type="submit" name="print" class="shadow-lg shadow-blue-500/30 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Print</button>
+            </div>
 
 
   <div id="popup-modal-cancel" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
@@ -908,15 +1181,15 @@ const optionsModal = {
   backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
   closable: true,
   onHide: () => {
-      console.log('modal is hidden');
+      //console.log('modal is hidden');
   },
   onShow: () => {
-      console.log('modal is shown');
+      //console.log('modal is shown');
 
-    //   console.log(section);
+    //   //console.log(section);
   },
   onToggle: () => {
-      console.log('modal has been toggled');
+      //console.log('modal has been toggled');
 
   }
 };
@@ -944,7 +1217,7 @@ function modalShow(element){
 
 
 
-
+    document.getElementById("actionDetails").value =element.getAttribute("data-action");
     
     document.getElementById("datefiled").innerHTML =element.getAttribute("data-datefiled");
     document.getElementById("sectionmodal").innerHTML =element.getAttribute("data-section");
@@ -956,7 +1229,70 @@ function modalShow(element){
 
 
 
+     
+    document.getElementById("action1").innerHTML =element.getAttribute("data-action1");
+    document.getElementById("action2").innerHTML =element.getAttribute("data-action2");
+    document.getElementById("action3").innerHTML =element.getAttribute("data-action3");
 
+    
+    document.getElementById("pjobOrderNo").value = element.getAttribute("data-joidprint");
+document.getElementById("pstatus").value = element.getAttribute("data-status");
+document.getElementById("prequestor").value = element.getAttribute("data-requestor");
+document.getElementById("pdepartment").value = element.getAttribute("data-department");
+document.getElementById("pdateFiled").value = element.getAttribute("data-datefiled");
+document.getElementById("prequestedSchedule").value = element.getAttribute("data-start") + " to " +element.getAttribute("data-end");
+document.getElementById("ptype").value = element.getAttribute("data-category");
+document.getElementById("ppcNumber").value = element.getAttribute("data-comname");
+document.getElementById("pdetails").value = element.getAttribute("data-details");
+document.getElementById("pheadsRemarks").value = element.getAttribute("data-headremarks");
+document.getElementById("padminsRemarks").value = element.getAttribute("data-adminremarks");
+document.getElementById("passignedPersonnel2").value = element.getAttribute("data-assignedpersonnel");
+document.getElementById("psection").value = element.getAttribute("data-section");
+document.getElementById("pfirstAction").value = element.getAttribute("data-action1");
+document.getElementById("pfirstDate").value = element.getAttribute("data-action1date");
+document.getElementById("psecondAction").value = element.getAttribute("data-action2");
+document.getElementById("psecondDate").value = element.getAttribute("data-action2date");
+document.getElementById("pthirdAction").value = element.getAttribute("data-action3");
+document.getElementById("pthirdDate").value = element.getAttribute("data-action3date");
+document.getElementById("pfinalAction").value = element.getAttribute("data-action");
+document.getElementById("precommendation").value = element.getAttribute("data-recommendation");
+document.getElementById("pdateFinished").value = element.getAttribute("data-actualdatefinished");
+document.getElementById("pratedBy").value = element.getAttribute("data-ratedby");
+document.getElementById("pdelivery").value = element.getAttribute("data-delivery");
+document.getElementById("pquality").value = element.getAttribute("data-quality");
+document.getElementById("ptotalRating").value = element.getAttribute("data-ratings");
+document.getElementById("pratingRemarks").value = element.getAttribute("data-requestorremarks");
+document.getElementById("pratedDate").value = element.getAttribute("data-daterate");
+
+
+var action1 = element.getAttribute("data-action1");
+var action2 = element.getAttribute("data-action2");
+var action3 = element.getAttribute("data-action3");
+
+
+$("#action1div").addClass("hidden");
+$("#action1div").removeClass("hidden");
+
+$("#action2div").addClass("hidden");
+$("#action2div").removeClass("hidden");
+
+$("#action3div").addClass("hidden");
+$("#action3div").removeClass("hidden");
+
+if(action1 == ""){
+    $("#action1div").addClass("hidden");
+
+}
+if(action2 == "") {
+    $("#action2div").addClass("hidden");
+}
+if(action3 == "") {
+    $("#action3div").addClass("hidden");
+}
+else if(action3 != ""){
+    $("#addAction").addClass("hidden");
+
+}
 
 
 
@@ -969,13 +1305,13 @@ if(section=="MIS"){
 else if(section=="FEM"){
     sectionFEMorMIS = "fem";
 }
-console.log("dfg"+section+"asd");
+//console.log("dfg"+section+"asd");
 
-console.log("asd"+sectionFEMorMIS);
+//console.log("asd"+sectionFEMorMIS);
 $("#assigned option").each(function() {
 var assignedSection = $(this).attr("data-sectionassign");
-console.log(assignedSection);
-console.log(section);
+//console.log(assignedSection);
+//console.log(section);
 
 
 if(assignedSection != sectionFEMorMIS ){
@@ -1030,13 +1366,13 @@ const options = {
   edgeOffset: '',
   backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30',
   onHide: () => {
-      console.log('drawer is hidden');
+      //console.log('drawer is hidden');
   },
   onShow: () => {
-      console.log('drawer is shown');
+      //console.log('drawer is shown');
   },
   onToggle: () => {
-      console.log('drawer has been toggled');
+      //console.log('drawer has been toggled');
   }
 };
 
@@ -1081,7 +1417,7 @@ const taboptions = {
     activeClasses: 'text-white hover:text-amber-400 dark:text-blue-500 dark:hover:text-blue-400 border-blue-600 dark:border-blue-500',
     inactiveClasses: 'text-gray-300 hover:text-amber-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300',
     onShow: () => {
-        console.log('tab is shown');
+        //console.log('tab is shown');
     }
 };
 
@@ -1098,14 +1434,15 @@ function goToOverall(){
 
 const currentTransform = myElement.style.transform = 'translateX(160px) translateY(2px) rotate(135deg)';
 
+$("#buttonPrintDiv").addClass("hidden");
 
 
 }
 function goToAdmin(){
     const myElement = document.querySelector('#diamond');
-
+    $("#actionDetailsDiv").addClass("hidden");
 const currentTransform = myElement.style.transform = 'translateX(180px) translateY(2px) rotate(135deg)';
-
+$("#buttonPrintDiv").addClass("hidden");
 
 
 }
@@ -1118,9 +1455,10 @@ function goToMis(){
     $("#buttonDiv").addClass("hidden");
     $("#assignedPersonnelDiv").removeClass("hidden");
     $("#chooseAssignedDiv").addClass("hidden");
-
-    
-    
+    $("#buttonPrintDiv").removeClass("hidden");
+    $("#actionDetailsDiv").addClass("hidden");
+    document.getElementById("reasonCancel").required = false;
+    document.getElementById("assigned").required = false;
 
     
     const currentTransform = myElement.style.transform = 'translateX(170px) translateY(2px) rotate(135deg)';
@@ -1134,11 +1472,14 @@ function goToRate(){
     $("#remarksDiv").addClass("hidden");
     $("#assignedPersonnelDiv").removeClass("hidden");
     $("#chooseAssignedDiv").addClass("hidden");
-
     $("#buttonDiv").addClass("hidden");
+    $("#actionDetailsDiv").removeClass("hidden");
 
+    $("#buttonPrintDiv").removeClass("hidden");
 const currentTransform = myElement.style.transform = 'translateX(280px) translateY(2px) rotate(135deg)';
 
+document.getElementById("reasonCancel").required = false;
+    document.getElementById("assigned").required = false;
 
 
 }
@@ -1149,9 +1490,12 @@ function goToHead(){
     $("#buttonDiv").removeClass("hidden");
     $("#assignedPersonnelDiv").addClass("hidden");
     $("#chooseAssignedDiv").removeClass("hidden");
+    $("#buttonPrintDiv").addClass("hidden");
+    $("#actionDetailsDiv").addClass("hidden");
 
 const currentTransform = myElement.style.transform = 'translateX(50px) translateY(2px) rotate(135deg)';
-
+document.getElementById("reasonCancel").required = false;
+    document.getElementById("assigned").required = true;
 
 
 }
@@ -1169,7 +1513,7 @@ function testDate() {
     const y = new Date(chosendate);
 
     if (x < y) {
-        console.log("Valid");
+        //console.log("Valid");
         var monthNumber = new Date().getMonth() + 1;
         const asf = new Date(chosendate);
         asf.setDate(asf.getDate() + 1);
@@ -1177,7 +1521,7 @@ function testDate() {
         document.getElementById("datefinish").value = setdate;
 
         setdate2 = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate();
-        console.log(setdate)
+        //console.log(setdate)
 
     } else {
         alert("Sorry your request date is not accepted!")
@@ -1185,10 +1529,10 @@ function testDate() {
         const z = new Date();
         var monthNumber = new Date().getMonth() + 1
         z.setDate(z.getDate() + 1);
-        console.log(z);
+        //console.log(z);
         var setdate = z.getFullYear() + "-" + monthNumber + "-" + z.getDate();
         document.getElementById("datestart").value = setdate;
-        console.log(setdate)
+        //console.log(setdate)
 
         const asf2 = new Date(setdate);
         asf2.setDate(asf2.getDate() + 2);
@@ -1199,11 +1543,11 @@ function testDate() {
 }
 
 function endDate() {
-    console.log(setdate2);
+    //console.log(setdate2);
 
 
     var chosendate3 = document.getElementById("datefinish").value;
-    console.log(chosendate3);
+    //console.log(chosendate3);
 
     const x = new Date(setdate2);
     const y = new Date(chosendate3);

@@ -10,7 +10,7 @@
     $jobOrderNo = $_SESSION['jobOrderNo'] ;
 
     $requestor = $_SESSION['requestor'] ;
-    $department = $_SESSION['department'] ;
+    $department = $_SESSION['pdepartment'] ;
     $dateFiled = $_SESSION['dateFiled'] ;
     $requestedSchedule = $_SESSION['requestedSchedule'] ;
     $type = $_SESSION['type'] ;
@@ -35,8 +35,7 @@
     $totalRating = $_SESSION['totalRating'] ;
     $ratingRemarks = $_SESSION['ratingRemarks'] ;
     $ratedDate = $_SESSION['ratedDate'] ;
-    $preparedBy = $_SESSION['preparedBy'] ;
-    $preparedDate = $_SESSION['preparedDate'] ;
+
 
     if($_SESSION['status']=="inprogress"){
         $status = "In Progress";
@@ -251,7 +250,7 @@ if($dateFinished !=""){
             $html.='  </table>
 
         <hr>';
-if($status == "rated"  ){
+if($status == "Done"  ){
     $html.=' <table>
     <tr>
     <td class="category"><span class="label">RATING</span></td>

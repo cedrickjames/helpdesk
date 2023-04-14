@@ -87,8 +87,7 @@ $_SESSION['quality'] = "";
 $_SESSION['totalRating'] = "";
 $_SESSION['ratingRemarks'] = "";
 $_SESSION['ratedDate'] = "";
-$_SESSION['preparedBy'] = "";
-$_SESSION['preparedDate'] = "";
+
 
 
 
@@ -121,10 +120,12 @@ if(isset($_POST['print'])){
    $_SESSION['totalRating']= $_POST['totalRating'] ;
    $_SESSION['ratingRemarks']= $_POST['ratingRemarks'] ;
    $_SESSION['ratedDate']= $_POST['ratedDate'] ;
-   $_SESSION['preparedBy']= $_POST['preparedBy'] ;
-   $_SESSION['preparedDate']= $_POST['preparedDate'] ;
 
-   header("location:Job Order Report.php");
+   ?>
+   <script type="text/javascript">
+       window.open('./Job Order Report.php', '_blank');
+   </script>
+<?php
    
 
 

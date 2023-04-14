@@ -48,7 +48,12 @@ if(isset($_POST['approveRequest'])){
                 while($row=mysqli_fetch_assoc($result)){
                   ?>
               <tr class="">
-              <td class=""><?php echo $row['id'];?> </td>
+              <td class="">
+              <?php 
+              $date = new DateTime($row['date_filled']);
+              $date = $date->format('ym');
+              echo $date.'-'.$row['id'];?> 
+             </td>
               <td >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
                     <button type="button" id="viewdetails" onclick="modalShow(this)"
@@ -92,11 +97,7 @@ if(isset($_POST['approveRequest'])){
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 
-              <?php if($row['request_to'] == "fem"){
-                echo "FEM";}
-                else if($row['request_to'] == "mis"){
-                echo "MIS";
-                }
+              <?php echo $row['assignedPersonnelName'];
                 ?> 
               </td>
 
