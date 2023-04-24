@@ -5,7 +5,10 @@ select[name="employeeTable_length"] {
   select[name="overAllTable_length"] {
     width: 73px;
   }
-
+  select[name="overAllEmployees_length"] {
+    width: 73px;
+  }
+  
   select[name="forRatingTable_length"] {
     width: 73px;
   }

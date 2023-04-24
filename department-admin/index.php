@@ -433,6 +433,43 @@
                                 id="tabExample" role="tablist">
                                 <li role="presentation">
                                     <div class="p__uwg" style="width: 106px; margin-right: 0px;">
+                                        <button id="overallTab" onclick="goToOverall()" type="button" role="tab"
+                                            aria-controls="overall"
+                                            class="_1QoxDw o4TrkA CA2Rbg Di_DSA cwOZMg zQlusQ uRvRjQ POMxOg _lWDfA"
+                                            aria-selected="false">
+                                            <div class="_1cZINw">
+                                                <div style="overflow:inherit" class="_qiHHw Ut_ecQ kHy45A">
+                                                <span  class=" sr-only">Notifications</span>
+                        <?php 
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE  `status2` ='inprogress' and `request_to` = 'fem'";
+                                        $result = mysqli_query($con, $sql1);
+                                        while($count=mysqli_fetch_assoc($result))
+                                        {
+                                    
+                                        if($count["pending"] > 0){
+                                            ?>
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `status2` ='inprogress' and `request_to` = 'fem'";
+                                                       $result = mysqli_query($con, $sql1);
+                                                       while($count=mysqli_fetch_assoc($result))
+                                                       {
+                                                       echo $count["pending"];
+                                                     
+                                                       }
+                                                       ?></div><?php
+                                        }
+                                      
+                                        }
+                            ?>
+                                                <span class="gkK1Zg"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path fill="currentColor" d="M24 0C10.7 0 0 10.7 0 24s10.7 24 24 24 24-10.7 24-24S37.3 0 24 0zM11.9 15.2c.1-.1.2-.1.2-.1 1.6-.5 2.5-1.4 3-3 0 0 0-.1.1-.2l.1-.1c.1 0 .2-.1.3-.1.4 0 .5.3.5.3.5 1.6 1.4 2.5 3 3 0 0 .1 0 .2.1s.1.2.1.3c0 .4-.3.5-.3.5-1.6.5-2.5 1.4-3 3 0 0-.1.3-.4.3-.6.1-.7-.2-.7-.2-.5-1.6-1.4-2.5-3-3 0 0-.4-.1-.4-.5l.3-.3zm24.2 18.6c-.5.2-.9.6-1.3 1s-.7.8-1 1.3c0 0 0 .1-.1.2-.1 0-.1.1-.3.1-.3-.1-.4-.4-.4-.4-.2-.5-.6-.9-1-1.3s-.8-.7-1.3-1c0 0-.1 0-.1-.1-.1-.1-.1-.2-.1-.3 0-.3.2-.4.2-.4.5-.2.9-.6 1.3-1s.7-.8 1-1.3c0 0 .1-.2.4-.2.3 0 .4.2.4.2.2.5.6.9 1 1.3s.8.7 1.3 1c0 0 .2.1.2.4 0 .4-.2.5-.2.5zm-.7-8.7s-4.6 1.5-5.7 2.4c-1 .6-1.9 1.5-2.4 2.5-.9 1.5-2.2 5.4-2.2 5.4-.1.5-.5.9-1 .9v-.1.1c-.5 0-.9-.4-1.1-.9 0 0-1.5-4.6-2.4-5.7-.6-1-1.5-1.9-2.5-2.4-1.5-.9-5.4-2.2-5.4-2.2-.5-.1-.9-.5-.9-1h.1-.1c0-.5.4-.9.9-1.1 0 0 4.6-1.5 5.7-2.4 1-.6 1.9-1.5 2.4-2.5.9-1.5 2.2-5.4 2.2-5.4.1-.5.5-.9 1-.9s.9.4 1 .9c0 0 1.5 4.6 2.4 5.7.6 1 1.5 1.9 2.5 2.4 1.5.9 5.4 2.2 5.4 2.2.5.1.9.5.9 1h-.1.1c.1.5-.2.9-.8 1.1z"></path></svg></span>
+
+                                                </div>
+                                            </div>
+                                            <p class="_5NHXTA _2xcaIA ZSdr0w CCfw7w GHIRjw">Overall</p>
+                                        </button></div>
+                                </li>
+                                <li role="presentation">
+                                    <div class="p__uwg" style="width: 106px; margin-right: 0px;">
                                         <button id="headApprovalTab" onclick="goToHead()" type="button" role="tab"
                                             aria-controls="headApproval"
                                             class="_1QoxDw o4TrkA CA2Rbg Di_DSA cwOZMg zQlusQ uRvRjQ POMxOg _lWDfA"
@@ -549,7 +586,7 @@
                             </ul>
                         </div>
                         <div class="rzHaWQ theme light" id="diamond"
-                            style="transform: translateX(55px) translateY(2px) rotate(135deg);"></div>
+                            style="transform: translateX(160px) translateY(2px) rotate(135deg);"></div>
                     </div>
                 </div>
             </div>
@@ -587,6 +624,80 @@
 
 
     <div id="myTabContent">
+        <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="overAll" role="tabpanel"
+            aria-labelledby="profile-tab">
+            <section class="mt-10">
+                <table id="overAllTable" class="display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>JO Number</th>
+                            <th>Details</th>
+                            <th>Requestor</th>
+                            <th>Status</th>
+                            <th>Category</th>
+                            <th>Assigned Section</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+              <?php
+                $a=1;
+
+                  $sql="select * from `request` order by id asc  ";
+                  $result = mysqli_query($con,$sql);
+
+                while($row=mysqli_fetch_assoc($result)){
+                  ?>
+              <tr class="">
+              <td class="">
+              <?php 
+              $date = new DateTime($row['head_approval_date']);
+              $date = $date->format('ym');
+              echo $date.'-'.$row['id'];?> 
+             </td>
+             
+
+              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+              <?php echo $row['request_details'];?> 
+              </td>
+
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['requestor'];?> 
+              </td>
+              <!-- to view pdf -->
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['status2'];?> 
+              </td>
+       
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['request_category'];?> 
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+
+              <?php if($row['request_to'] == "fem"){
+                echo "FEM";}
+                else if($row['request_to'] == "mis"){
+                echo "MIS";
+                }
+                ?> 
+              </td>
+
+
+
+              
+
+
+
+
+                </tr>
+                  <?php
+
+            }
+               ?>
+          </tbody>
+                </table>
+
+            </section>
+        </div>
         <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="headApproval" role="tabpanel"
             aria-labelledby="profile-tab">
             <section class="mt-10">
@@ -1695,6 +1806,11 @@ function shows(){
 
 const tabElements= [
     {
+        id: 'overall',
+        triggerEl: document.querySelector('#overallTab'),
+        targetEl: document.querySelector('#overAll')
+    },
+    {
         id: 'headApproval1',
         triggerEl: document.querySelector('#headApprovalTab'),
         targetEl: document.querySelector('#headApproval')
@@ -1732,7 +1848,7 @@ function goToOverall(){
     const myElement = document.querySelector('#diamond');
 
 
-const currentTransform = myElement.style.transform = 'translateX(160px) translateY(2px) rotate(135deg)';
+const currentTransform = myElement.style.transform = 'translateX(55px) translateY(2px) rotate(135deg)';
 
 $("#buttonPrintDiv").addClass("hidden");
 $("#recommendationDiv").addClass("hidden");
@@ -1763,7 +1879,7 @@ function goToMis(){
     $("#recommendationDiv").addClass("hidden");
 
     
-    const currentTransform = myElement.style.transform = 'translateX(170px) translateY(2px) rotate(135deg)';
+    const currentTransform = myElement.style.transform = 'translateX(275px) translateY(2px) rotate(135deg)';
 
 
 
@@ -1778,7 +1894,7 @@ function goToRate(){
     $("#actionDetailsDiv").removeClass("hidden");
     $("#ratingstar").removeClass("hidden");
     $("#buttonPrintDiv").removeClass("hidden");
-const currentTransform = myElement.style.transform = 'translateX(280px) translateY(2px) rotate(135deg)';
+const currentTransform = myElement.style.transform = 'translateX(385px) translateY(2px) rotate(135deg)';
 $("#recommendationDiv").removeClass("hidden");
 
 document.getElementById("reasonCancel").required = false;
@@ -1796,7 +1912,7 @@ function goToHead(){
     $("#buttonPrintDiv").addClass("hidden");
     $("#actionDetailsDiv").addClass("hidden");
     $("#ratingstar").addClass("hidden");
-const currentTransform = myElement.style.transform = 'translateX(50px) translateY(2px) rotate(135deg)';
+const currentTransform = myElement.style.transform = 'translateX(160px) translateY(2px) rotate(135deg)';
 document.getElementById("reasonCancel").required = false;
     document.getElementById("assigned").required = true;
     $("#recommendationDiv").addClass("hidden");
