@@ -288,7 +288,7 @@ if(isset($_POST['rateJo'])){
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
 
 
-    <link rel="shortcut icon" href="../resources/img/helpdesk.jpg">
+    <link rel="shortcut icon" href="../resources/img/helpdesk.png">
     <!-- <link rel="stylesheet" href="css/style.css" /> -->
 
 
