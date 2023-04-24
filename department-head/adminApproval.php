@@ -35,6 +35,8 @@ if(isset($_POST['approveRequest'])){
                 <th>JO Number</th>
                 <th>Action</th>
                 <th>Details</th>
+                <th>Requestor</th>
+
                 <th>Date Approved</th>
                 <th>Category</th>
                 <th>Assigned to</th>
@@ -94,7 +96,9 @@ if(isset($_POST['approveRequest'])){
               <td class="text-sm <?php $ruser = $row['requestorUsername'] ;if ($ruser == $headusername){ echo "text-white";}else{ echo "text-red-700";}  ?> font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
-
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['requestor'];?> 
+              </td>
 
               <!-- to view pdf -->
               <td class="">

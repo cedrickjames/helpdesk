@@ -27,9 +27,27 @@
 
      session_start();
     include ("../includes/connect.php");
+     if(isset( $_SESSION['connected'])){
 
+ 
+        $level = $_SESSION['level'];
+      
+        if($level =='user'){
+          header("location:../employees");
+        }
+       else if($level =='mis'){
+          header("location:../mis");
+        }
+        else if($level =='fem'){
+          header("location:../fem");
+        }
+        else if($level =='head'){
+          header("location:../department-head");
+        }
+
+    }
     if(!isset($_SESSION['connected'])){
-        header("location: ../index.php");
+        header("location: ../logout.php");
       }
       
         $user_dept = $_SESSION['department'];
@@ -126,9 +144,8 @@
             {
             $personnelEmail=$list["email"];
             $perseonnelName=$list["name"];
-    
             }
-
+             
             $date = date("Y-m-d");
             $username = $_SESSION['name'];
             $sql = "UPDATE `request` SET `status`='For Admin approval',`status2`='inprogress',`admin_approved_date`='$date',`admin_remarks`='$remarks',`assignedPersonnel`='$assigned',`assignedPersonnelName`='$perseonnelName' WHERE `id` = '$requestID';";
@@ -151,6 +168,8 @@
                  require '../vendor/autoload.php';
     
                  $mail = new PHPMailer(true);       
+                 $mail2 = new PHPMailer(true);       
+
                 //  email the admin               
                  try {
                   //Server settings
@@ -173,7 +192,7 @@
                     // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
                     
                     //Recipients
-                    $mail->setFrom('mis.dev@glory.com.ph', 'Helpdesk');
+                    $mail->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
                     $mail->addAddress($personnelEmail);              
                     $mail->isHTML(true);                                  
                     $mail->Subject = $subject;
@@ -188,32 +207,32 @@
                     // email this requestor
             
                         //Server settings
-                          $mail->isSMTP();                                      // Set mailer to use SMTP
-                          $mail->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
-                          $mail->SMTPAuth = true;                               // Enable SMTP authentication
-                          $mail->Username = $account;     // Your Email/ Server Email
-                          $mail->Password = $accountpass;                     // Your Password
-                          $mail->SMTPOptions = array(
+                          $mail2->isSMTP();                                      // Set mailer to use SMTP
+                          $mail2->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+                          $mail2->SMTPAuth = true;                               // Enable SMTP authentication
+                          $mail2->Username = $account;     // Your Email/ Server Email
+                          $mail2->Password = $accountpass;                     // Your Password
+                          $mail2->SMTPOptions = array(
                               'ssl' => array(
                               'verify_peer' => false,
                               'verify_peer_name' => false,
                               'allow_self_signed' => true
                               )
                                                       );                         
-                          $mail->SMTPSecure = 'none';                           
-                          $mail->Port = 25;                                   
+                          $mail2->SMTPSecure = 'none';                           
+                          $mail2->Port = 25;                                   
                   
                           //Send Email
-                          // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
+                          // $mail2->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
                           
                           //Recipients
-                          $mail->setFrom('mis.dev@glory.com.ph', 'Helpdesk');
-                          $mail->addAddress($requestorEmail);              
-                          $mail->isHTML(true);                                  
-                          $mail->Subject = $subject2;
-                          $mail->Body    = $message2;
+                          $mail2->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
+                          $mail2->addAddress($requestorEmail);              
+                          $mail2->isHTML(true);                                  
+                          $mail2->Subject = $subject2;
+                          $mail2->Body    = $message2;
                   
-                          $mail->send();
+                          $mail2->send();
                           $_SESSION['message'] = 'Message has been sent';
                           echo "<script>alert('Thank you for approving.') </script>";
                           echo "<script> location.href='index.php'; </script>";
@@ -289,7 +308,7 @@
                               // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
                               
                               //Recipients
-                              $mail->setFrom('mis.dev@glory.com.ph', 'Helpdesk');
+                              $mail->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
                               $mail->addAddress($requestorEmail);              
                               $mail->isHTML(true);                                  
                               $mail->Subject = $subject2;
@@ -338,6 +357,8 @@
     <script src="../cdn_tailwindcss.js"></script>
 
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
+    <link rel="shortcut icon" href="../resources/img/helpdesk.png">
+
    
 </head>
     <body   class="static  bg-white dark:bg-gray-900"  >
@@ -406,7 +427,7 @@
             </div>
             <div class="FrD3PA">
                 <div class="QnQnDA" tabindex="-1">
-                    <div role="tablist" class="_6TVppg sJ9N9w">
+                    <div role="tablist" style="overflow:inherit" class="_6TVppg sJ9N9w">
                         <div class="uGmi4w">
                             <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400"
                                 id="tabExample" role="tablist">
@@ -417,8 +438,30 @@
                                             class="_1QoxDw o4TrkA CA2Rbg Di_DSA cwOZMg zQlusQ uRvRjQ POMxOg _lWDfA"
                                             aria-selected="false">
                                             <div class="_1cZINw">
-                                                <div class="_qiHHw Ut_ecQ kHy45A">
+                                                <div style="overflow:inherit" class="_qiHHw Ut_ecQ kHy45A">
+                                                <span  class=" sr-only">Notifications</span>
+                        <?php 
 
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `status2` ='admin'";
+                                        $result = mysqli_query($con, $sql1);
+                                        while($count=mysqli_fetch_assoc($result))
+                                        {
+                                    
+                                        if($count["pending"] > 0){
+                                            ?>
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE`status2` ='admin'";
+                                                       $result = mysqli_query($con, $sql1);
+                                                       while($count=mysqli_fetch_assoc($result))
+                                                       {
+                                                       echo $count["pending"];
+                                                     
+                                                       }
+                                                       ?></div><?php
+                                        }
+                                      
+                                        }
+                            ?>
                                                     <img src="../resources/img/list.png"
                                                         class="h-full w-full text-blue-400" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -434,8 +477,29 @@
                         class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" tabindex="-1" type="button" role="tab" aria-controls="inProgress"
                         aria-selected="false">
                         <div class="_1cZINw">
-                        <div class="_qiHHw Ut_ecQ kHy45A">
-
+                        <div style="overflow:inherit" class="_qiHHw Ut_ecQ kHy45A">
+                        <span  class=" sr-only">Notifications</span>
+                        <?php 
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE  `status2` ='inprogress'";
+                                        $result = mysqli_query($con, $sql1);
+                                        while($count=mysqli_fetch_assoc($result))
+                                        {
+                                    
+                                        if($count["pending"] > 0){
+                                            ?>
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `status2` ='inprogress'";
+                                                       $result = mysqli_query($con, $sql1);
+                                                       while($count=mysqli_fetch_assoc($result))
+                                                       {
+                                                       echo $count["pending"];
+                                                     
+                                                       }
+                                                       ?></div><?php
+                                        }
+                                      
+                                        }
+                            ?>
                                 <img src="../resources/img/progress.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 
                                 </div>
@@ -449,8 +513,32 @@
                         class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" tabindex="-1" type="button" role="tab" aria-controls="toRate"
                         aria-selected="false">
                         <div class="_1cZINw">
-                        <div class="_qiHHw Ut_ecQ kHy45A">
-
+                        <div style="overflow:inherit" class="_qiHHw Ut_ecQ kHy45A">
+                        <span  class=" sr-only">Notifications</span>
+                        <?php 
+                                        $date1 = new DateTime();
+                                        $dateMonth = $date1->format('M');
+                                        $dateYear = $date1->format('Y');
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE   (`status2` ='rated' OR `status2` = 'Done') AND `month`='$dateMonth' AND `year` = '$dateYear' ";
+                                        $result = mysqli_query($con, $sql1);
+                                        while($count=mysqli_fetch_assoc($result))
+                                        {
+                                    
+                                        if($count["pending"] > 0){
+                                            ?>
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE  (`status2` ='rated' OR `status2` = 'Done') AND `month`='$dateMonth' AND `year` = '$dateYear' ";
+                                                       $result = mysqli_query($con, $sql1);
+                                                       while($count=mysqli_fetch_assoc($result))
+                                                       {
+                                                       echo $count["pending"];
+                                                     
+                                                       }
+                                                       ?></div><?php
+                                        }
+                                      
+                                        }
+                            ?>
                         <img src="../resources/img/star.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 
                         </div>
@@ -508,6 +596,7 @@
                             <th>JO Number</th>
                             <th>Action</th>
                             <th>Details</th>
+                            <th>Requestor</th>
                             <th>Date Approved</th>
                             <th>Category</th>
                             <th>Assigned Section</th>
@@ -564,7 +653,9 @@
               <?php echo $row['request_details'];?> 
               </td>
 
-
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['requestor'];?> 
+              </td>
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php 
@@ -576,6 +667,7 @@
               echo $date;?> 
               
               </td>
+       
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['request_category'];?> 
               </td>
@@ -615,6 +707,7 @@
                             <th>JO Number</th>
                             <th>Action</th>
                             <th>Details</th>
+                            <th>Requestor</th>
                             <th>Date Approved</th>
                             <th>Category</th>
                             <th>Assigned to</th>
@@ -681,7 +774,9 @@
               <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
-
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['requestor'];?> 
+              </td>
 
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -736,6 +831,8 @@
                             <th>JO Number</th>
                             <th>Action</th>
                             <th>Details</th>
+                            <th>Requestor</th>
+
                             <th>Date Filed</th>
                             <th>Comments</th>
                             <th>Assigned to</th>
@@ -750,7 +847,7 @@
                 $dateMonth = $date1->format('M');
                 $dateYear = $date1->format('Y');
 
-                  $sql="select * from `request` WHERE `status2` ='rated' OR `status2` = 'Done' AND `month`='$dateMonth' AND `year` = '$dateYear'  order by id asc  ";
+                  $sql="select * from `request` WHERE (`status2` ='rated' OR `status2` = 'Done') AND `month`='$dateMonth' AND `year` = '$dateYear'  order by id asc  ";
                   $result = mysqli_query($con,$sql);
 
                 while($row=mysqli_fetch_assoc($result)){
@@ -804,7 +901,9 @@
               <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
-
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap truncate " style="max-width: 40px;">
+              <?php echo $row['requestor'];?> 
+              </td>
 
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -1044,6 +1143,7 @@
 
                 </div>
                 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+
                 <div class="w-full grid gap-4 grid-col-1">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Head Remarks: </span><span id="headremarks"></span></h2>
                 </div>
@@ -1054,14 +1154,6 @@
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
         <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Request Details</label>
                 <textarea disabled id="message" name="message" rows="2" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" > </textarea>
-        <div id="actionDetailsDiv" class="hidden">
-                <hr class="h-px  bg-gray-200 border-0 dark:bg-gray-700">
-
-                <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Details of action</label>
-                <textarea disabled id="actionDetails" name="actionDetails" rows="3" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
-            
-                </div>
-              
                 <div id="action1div" class="w-full grid gap-4 grid-col-1">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 1: </span><span id="action1"></span></h2>
                 </div>
@@ -1071,12 +1163,50 @@
                 <div id="action3div" class="w-full grid gap-4 grid-col-1">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 3: </span><span id="action3"></span></h2>
                 </div> 
+                <hr class="h-px  bg-gray-200 border-0 dark:bg-gray-700">
+                <div id="actionDetailsDiv" class="hidden">
+                <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Details of action</label>
+                <textarea disabled id="actionDetails" name="actionDetails" rows="3" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+            
+                </div>
+                <div id="recommendationDiv" class="hidden w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Recommendation: </span><span id="recommendation"></span></h2>
+                </div>
+
                 <div id="remarksDiv">
                 <hr class="h-px  bg-gray-200 border-0 dark:bg-gray-700">
                 <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Remarks</label>
                 <textarea id="remarks" name="remarks" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave  remarks..."> </textarea>
                 </div>
-                
+                <div id="ratingstar" class="hidden w-full grid grid-cols-12">
+                        <h2 class="col-span-2 font-semibold text-gray-900 dark:text-gray-900"><span
+                                class="text-gray-400">Delivery: </span> </h2>
+                        <div id="starsdel" class="grid col-span-10">
+                            <div class="flex items-center">
+                                <div id="stardivdel" class="flex items-center"></div>
+                                <p class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400"><span
+                                        id="finalRatingsdel"></span> out of 5</p>
+                            </div>
+                        </div>
+                        <h2 class="col-span-2 font-semibold text-gray-900 dark:text-gray-900"><span
+                                class="text-gray-400">Quality: </span> </h2>
+                        <div id="starsqual" class="grid col-span-10">
+                            <div class="flex items-center">
+                                <div id="stardivqual" class="flex items-center"></div>
+                                <p class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400"><span
+                                        id="finalRatingsqual"></span> out of 5</p>
+                            </div>
+                        </div>
+                        <h2 class="col-span-2 font-semibold text-gray-900 dark:text-gray-900"><span
+                                class="text-gray-400">TOTAL : </span> </h2>
+                        <div id="stars" class="grid col-span-10">
+                            <div class="flex items-center">
+                                <div id="stardiv" class="flex items-center"></div>
+                                <p class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400"><span
+                                        id="finalRatings"></span> out of 5</p>
+                            </div>
+                        </div>
+                    </div>
             </div>
             <div id="buttonDiv" class=" items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
             <button type="button" data-modal-target="popup-modal-approve" data-modal-toggle="popup-modal-approve" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Approve</button>
@@ -1226,6 +1356,10 @@ function modalShow(element){
     document.getElementById("datestart").value =element.getAttribute("data-start");
     document.getElementById("datefinish").value =element.getAttribute("data-end");
     document.getElementById("message").value =element.getAttribute("data-details");
+    document.getElementById("finalRatings").innerHTML =element.getAttribute("data-ratings");
+    document.getElementById("finalRatingsdel").innerHTML =element.getAttribute("data-delivery");
+    document.getElementById("finalRatingsqual").innerHTML =element.getAttribute("data-quality");
+
 
 
 
@@ -1233,14 +1367,23 @@ function modalShow(element){
     document.getElementById("action1").innerHTML =element.getAttribute("data-action1");
     document.getElementById("action2").innerHTML =element.getAttribute("data-action2");
     document.getElementById("action3").innerHTML =element.getAttribute("data-action3");
-
+    document.getElementById("recommendation").innerHTML =element.getAttribute("data-recommendation");
     
     document.getElementById("pjobOrderNo").value = element.getAttribute("data-joidprint");
 document.getElementById("pstatus").value = element.getAttribute("data-status");
 document.getElementById("prequestor").value = element.getAttribute("data-requestor");
 document.getElementById("pdepartment").value = element.getAttribute("data-department");
 document.getElementById("pdateFiled").value = element.getAttribute("data-datefiled");
-document.getElementById("prequestedSchedule").value = element.getAttribute("data-start") + " to " +element.getAttribute("data-end");
+
+const dateStart = new Date(element.getAttribute("data-start")); // Get the current date
+const optionsStart = { year: 'numeric', month: 'long', day: 'numeric' }; // Specify the format options
+const formattedDateStart = dateStart.toLocaleDateString('en-US', optionsStart); // Format the date
+
+const dateEnd = new Date(element.getAttribute("data-end")); // Get the current date
+const optionsEnd = { year: 'numeric', month: 'long', day: 'numeric' }; // Specify the format options
+const formattedDateEnd = dateEnd.toLocaleDateString('en-US', optionsEnd); // Format the date
+
+document.getElementById("prequestedSchedule").value = formattedDateStart + " to " +formattedDateEnd;
 document.getElementById("ptype").value = element.getAttribute("data-category");
 document.getElementById("ppcNumber").value = element.getAttribute("data-comname");
 document.getElementById("pdetails").value = element.getAttribute("data-details");
@@ -1269,7 +1412,16 @@ var action1 = element.getAttribute("data-action1");
 var action2 = element.getAttribute("data-action2");
 var action3 = element.getAttribute("data-action3");
 
+var recommendation = element.getAttribute("data-recommendation");
 
+if(recommendation == ""){
+    $("#recommendationDiv").addClass("hidden");
+
+}
+else{
+    $("#recommendationDiv").removeClass("hidden");
+
+}
 $("#action1div").addClass("hidden");
 $("#action1div").removeClass("hidden");
 
@@ -1322,7 +1474,155 @@ else {
       }
 })
 
-         
+var parentElement = document.getElementById("stardiv");
+
+// Loop through all child elements and remove them one by one
+while (parentElement.firstChild) {
+  parentElement.removeChild(parentElement.firstChild);
+}
+    var finalRatings =element.getAttribute("data-ratings");
+var  DivProdContainer = document.getElementById("stardiv");
+
+                 for(var  i = 1; i<=5; i++){
+
+                    if(i<=finalRatings){
+                        var b = i + 1;
+                        console.log(b)
+                        const newDiv=document.createElement("div");
+        
+        var svg='<svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainer.appendChild(newDiv);
+
+        if(finalRatings>i && finalRatings<b ){
+            console.log("true")
+            const newDiv=document.createElement("div");
+        
+        var svg='<svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainer.appendChild(newDiv);
+            var svg='<svg  class="w-5 h-5 "  viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <defs>  <linearGradient id="grad"> <stop offset="50%" stop-color=" rgb(250 204 21 )"/> <stop offset="50%" stop-color="rgb(209 213 219)"/>  </linearGradient> </defs> <path fill="url(#grad)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainer.appendChild(newDiv);
+        console.log("halfstar")
+            
+        i++;
+        }
+
+                    }
+                    else{
+                        const newDiv=document.createElement("div");
+                        var svg1='<svg aria-hidden="true" class="w-5 h-5 text-gray-300 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg1;
+        DivProdContainer.appendChild(newDiv);
+                    
+                    }
+                 }
+ 
+
+
+
+
+
+
+
+    var parentElementdel = document.getElementById("stardivdel");
+
+// Loop through all child elements and remove them one by one
+while (parentElementdel.firstChild) {
+  parentElementdel.removeChild(parentElementdel.firstChild);
+}
+    var finalRatingsdel =element.getAttribute("data-delivery");
+var  DivProdContainerdel = document.getElementById("stardivdel");
+
+                 for(var  i = 1; i<=5; i++){
+
+                    if(i<=finalRatingsdel){
+                        var b = i + 1;
+                        console.log(b)
+                        const newDiv=document.createElement("div");
+        
+        var svg='<svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainerdel.appendChild(newDiv);
+
+        if(finalRatingsdel>i && finalRatingsdel<b ){
+            console.log("true")
+            const newDiv=document.createElement("div");
+        
+        var svg='<svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainerdel.appendChild(newDiv);
+            var svg='<svg  class="w-5 h-5 "  viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <defs>  <linearGradient id="grad"> <stop offset="50%" stop-color=" rgb(250 204 21 )"/> <stop offset="50%" stop-color="rgb(209 213 219)"/>  </linearGradient> </defs> <path fill="url(#grad)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainerdel.appendChild(newDiv);
+        console.log("halfstar")
+            
+        i++;
+        }
+
+                    }
+                    else{
+                        const newDiv=document.createElement("div");
+                        var svg1='<svg aria-hidden="true" class="w-5 h-5 text-gray-300 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg1;
+        DivProdContainerdel.appendChild(newDiv);
+                    
+                    }
+                 }
+   
+
+
+
+                 var parentElementqual = document.getElementById("stardivqual");
+
+// Loop through all child elements and remove them one by one
+while (parentElementqual.firstChild) {
+  parentElementqual.removeChild(parentElementqual.firstChild);
+}
+    var finalRatingsqual =element.getAttribute("data-quality");
+var  DivProdContainerqual = document.getElementById("stardivqual");
+
+                 for(var  i = 1; i<=5; i++){
+
+                    if(i<=finalRatingsqual){
+                        var b = i + 1;
+                        console.log(b)
+                        const newDiv=document.createElement("div");
+        
+        var svg='<svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainerqual.appendChild(newDiv);
+
+        if(finalRatingsqual>i && finalRatingsqual<b ){
+            console.log("true")
+            const newDiv=document.createElement("div");
+        
+        var svg='<svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainerqual.appendChild(newDiv);
+            var svg='<svg  class="w-5 h-5 "  viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <defs>  <linearGradient id="grad"> <stop offset="50%" stop-color=" rgb(250 204 21 )"/> <stop offset="50%" stop-color="rgb(209 213 219)"/>  </linearGradient> </defs> <path fill="url(#grad)" d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg;
+        DivProdContainerqual.appendChild(newDiv);
+        console.log("halfstar")
+            
+        i++;
+        }
+
+                    }
+                    else{
+                        const newDiv=document.createElement("div");
+                        var svg1='<svg aria-hidden="true" class="w-5 h-5 text-gray-300 dark:text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>';
+        newDiv.innerHTML=svg1;
+        DivProdContainerqual.appendChild(newDiv);
+                    
+                    }
+                 }
+   
+
+
+
+
 var category = element.getAttribute("data-category");
     var attachment = element.getAttribute("data-attachment");
 
@@ -1435,21 +1735,22 @@ function goToOverall(){
 const currentTransform = myElement.style.transform = 'translateX(160px) translateY(2px) rotate(135deg)';
 
 $("#buttonPrintDiv").addClass("hidden");
-
+$("#recommendationDiv").addClass("hidden");
 
 }
 function goToAdmin(){
     const myElement = document.querySelector('#diamond');
     $("#actionDetailsDiv").addClass("hidden");
-const currentTransform = myElement.style.transform = 'translateX(180px) translateY(2px) rotate(135deg)';
-$("#buttonPrintDiv").addClass("hidden");
+    const currentTransform = myElement.style.transform = 'translateX(180px) translateY(2px) rotate(135deg)';
+    $("#buttonPrintDiv").addClass("hidden");
+    $("#recommendationDiv").addClass("hidden");
 
-
+    $("#ratingstar").addClass("hidden");
 }
 
 function goToMis(){
     const myElement = document.querySelector('#diamond');
-
+    $("#ratingstar").addClass("hidden");
     $("#adminremarksDiv").removeClass("hidden");
     $("#remarksDiv").addClass("hidden");
     $("#buttonDiv").addClass("hidden");
@@ -1459,6 +1760,7 @@ function goToMis(){
     $("#actionDetailsDiv").addClass("hidden");
     document.getElementById("reasonCancel").required = false;
     document.getElementById("assigned").required = false;
+    $("#recommendationDiv").addClass("hidden");
 
     
     const currentTransform = myElement.style.transform = 'translateX(170px) translateY(2px) rotate(135deg)';
@@ -1474,9 +1776,10 @@ function goToRate(){
     $("#chooseAssignedDiv").addClass("hidden");
     $("#buttonDiv").addClass("hidden");
     $("#actionDetailsDiv").removeClass("hidden");
-
+    $("#ratingstar").removeClass("hidden");
     $("#buttonPrintDiv").removeClass("hidden");
 const currentTransform = myElement.style.transform = 'translateX(280px) translateY(2px) rotate(135deg)';
+$("#recommendationDiv").removeClass("hidden");
 
 document.getElementById("reasonCancel").required = false;
     document.getElementById("assigned").required = false;
@@ -1492,10 +1795,11 @@ function goToHead(){
     $("#chooseAssignedDiv").removeClass("hidden");
     $("#buttonPrintDiv").addClass("hidden");
     $("#actionDetailsDiv").addClass("hidden");
-
+    $("#ratingstar").addClass("hidden");
 const currentTransform = myElement.style.transform = 'translateX(50px) translateY(2px) rotate(135deg)';
 document.getElementById("reasonCancel").required = false;
     document.getElementById("assigned").required = true;
+    $("#recommendationDiv").addClass("hidden");
 
 
 }

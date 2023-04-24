@@ -1,4 +1,4 @@
- <!-- session for who is login user    -->
+
  <?php 
 
 
@@ -46,8 +46,26 @@ else
 
 session_start();
 
+if(isset( $_SESSION['connected'])){
+
+ 
+    $level = $_SESSION['level'];
+  
+ if($level =='mis'){
+      header("location:../mis");
+    }
+    else if($level =='fem'){
+      header("location:../fem");
+    }
+    else if($level =='head'){
+      header("location:../department-head");
+    }
+    else if($level =='admin'){
+      header("location:../department-admin");
+    }
+}
     if(!isset($_SESSION['connected'])){
-      header("location: ../index.php");
+      header("location: ../logout.php");
     }
 
 
@@ -210,7 +228,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
             // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
             
             //Recipients
-            $mail->setFrom('mis.dev@glory.com.ph', 'Helpdesk');
+            $mail->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
             $mail->addAddress($personnelEmail);              
             $mail->isHTML(true);                                  
             $mail->Subject = $subject;
@@ -284,7 +302,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
 
 
-    <link rel="shortcut icon" href="../resources/img/helpdesk.jpg">
+    <link rel="shortcut icon" href="../resources/img/helpdesk.png">
     <!-- <link rel="stylesheet" href="css/style.css" /> -->
 
 
@@ -361,16 +379,39 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
 </div> 
 <div class="FrD3PA">
     <div class="QnQnDA" tabindex="-1">
-        <div  role="tablist" class="_6TVppg sJ9N9w">
-            <div class="uGmi4w">
-            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" id="tabExample" role="tablist">
+        <div  role="tablist" style="overflow:inherit" class=" _6TVppg sJ9N9w">
+            <div  class="uGmi4w ">
+            <ul  class="  flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" id="tabExample" role="tablist">
                 <li  role="presentation">
-                <div class="p__uwg" style="width: 106px; margin-right: 0px;">
-                    <button id="headApprovalTab"  onclick="goToHead()" type="button" role="tab" aria-controls="headApproval"  class="_1QoxDw o4TrkA CA2Rbg Di_DSA cwOZMg zQlusQ uRvRjQ POMxOg _lWDfA"  aria-selected="false">
-                        <div class="_1cZINw">
-                        <div class="_qiHHw Ut_ecQ kHy45A">
+                <div  class=" p__uwg" style="width: 106px; margin-right: 0px;">
+                    <button id="headApprovalTab"  onclick="goToHead()" type="button" role="tab" aria-controls="headApproval"   class="_1QoxDw o4TrkA CA2Rbg Di_DSA cwOZMg zQlusQ uRvRjQ POMxOg _lWDfA"  aria-selected="false">
+                        <div  class=" _1cZINw">
+                            
+                        <div style="overflow: inherit" class="  _qiHHw Ut_ecQ kHy45A">
+                        <span  class=" sr-only">Notifications</span>
+                        <?php 
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE  `requestorUsername` = '$username' and `status2` = 'head'";
+                                        $result = mysqli_query($con, $sql1);
+                                        while($count=mysqli_fetch_assoc($result))
+                                        {
+                                    
+                                        if($count["pending"] > 0){
+                                            ?>
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `requestorUsername` = '$username' and `status2` = 'head'";
+                                                       $result = mysqli_query($con, $sql1);
+                                                       while($count=mysqli_fetch_assoc($result))
+                                                       {
+                                                       echo $count["pending"];
+                                                     
+                                                       }
+                                                       ?></div><?php
+                                        }
+                                      
+                                        }
+                            ?>
 
-<img src="../resources/img/list.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+<img src="../resources/img/list.png"  class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 
 </div>
                         </div>
@@ -379,13 +420,35 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                 </li>
                 <li  role="presentation">
                     
-                <div class="p__uwg" style="width: 113px; margin-left: 16px; margin-right: 0px;">
+                <div  class="p__uwg" style="width: 113px; margin-left: 16px; margin-right: 0px;">
                 <button id="adminApprovalTab" onclick="goToAdmin()"
-                        class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" type="button" tabindex="-1" role="tab" aria-controls="adminApproval" aria-selected="false">
+                         class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" type="button" tabindex="-1" role="tab" aria-controls="adminApproval" aria-selected="false">
                         <div class="_1cZINw">
-                            <div class="_qiHHw Ut_ecQ kHy45A">
-
-                            <img src="../resources/img/adminapprove.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <div style="overflow:inherit" class="_qiHHw Ut_ecQ kHy45A">
+                            <span  class=" sr-only">Notifications</span>
+                            <?php 
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `requestorUsername` = '$username' and `status2` = 'admin'";
+                                        $result = mysqli_query($con, $sql1);
+                                        while($count=mysqli_fetch_assoc($result))
+                                        {
+                                    
+                                        if($count["pending"] > 0){
+                                            ?>
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `requestorUsername` = '$username' and `status2` = 'admin'";
+                                                       $result = mysqli_query($con, $sql1);
+                                                       while($count=mysqli_fetch_assoc($result))
+                                                       {
+                                                       echo $count["pending"];
+                                                     
+                                                       }
+                                                       ?></div><?php
+                                        }
+                                      
+                                        }
+                            ?>
+                             
+                            <img src="../resources/img/adminapprove.png"  class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 
                             </div>
                         </div>
@@ -399,7 +462,29 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                         class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" tabindex="-1" type="button" role="tab" aria-controls="inProgress"
                         aria-selected="false">
                         <div class="_1cZINw">
-                        <div class="_qiHHw Ut_ecQ kHy45A">
+                        <div  style="overflow: inherit" class="_qiHHw Ut_ecQ kHy45A">
+                        <span  class=" sr-only">Notifications</span>
+                        <?php 
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `requestorUsername` = '$username' and `status2` = 'inprogress'";
+                                        $result = mysqli_query($con, $sql1);
+                                        while($count=mysqli_fetch_assoc($result))
+                                        {
+                                    
+                                        if($count["pending"] > 0){
+                                            ?>
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE`requestorUsername` = '$username' and `status2` = 'inprogress'";
+                                                       $result = mysqli_query($con, $sql1);
+                                                       while($count=mysqli_fetch_assoc($result))
+                                                       {
+                                                       echo $count["pending"];
+                                                     
+                                                       }
+                                                       ?></div><?php
+                                        }
+                                      
+                                        }
+                            ?>
 
                                 <img src="../resources/img/progress.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 
@@ -414,8 +499,29 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                         class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" tabindex="-1" type="button" role="tab" aria-controls="toRate"
                         aria-selected="false">
                         <div class="_1cZINw">
-                        <div class="_qiHHw Ut_ecQ kHy45A">
-
+                        <div  style="overflow: inherit" class="_qiHHw Ut_ecQ kHy45A">
+                        <span  class=" sr-only">Notifications</span>
+                        <?php 
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE requestorUsername='$username' AND status2='Done' ";
+                                        $result = mysqli_query($con, $sql1);
+                                        while($count=mysqli_fetch_assoc($result))
+                                        {
+                                    
+                                        if($count["pending"] > 0){
+                                            ?>
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE requestorUsername='$username' AND status2='Done'";
+                                                       $result = mysqli_query($con, $sql1);
+                                                       while($count=mysqli_fetch_assoc($result))
+                                                       {
+                                                       echo $count["pending"];
+                                                     
+                                                       }
+                                                       ?></div><?php
+                                        }
+                                      
+                                        }
+                            ?>
                         <img src="../resources/img/star.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 
                         </div>
@@ -468,7 +574,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
 
 
 </div> -->
-<div id="myTabContent">
+<div id="myTabContent" class="mt-4">
     <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="headApproval" role="tabpanel" aria-labelledby="profile-tab">
     <?php include 'headApproval.php';?>   
 
@@ -615,11 +721,6 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                 <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Request Details</label>
                 <textarea id="message" name="message" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
                 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                <div id="actionDetailsDiv" class="hidden">
-                <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Details of action</label>
-                <textarea disabled id="actionDetails" name="actionDetails" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
-            
-                </div>
                 <div id="action1div" class="w-full grid gap-4 grid-col-1">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 1: </span><span id="action1"></span></h2>
                 </div>
@@ -629,6 +730,14 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                 <div id="action3div" class="w-full grid gap-4 grid-col-1">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 3: </span><span id="action3"></span></h2>
                 </div> 
+                <div id="actionDetailsDiv" class="hidden">
+                <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Details of action</label>
+                <textarea disabled id="actionDetails" name="actionDetails" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+            
+                </div>
+                <div id="recommendationDiv" class="hidden w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Recommendation: </span><span id="recommendation"></span></h2>
+                </div>
                
             </div> 
             
@@ -707,7 +816,19 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
 
                 <input type="text" id="misPersonnel" name="misPersonnel" class="hidden">
                 <input type="text" id="requestor" name="requestor" class="hidden">
+                <div class="flex justify-center  m-auto">
+        
 
+                
+                <div class="justify-center flex">
+                <label for="ratingcomment" class="inline-block align-middle m-auto mr-20 col-span-1 font-semibold text-gray-900 dark:text-gray-900">You are...</label>
+                </div>
+                    <div class="flex justify-center text-center w-20 h-20">Very Satisfied</div>    
+                    <div class="flex justify-center text-center w-20 h-20">Unsatisfied</div>                    
+                    <div class="flex justify-center text-center w-20 h-20">Average</div>                    
+                    <div class="flex justify-center text-center w-20 h-20">Satisfied</div>                    
+                    <div class="flex justify-center text-center w-20 h-20">Very Satisfied</div>                    
+</div> 
             <div class="flex justify-center  m-auto">
                 <input type="text" value="5" id="rateScore" name="rateScore" class="hidden">
 
@@ -840,14 +961,23 @@ function modalShow(element){
     document.getElementById("action1").innerHTML =element.getAttribute("data-action1");
     document.getElementById("action2").innerHTML =element.getAttribute("data-action2");
     document.getElementById("action3").innerHTML =element.getAttribute("data-action3");
-
+    document.getElementById("recommendation").innerHTML =element.getAttribute("data-recommendation");
     
     document.getElementById("pjobOrderNo").value = element.getAttribute("data-joidprint");
 document.getElementById("pstatus").value = element.getAttribute("data-status");
 document.getElementById("prequestor").value = element.getAttribute("data-requestor");
 document.getElementById("pdepartment").value = element.getAttribute("data-department");
 document.getElementById("pdateFiled").value = element.getAttribute("data-datefiled");
-document.getElementById("prequestedSchedule").value = element.getAttribute("data-start") + " to " +element.getAttribute("data-end");
+
+const dateStart = new Date(element.getAttribute("data-start")); // Get the current date
+const optionsStart = { year: 'numeric', month: 'long', day: 'numeric' }; // Specify the format options
+const formattedDateStart = dateStart.toLocaleDateString('en-US', optionsStart); // Format the date
+
+const dateEnd = new Date(element.getAttribute("data-end")); // Get the current date
+const optionsEnd = { year: 'numeric', month: 'long', day: 'numeric' }; // Specify the format options
+const formattedDateEnd = dateEnd.toLocaleDateString('en-US', optionsEnd); // Format the date
+
+document.getElementById("prequestedSchedule").value = formattedDateStart + " to " +formattedDateEnd;
 document.getElementById("ptype").value = element.getAttribute("data-category");
 document.getElementById("ppcNumber").value = element.getAttribute("data-comname");
 document.getElementById("pdetails").value = element.getAttribute("data-details");
@@ -874,6 +1004,16 @@ document.getElementById("pratedDate").value = element.getAttribute("data-daterat
 var action1 = element.getAttribute("data-action1");
 var action2 = element.getAttribute("data-action2");
 var action3 = element.getAttribute("data-action3");
+var recommendation = element.getAttribute("data-recommendation");
+
+if(recommendation == ""){
+    $("#recommendationDiv").addClass("hidden");
+
+}
+else{
+    $("#recommendationDiv").removeClass("hidden");
+
+}
 
 
 $("#action1div").addClass("hidden");
@@ -1043,7 +1183,7 @@ function goToAdmin(){
     $("#buttonRateDiv").addClass("hidden");
     $("#actionDetailsDiv").addClass("hidden");
     $("#buttonPrintDiv").addClass("hidden");
-
+    $("#recommendationDiv").addClass("hidden");
     
 
 // Get the current transform value
@@ -1059,6 +1199,7 @@ function goToMis(){
     document.getElementById("datefinish").disabled = true;
     document.getElementById("message").disabled = true;
     document.getElementById("computername").disabled = true;
+    $("#recommendationDiv").addClass("hidden");
     
     $("#assignedPersonnelDiv").removeClass("hidden");
     $("#buttondiv").addClass("hidden");
@@ -1084,6 +1225,7 @@ function goToRate(){
     document.getElementById("message").disabled = true;
     document.getElementById("computername").disabled = true;
     $("#assignedPersonnelDiv").removeClass("hidden");
+    $("#recommendationDiv").removeClass("hidden");
 
     $("#buttonRateDiv").removeClass("hidden");
     $("#actionDetailsDiv").removeClass("hidden");
@@ -1105,6 +1247,7 @@ function goToHead(){
     $("#buttonRateDiv").addClass("hidden");
     $("#actionDetailsDiv").addClass("hidden");
     $("#assignedPersonnelDiv").addClass("hidden");
+    $("#recommendationDiv").addClass("hidden");
 
     document.getElementById("telephone").disabled =false;
     document.getElementById("computername").disabled = false;

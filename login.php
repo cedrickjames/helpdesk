@@ -37,6 +37,9 @@ if(isset($_POST['submit'])){
      else if($level =='mis'){
         header("location:mis");
       }
+      else if($level =='fem'){
+        header("location:fem");
+      }
       else if($level =='head'){
         header("location:department-head");
       }
@@ -89,7 +92,7 @@ if(isset($_POST['submit'])){
     <!-- <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" /> -->
 
 
-    <link rel="shortcut icon" href="resources/img/helpdesk.jpg">
+    <link rel="shortcut icon" href="resources/img/helpdesk.png">
     <!-- <link rel="stylesheet" href="css/style.css" /> -->
 
 

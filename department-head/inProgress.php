@@ -35,6 +35,7 @@ if(isset($_POST['approveRequest'])){
                 <th>JO Number</th>
                 <th>Action</th>
                 <th>Details</th>
+                <th>Requestor</th>
                 <th>Date Approved</th>
                 <th>Category</th>
                 <th>Assigned to</th>
@@ -98,7 +99,10 @@ if(isset($_POST['approveRequest'])){
               <?php echo $row['request_details'];?> 
               </td>
 
-
+              <td class="">
+              <?php echo $row['requestor'];?> 
+              
+              </td>
               <!-- to view pdf -->
               <td class="">
               <?php echo $row['admin_approved_date'];?> 

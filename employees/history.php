@@ -288,7 +288,7 @@ if(isset($_POST['rateJo'])){
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
 
 
-    <link rel="shortcut icon" href="../resources/img/helpdesk.jpg">
+    <link rel="shortcut icon" href="../resources/img/helpdesk.png">
     <!-- <link rel="stylesheet" href="css/style.css" /> -->
 
 
@@ -831,7 +831,16 @@ document.getElementById("pstatus").value = element.getAttribute("data-status");
 document.getElementById("prequestor").value = element.getAttribute("data-requestor");
 document.getElementById("pdepartment").value = element.getAttribute("data-department");
 document.getElementById("pdateFiled").value = element.getAttribute("data-datefiled");
-document.getElementById("prequestedSchedule").value = element.getAttribute("data-start") + " to " +element.getAttribute("data-end");
+
+const dateStart = new Date(element.getAttribute("data-start")); // Get the current date
+const optionsStart = { year: 'numeric', month: 'long', day: 'numeric' }; // Specify the format options
+const formattedDateStart = dateStart.toLocaleDateString('en-US', optionsStart); // Format the date
+
+const dateEnd = new Date(element.getAttribute("data-end")); // Get the current date
+const optionsEnd = { year: 'numeric', month: 'long', day: 'numeric' }; // Specify the format options
+const formattedDateEnd = dateEnd.toLocaleDateString('en-US', optionsEnd); // Format the date
+
+document.getElementById("prequestedSchedule").value = formattedDateStart + " to " +formattedDateEnd;
 document.getElementById("ptype").value = element.getAttribute("data-category");
 document.getElementById("ppcNumber").value = element.getAttribute("data-comname");
 document.getElementById("pdetails").value = element.getAttribute("data-details");

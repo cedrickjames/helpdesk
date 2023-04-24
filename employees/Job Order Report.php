@@ -285,7 +285,7 @@ if($status == "Done"  ){
     
 $html.='<table style="bottom: 35px; position: absolute;">
 <tr>
-<td class="first"><span class="label">Prepared by: </span></td>
+<td class="first"><span class="label">Printed by: </span></td>
 <td class="second"> <span class="child">'.$wholename.'</span></td>
 <td class="third"><span class="label">Date: </span></td>
 <td><span class="child">'.$date.'</span></td>

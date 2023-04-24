@@ -141,8 +141,8 @@ else
 
             {
             $email1=$_SESSION['email'];
-            $sql = "insert into request (date_filled,status2,ticket_no,requestorUsername,requestor,email,department,request_to, request_category,request_details,computerName,reqstart_date ,reqfinish_date, telephone,head_approval_date, approving_head,accept_termsandconddition,month,year,attachment) 
-                    values('$datenow','admin','$jo_no','$username','$user_name','$email1','$user_dept','$requestto','$category','$request','$computerName','$start','$end','$telephone','$datenow','$headname','$terms','$month','$year','$dest_path')";
+            $sql = "insert into request (date_filled,status2,requestorUsername,requestor,email,department,request_to, request_category,request_details,computerName,reqstart_date ,reqfinish_date, telephone,head_approval_date, approving_head,accept_termsandconddition,month,year,attachment) 
+                    values('$datenow','admin','$username','$user_name','$email1','$user_dept','$requestto','$category','$request','$computerName','$start','$end','$telephone','$datenow','$headname','$terms','$month','$year','$dest_path')";
                 $results = mysqli_query($con,$sql);
             if($results){
                 
@@ -263,7 +263,7 @@ else
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
 
 
-    <link rel="shortcut icon" href="../resources/img/helpdesk.jpg">
+    <link rel="shortcut icon" href="../resources/img/helpdesk.png">
     <!-- <link rel="stylesheet" href="css/style.css" /> -->
 
 
@@ -539,20 +539,36 @@ else
 
         if (x < y) {
             console.log("Valid");
-            var monthNumber = new Date().getMonth() + 1;
+            var monthNumber = (new Date().getMonth() + 1).toString().padStart(2, '0');
+
             const asf = new Date(chosendate);
-            asf.setDate(asf.getDate() + 1);
-            var setdate = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate();
+            var type = document.getElementById("type").value;
+            if(type == "Relayout"){
+                asf.setDate(asf.getDate() + 2);
+                if (asf.getDay() === 0) {
+                asf.setDate(asf.getDate() + 1);
+            }
+
+            }
+            else{
+                asf.setDate(asf.getDate() + 1);
+
+            }
+
+            if (asf.getDay() === 0) {
+                asf.setDate(asf.getDate() + 1);
+            }
+            var setdate = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate().toString().padStart(2, '0');
             document.getElementById("datefinish").value = setdate;
 
-            setdate2 = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate();
+            setdate2 = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate().toString().padStart(2, '0');
             console.log(setdate)
 
         } else {
             alert("Sorry your request date is not accepted!")
 
             const z = new Date();
-            var monthNumber = new Date().getMonth() + 1
+            var monthNumber = (new Date().getMonth() + 1).toString().padStart(2, '0');
             z.setDate(z.getDate() + 1);
             console.log(z);
             var setdate = z.getFullYear() + "-" + monthNumber + "-" + z.getDate();
@@ -566,6 +582,7 @@ else
 
         }
     }
+
 
     function endDate() {
         console.log(setdate2);

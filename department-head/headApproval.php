@@ -35,6 +35,7 @@ if(isset($_POST['approveRequest'])){
                 <th>JO Number</th>
                 <th>Action</th>
                 <th>Details</th>
+                <th>Requestor</th>
                 <th>Date Filed</th>
                 <th>Category</th>
                 <th>Assigned to</th>
@@ -113,6 +114,9 @@ if(isset($_POST['approveRequest'])){
 </div>
               <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
+              </td>
+              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+              <?php echo $row['requestor'];?> 
               </td>
 
 

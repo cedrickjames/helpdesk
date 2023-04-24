@@ -129,8 +129,8 @@ else
 
             {
             $email1=$_SESSION['email'];
-            $sql = "insert into request (date_filled,status,status2,ticket_no,requestorUsername,requestor,email,department,request_to, request_category,request_details,computerName,reqstart_date ,reqfinish_date, telephone, approving_head,accept_termsandconddition,month,year,attachment) 
-                    values('$datenow','For approval of $headname','head','$jo_no','$username','$user_name','$email1','$user_dept','$requestto','$category','$request','$computerName','$start','$end','$telephone','$headname','$terms','$month','$year','$dest_path')";
+            $sql = "insert into request (date_filled,status2,requestorUsername,requestor,email,department,request_to, request_category,request_details,computerName,reqstart_date ,reqfinish_date, telephone, approving_head,accept_termsandconddition,month,year,attachment) 
+                    values('$datenow','head','$username','$user_name','$email1','$user_dept','$requestto','$category','$request','$computerName','$start','$end','$telephone','$headname','$terms','$month','$year','$dest_path')";
                 $results = mysqli_query($con,$sql);
             if($results){
                 
@@ -252,7 +252,7 @@ else
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
 
 
-    <link rel="shortcut icon" href="../resources/img/helpdesk.jpg">
+    <link rel="shortcut icon" href="../resources/img/helpdesk.png">
     <!-- <link rel="stylesheet" href="css/style.css" /> -->
 
 
@@ -356,7 +356,7 @@ else
                 </div>
                 <input onchange="testDate()" id="datestart" name="start" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input" placeholder="Request date start"  required>
             </div>
-            <span class="mx-4 text-gray-500">to</span>
+            <span class="mx-1 text-gray-500">to</span>
             <div class="relative w-2/4">
                 <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                     <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
@@ -528,20 +528,36 @@ else
 
         if (x < y) {
             console.log("Valid");
-            var monthNumber = new Date().getMonth() + 1;
+            var monthNumber = (new Date().getMonth() + 1).toString().padStart(2, '0');
+
             const asf = new Date(chosendate);
-            asf.setDate(asf.getDate() + 1);
-            var setdate = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate();
+            var type = document.getElementById("type").value;
+            if(type == "Relayout"){
+                asf.setDate(asf.getDate() + 2);
+                if (asf.getDay() === 0) {
+                asf.setDate(asf.getDate() + 1);
+            }
+
+            }
+            else{
+                asf.setDate(asf.getDate() + 1);
+
+            }
+
+            if (asf.getDay() === 0) {
+                asf.setDate(asf.getDate() + 1);
+            }
+            var setdate = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate().toString().padStart(2, '0');
             document.getElementById("datefinish").value = setdate;
 
-            setdate2 = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate();
+            setdate2 = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate().toString().padStart(2, '0');
             console.log(setdate)
 
         } else {
             alert("Sorry your request date is not accepted!")
 
             const z = new Date();
-            var monthNumber = new Date().getMonth() + 1
+            var monthNumber = (new Date().getMonth() + 1).toString().padStart(2, '0');
             z.setDate(z.getDate() + 1);
             console.log(z);
             var setdate = z.getFullYear() + "-" + monthNumber + "-" + z.getDate();

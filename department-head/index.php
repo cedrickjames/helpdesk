@@ -26,12 +26,33 @@
   
 
      session_start();
+
     include ("../includes/connect.php");
 
-    if(!isset($_SESSION['connected'])){
-        header("location: ../index.php");
-      }
+
+    
+    if(isset( $_SESSION['connected'])){
+
+ 
+        $level = $_SESSION['level'];
       
+        if($level =='user'){
+          header("location:../employees");
+        }
+       else if($level =='mis'){
+          header("location:../mis");
+        }
+        else if($level =='fem'){
+          header("location:../fem");
+        }
+        else if($level =='admin'){
+          header("location:../department-admin");
+        }
+
+    }
+    if(!isset($_SESSION['connected'])){
+        header("location: ../logout.php");
+      }
         $user_dept = $_SESSION['department'];
         $user_level=$_SESSION['level'];
 
@@ -51,7 +72,7 @@
             $ratingcomment = $_POST['ratingcomment'];
             $joid = $_POST['joid2'];
             $assigned = $_POST['misPersonnel'];
-            $requestor = $_POST['requestor'];
+            $requestor = $_POST['requestor2'];
             $ratedBy = $_SESSION['name'];
             $sql = "UPDATE `request` SET `status2`='rated', `ratedBy`='$ratedBy', `rating_delivery`='$rateScore', `rating_quality`='$rateScoreQuality', `rating_final`='$final_rating',`requestor_remarks`='$ratingcomment' WHERE `id` = '$joid';";
             $results = mysqli_query($con,$sql);
@@ -60,14 +81,14 @@
         
         
                 
-                    
-        
+                $personnelEmail = "";
+                 $personnelName = "";
                 $sql1 = "Select * FROM `user` WHERE `username` = '$assigned'";
                 $result = mysqli_query($con, $sql1);
                 while($list=mysqli_fetch_assoc($result))
                 {
                 $personnelEmail=$list["email"];
-                $perseonnelName=$list["name"];
+                $personnelName=$list["name"];
         
                 }
         
@@ -82,7 +103,7 @@
                   }    
         
                 $subject ='Job Order Rating';
-                $message = 'Hi '.$perseonnelName.',<br> <br> Mr./Ms. '.$requestor.' rated your Job Order with '.$rateScore.'. Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+                $message = 'Hi '.$personnelName.',<br> <br> Mr./Ms. '.$requestor.' rated your Job Order with '.$rateScore.'. Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
                 
         
                  require '../vendor/autoload.php';
@@ -110,7 +131,7 @@
                     // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
                     
                     //Recipients
-                    $mail->setFrom('mis.dev@glory.com.ph', 'Helpdesk');
+                    $mail->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
                     $mail->addAddress($personnelEmail);              
                     $mail->isHTML(true);                                  
                     $mail->Subject = $subject;
@@ -235,12 +256,14 @@ if(isset($_POST['print'])){
                   }    
 
                 $subject ='Job order request';
-                $message = 'Hi '.$adminname.',<br> <br>   Mr/Ms. '.$requestor.' filed a job order. Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+                $message = 'Hi '.$adminname.',<br> <br>   Mr/Ms. '.$requestor.' filed a job order with JO number of '.$completejoid.' . Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
                 
 
                  require '../vendor/autoload.php';
     
-                 $mail = new PHPMailer(true);       
+                 $mail = new PHPMailer(true);  
+                 $mail2 = new PHPMailer(true);       
+
                 //  email the admin               
                  try {
                   //Server settings
@@ -263,7 +286,7 @@ if(isset($_POST['print'])){
                     // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
                     
                     //Recipients
-                    $mail->setFrom('mis.dev@glory.com.ph', 'Helpdesk');
+                    $mail->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
                     $mail->addAddress($adminemail);              
                     $mail->isHTML(true);                                  
                     $mail->Subject = $subject;
@@ -272,38 +295,38 @@ if(isset($_POST['print'])){
                     $mail->send();
 
                     
-                    $subject2 ='Approved Job Order';
-                    $message2 = 'Hi '.$requestor.',<br> <br>  Your Job Order with JO number of '.$completejoid.' is now approved by your head. It is now sent to your administrator. Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+                    $subject3 ='Approved Job Order';
+                    $message3 = 'Hi '.$requestor.',<br> <br>  Your Job Order with JO number of '.$completejoid.' is now approved by your head. It is now sent to your administrator. Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
                     
                     // email this requestor
             
                         //Server settings
-                          $mail->isSMTP();                                      // Set mailer to use SMTP
-                          $mail->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
-                          $mail->SMTPAuth = true;                               // Enable SMTP authentication
-                          $mail->Username = $account;     // Your Email/ Server Email
-                          $mail->Password = $accountpass;                     // Your Password
-                          $mail->SMTPOptions = array(
+                          $mail2->isSMTP();                                      // Set mailer to use SMTP
+                          $mail2->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+                          $mail2->SMTPAuth = true;                               // Enable SMTP authentication
+                          $mail2->Username = $account;     // Your Email/ Server Email
+                          $mail2->Password = $accountpass;                     // Your Password
+                          $mail2->SMTPOptions = array(
                               'ssl' => array(
                               'verify_peer' => false,
                               'verify_peer_name' => false,
                               'allow_self_signed' => true
                               )
                                                       );                         
-                          $mail->SMTPSecure = 'none';                           
-                          $mail->Port = 25;                                   
+                          $mail2->SMTPSecure = 'none';                           
+                          $mail2->Port = 25;                                   
                   
                           //Send Email
                           // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
                           
                           //Recipients
-                          $mail->setFrom('mis.dev@glory.com.ph', 'Helpdesk');
-                          $mail->addAddress($requestorEmail);              
-                          $mail->isHTML(true);                                  
-                          $mail->Subject = $subject2;
-                          $mail->Body    = $message2;
+                          $mail2->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
+                          $mail2->addAddress($requestorEmail);              
+                          $mail2->isHTML(true);                                  
+                          $mail2->Subject = $subject3;
+                          $mail2->Body    = $message3;
                   
-                          $mail->send();
+                          $mail2->send();
                           $_SESSION['message'] = 'Message has been sent';
                           echo "<script>alert('Thank you for approving. This request is now sent to your administrator.') </script>";
                           echo "<script> location.href='index.php'; </script>";
@@ -378,7 +401,7 @@ if(isset($_POST['print'])){
                               // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
                               
                               //Recipients
-                              $mail->setFrom('mis.dev@glory.com.ph', 'Helpdesk');
+                              $mail->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
                               $mail->addAddress($requestorEmail);              
                               $mail->isHTML(true);                                  
                               $mail->Subject = $subject2;
@@ -420,7 +443,6 @@ if(isset($_POST['print'])){
     <title>FEM MIS Helpdesk</title>
 
     <link rel="stylesheet" href="../fontawesome-free-6.2.0-web/css/all.min.css">
-
     <link rel="stylesheet" href="../node_modules/DataTables/datatables.min.css">
     <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Responsive-2.3.0/css/responsive.dataTables.min.css"/>
 
@@ -429,6 +451,7 @@ if(isset($_POST['print'])){
     <script src="../cdn_tailwindcss.js"></script>
 
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
+    <link rel="shortcut icon" href="../resources/img/helpdesk.png">
    
 </head>
     <body   class="static  bg-white dark:bg-gray-900"  >
@@ -497,7 +520,7 @@ if(isset($_POST['print'])){
             </div>
             <div class="FrD3PA">
                 <div class="QnQnDA" tabindex="-1">
-                    <div role="tablist" class="_6TVppg sJ9N9w">
+                    <div role="tablist" style="overflow:inherit"  class="_6TVppg sJ9N9w">
                         <div class="uGmi4w">
                             <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400"
                                 id="tabExample" role="tablist">
@@ -508,7 +531,29 @@ if(isset($_POST['print'])){
                                             class="_1QoxDw o4TrkA CA2Rbg Di_DSA cwOZMg zQlusQ uRvRjQ POMxOg _lWDfA"
                                             aria-selected="false">
                                             <div class="_1cZINw">
-                                                <div class="_qiHHw Ut_ecQ kHy45A">
+                                                <div style="overflow:inherit" class="_qiHHw Ut_ecQ kHy45A">
+                                            <span  class=" sr-only">Notifications</span>
+                        <?php 
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE  `department` = '$user_dept' and `status2` ='head'";
+                                        $result = mysqli_query($con, $sql1);
+                                        while($count=mysqli_fetch_assoc($result))
+                                        {
+                                    
+                                        if($count["pending"] > 0){
+                                            ?>
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `department` = '$user_dept' and `status2` ='head'";
+                                                       $result = mysqli_query($con, $sql1);
+                                                       while($count=mysqli_fetch_assoc($result))
+                                                       {
+                                                       echo $count["pending"];
+                                                     
+                                                       }
+                                                       ?></div><?php
+                                        }
+                                      
+                                        }
+                            ?>
 
                                                     <img src="../resources/img/list.png"
                                                         class="h-full w-full text-blue-400" fill="none"
@@ -525,8 +570,30 @@ if(isset($_POST['print'])){
                     <button id="adminApprovalTab" onclick="goToAdmin()"
                             class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" type="button" tabindex="-1" role="tab" aria-controls="adminApproval" aria-selected="false">
                             <div class="_1cZINw">
-                                <div class="_qiHHw Ut_ecQ kHy45A">
-    
+                                <div style="overflow:inherit" class="_qiHHw Ut_ecQ kHy45A">
+                                            <span  class=" sr-only">Notifications</span>
+                        <?php 
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE  `department` = '$user_dept' and `status2` = 'admin'";
+                                        $result = mysqli_query($con, $sql1);
+                                        while($count=mysqli_fetch_assoc($result))
+                                        {
+                                    
+                                        if($count["pending"] > 0){
+                                            ?>
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `department` = '$user_dept' and `status2` = 'admin'";
+                                                       $result = mysqli_query($con, $sql1);
+                                                       while($count=mysqli_fetch_assoc($result))
+                                                       {
+                                                       echo $count["pending"];
+                                                     
+                                                       }
+                                                       ?></div><?php
+                                        }
+                                      
+                                        }
+                            ?>
+
                                 <img src="../resources/img/adminapprove.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
     
                                 </div>
@@ -541,8 +608,30 @@ if(isset($_POST['print'])){
                             class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" tabindex="-1" type="button" role="tab" aria-controls="inProgress"
                             aria-selected="false">
                             <div class="_1cZINw">
-                            <div class="_qiHHw Ut_ecQ kHy45A">
-    
+                            <div style="overflow:inherit" class="_qiHHw Ut_ecQ kHy45A">
+                                            <span  class=" sr-only">Notifications</span>
+                        <?php 
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE  `department` = '$user_dept' and `status2` = 'inprogress'";
+                                        $result = mysqli_query($con, $sql1);
+                                        while($count=mysqli_fetch_assoc($result))
+                                        {
+                                    
+                                        if($count["pending"] > 0){
+                                            ?>
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `department` = '$user_dept' and `status2` = 'inprogress'";
+                                                       $result = mysqli_query($con, $sql1);
+                                                       while($count=mysqli_fetch_assoc($result))
+                                                       {
+                                                       echo $count["pending"];
+                                                     
+                                                       }
+                                                       ?></div><?php
+                                        }
+                                      
+                                        }
+                            ?>
+
                                     <img src="../resources/img/progress.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
     
                                     </div>
@@ -556,8 +645,30 @@ if(isset($_POST['print'])){
                             class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" tabindex="-1" type="button" role="tab" aria-controls="toRate"
                             aria-selected="false">
                             <div class="_1cZINw">
-                            <div class="_qiHHw Ut_ecQ kHy45A">
-    
+                            <div style="overflow:inherit" class="_qiHHw Ut_ecQ kHy45A">
+                                            <span  class=" sr-only">Notifications</span>
+                        <?php 
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE department = '$user_dept' AND status2='Done'";
+                                        $result = mysqli_query($con, $sql1);
+                                        while($count=mysqli_fetch_assoc($result))
+                                        {
+                                    
+                                        if($count["pending"] > 0){
+                                            ?>
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE department = '$user_dept' AND status2='Done'";
+                                                       $result = mysqli_query($con, $sql1);
+                                                       while($count=mysqli_fetch_assoc($result))
+                                                       {
+                                                       echo $count["pending"];
+                                                     
+                                                       }
+                                                       ?></div><?php
+                                        }
+                                      
+                                        }
+                            ?>
+
                             <img src="../resources/img/star.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
     
                             </div>
@@ -616,6 +727,7 @@ if(isset($_POST['print'])){
                             <th>JO Number</th>
                             <th>Action</th>
                             <th>Details</th>
+                            <th>Requestor</th>
                             <th>Date Filed</th>
                             <th>Category</th>
                             <th>Assigned to</th>
@@ -677,7 +789,9 @@ if(isset($_POST['print'])){
               <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
-
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['requestor'];?> 
+              </td>
 
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -873,13 +987,6 @@ if(isset($_POST['print'])){
                 <textarea id="remarks" name="remarks" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave  remarks..."> </textarea>
                      
                 </div>
-                <div id="actionDetailsDiv" class="hidden">
-                <hr class="h-px  bg-gray-200 border-0 dark:bg-gray-700">
-
-                <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Details of action</label>
-                <textarea disabled id="actionDetails" name="actionDetails" rows="3" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
-            
-                </div>
                 <div id="action1div" class="w-full grid gap-4 grid-col-1">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 1: </span><span id="action1"></span></h2>
                 </div>
@@ -888,7 +995,17 @@ if(isset($_POST['print'])){
                 </div>
                 <div id="action3div" class="w-full grid gap-4 grid-col-1">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 3: </span><span id="action3"></span></h2>
-                </div> 
+                </div>
+                <hr class="h-px  bg-gray-200 border-0 dark:bg-gray-700">
+                <div id="actionDetailsDiv" class="hidden">
+                <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Details of action</label>
+                <textarea disabled id="actionDetails" name="actionDetails" rows="3" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
+            
+                </div>
+                <div id="recommendationDiv" class="hidden w-full grid gap-4 grid-col-1">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Recommendation: </span><span id="recommendation"></span></h2>
+                </div>
+     
             </div>
             
                   
@@ -961,8 +1078,20 @@ if(isset($_POST['print'])){
   
 
                 <input type="text" id="misPersonnel" name="misPersonnel" class="hidden">
-                <input type="text" id="requestor" name="requestor" class="hidden">
+                <input type="text" id="requestor2" name="requestor2" class="hidden">
+                <div class="flex justify-center  m-auto">
+        
 
+                
+                <div class="justify-center flex">
+                <label for="ratingcomment" class="inline-block align-middle m-auto mr-20 col-span-1 font-semibold text-gray-900 dark:text-gray-900">You are...</label>
+                </div>
+                    <div class="flex justify-center text-center w-20 h-20">Very Satisfied</div>    
+                    <div class="flex justify-center text-center w-20 h-20">Unsatisfied</div>                    
+                    <div class="flex justify-center text-center w-20 h-20">Average</div>                    
+                    <div class="flex justify-center text-center w-20 h-20">Satisfied</div>                    
+                    <div class="flex justify-center text-center w-20 h-20">Very Satisfied</div>                    
+</div> 
             <div class="flex justify-center  m-auto">
                 <input type="text" value="5" id="rateScore" name="rateScore" class="hidden">
 
@@ -1097,12 +1226,17 @@ function modalShow(element){
     document.getElementById("telephone").value =element.getAttribute("data-telephone");
     document.getElementById("attachment").setAttribute("href", element.getAttribute("data-attachment"));
     document.getElementById("requestor").innerHTML =element.getAttribute("data-requestor");
+    document.getElementById("requestor2").value =element.getAttribute("data-requestor");
+
     document.getElementById("requestorEmail").innerHTML =element.getAttribute("data-requestoremail");
 
     document.getElementById("requestorinput").value =element.getAttribute("data-requestor");
+    
     document.getElementById("requestoremailinput").value =element.getAttribute("data-requestoremail");
     document.getElementById("remarks").value =element.getAttribute("data-headremarks");
     document.getElementById("assignedPersonnel").innerHTML =element.getAttribute("data-assignedpersonnel");
+    document.getElementById("misPersonnel").value =element.getAttribute("data-personnel");
+
     document.getElementById("actionDetails").value =element.getAttribute("data-action");
     document.getElementById("headremarks").innerHTML =element.getAttribute("data-headremarks");
     
@@ -1121,14 +1255,23 @@ function modalShow(element){
     document.getElementById("action1").innerHTML =element.getAttribute("data-action1");
     document.getElementById("action2").innerHTML =element.getAttribute("data-action2");
     document.getElementById("action3").innerHTML =element.getAttribute("data-action3");
-
+    document.getElementById("recommendation").innerHTML =element.getAttribute("data-recommendation");
     
     document.getElementById("pjobOrderNo").value = element.getAttribute("data-joidprint");
 document.getElementById("pstatus").value = element.getAttribute("data-status");
 document.getElementById("prequestor").value = element.getAttribute("data-requestor");
 document.getElementById("pdepartment").value = element.getAttribute("data-department");
 document.getElementById("pdateFiled").value = element.getAttribute("data-datefiled");
-document.getElementById("prequestedSchedule").value = element.getAttribute("data-start") + " to " +element.getAttribute("data-end");
+
+const dateStart = new Date(element.getAttribute("data-start")); // Get the current date
+const optionsStart = { year: 'numeric', month: 'long', day: 'numeric' }; // Specify the format options
+const formattedDateStart = dateStart.toLocaleDateString('en-US', optionsStart); // Format the date
+
+const dateEnd = new Date(element.getAttribute("data-end")); // Get the current date
+const optionsEnd = { year: 'numeric', month: 'long', day: 'numeric' }; // Specify the format options
+const formattedDateEnd = dateEnd.toLocaleDateString('en-US', optionsEnd); // Format the date
+
+document.getElementById("prequestedSchedule").value = formattedDateStart + " to " +formattedDateEnd;
 document.getElementById("ptype").value = element.getAttribute("data-category");
 document.getElementById("ppcNumber").value = element.getAttribute("data-comname");
 document.getElementById("pdetails").value = element.getAttribute("data-details");
@@ -1166,6 +1309,16 @@ var action1 = element.getAttribute("data-action1");
 var action2 = element.getAttribute("data-action2");
 var action3 = element.getAttribute("data-action3");
 
+var recommendation = element.getAttribute("data-recommendation");
+
+if(recommendation == ""){
+    $("#recommendationDiv").addClass("hidden");
+
+}
+else{
+    $("#recommendationDiv").removeClass("hidden");
+
+}
 
 $("#action1div").addClass("hidden");
 $("#action1div").removeClass("hidden");
@@ -1323,6 +1476,7 @@ function goToAdmin(){
     $("#buttonRateDiv").addClass("hidden");
     $("#actionDetailsDiv").addClass("hidden");
     $("#buttonPrintDiv").addClass("hidden");
+    $("#recommendationDiv").addClass("hidden");
     
 
 // Get the current transform value
@@ -1352,6 +1506,7 @@ function goToMis(){
 // Get the current transform value
 const currentTransform = myElement.style.transform = 'translateX(300px) translateY(2px) rotate(135deg)';
 
+$("#recommendationDiv").addClass("hidden");
 
 // transform: translateX(55px) translateY(2px) rotate(135deg);
 }
@@ -1372,6 +1527,7 @@ function goToRate(){
     $("#buttondiv").addClass("hidden");
 
     $("#buttonPrintDiv").removeClass("hidden");
+    $("#recommendationDiv").removeClass("hidden");
 
     const myElement = document.querySelector('#diamond');
 
@@ -1396,9 +1552,10 @@ function goToHead(){
     document.getElementById("message").disabled = true;
     document.getElementById("computername").disabled = true;
     document.getElementById("remarks").disabled = false;
+    $("#recommendationDiv").removeClass("hidden");
 
     const myElement = document.querySelector('#diamond');
-
+    
 // Get the current transform value
 const currentTransform = myElement.style.transform = 'translateX(50px) translateY(2px) rotate(135deg)';
 
