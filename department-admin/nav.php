@@ -41,7 +41,16 @@ while($field=mysqli_fetch_assoc($resultLevel))
 
 }
 
+if(isset($_POST['registerUser'])){
+  $userEmployeeId= $_POST['userEmployeeId'] ;  
+  $userFullName= $_POST['userFullName'] ;
+  $userEmail= $_POST['userEmail'] ;
+  $userDepartment= $_POST['userDepartment'] ;
+  $userType= $_POST['userType'] ;
 
+  $sql = "INSERT INTO `user`(`username`, `password`, `name`, `department`, `email`, `level`) VALUES ('$userEmployeeId','$userEmployeeId','$userFullName',' $userDepartment','$userEmail','$userType')";
+$results = mysqli_query($con,$sql);
+}
 ?>
 
 
@@ -57,7 +66,10 @@ while($field=mysqli_fetch_assoc($resultLevel))
       <a  class="flex items-center">
         <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Helpdesk</span>
     </a>
+
     <div class="flex items-center md:order-2">
+    <a data-modal-target="registerModal" data-modal-toggle="registerModal" type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 w-60 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-3 md:mx-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Register</a>
+
     <!-- <a href="jo-form.php" type="button" class="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 w-60 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-3 md:mx-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Request Job Order</a> -->
       <button type="button" class="flex mr-3 text-sm bg-white rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
         <span class="sr-only">Open user menu</span>
@@ -239,7 +251,70 @@ while($field=mysqli_fetch_assoc($resultLevel))
    </div>
 </div>
 
+<div id="registerModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" data-modal-toggle="registerModal" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" >
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="px-6 py-6 lg:px-8">
+                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Register</h3>
+                <form  class="space-y-6" action="" method="POST">
+                    <div>
+                    <div>
+                        <label for="year" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Employee ID</label>
+                        <input type="text"  name="userEmployeeId" id="userEmployeeId"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                    </div>
+                    <div>
+                        <label for="year" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                        <input type="text"  name="userFullName" id="fullName"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                    </div>
+                    <div>
+                        <label for="year" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                        <input type="email"  name="userEmail" id="userEmail"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                    </div>
+                        <label for="userDepartment" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+        
+                        <select id="userDepartment" name="userDepartment" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              
+                          <?php  
 
+                                $sql="SELECT DISTINCT department FROM user";
+                                $result = mysqli_query($con,$sql);
+
+                                while($row=mysqli_fetch_assoc($result)){
+                                  ?> <option  value="<?php echo $row['department']; ?>"><?php echo $row['department']; ?></option> <?php
+                                }
+                          
+                          ?>
+                        </select>
+                        <label for="month" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+        
+        <select id="userType" name="userType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <option selected  value="user">Employee</option>
+        <option   value="head">Department Head</option>
+        <option   value="admin">Administrator</option>
+        <option   value="mis">MIS</option>
+        <option   value="fem">FEM</option>
+
+
+
+        </select>
+
+                    </div>
+                    
+
+                    <button type="submit" name="registerUser" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                      Register
+                    </button>
+                   
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 
 <script>
 
 
