@@ -31,6 +31,17 @@ else
     }
 
     include ("../includes/connect.php");
+
+    $sqllink = "SELECT `link` FROM `setting`";
+    $resultlink = mysqli_query($con, $sqllink);
+    $link = "";
+    while($listlink=mysqli_fetch_assoc($resultlink))
+    {
+    $link=$listlink["link"];
+    
+    
+      }
+
     $user_dept = $_SESSION['department'];
     $user_level=$_SESSION['level'];
     $user_name=$_SESSION['name'];
@@ -156,7 +167,7 @@ else
                   }    
 
                   $subject ='Job order request';
-                  $message = 'Hi '.$adminname.',<br> <br>   Mr/Ms. '.$requestor.' filed a job order. Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+                  $message = 'Hi '.$adminname.',<br> <br>   Mr/Ms. '.$requestor.' filed a job order. Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
                   
                  require '../vendor/autoload.php';
     
