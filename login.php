@@ -31,6 +31,16 @@ if(isset($_POST['submit'])){
 
 
       $_SESSION['connected']=true;
+
+      $date = new DateTime(); 
+      $month = $date->format('F');
+      $year = $date->format('Y');
+
+      $_SESSION['selectedMonth'] = $month;
+  $_SESSION['selectedYear'] = $year;
+
+
+
       if($level =='user'){
         header("location:employees");
       }

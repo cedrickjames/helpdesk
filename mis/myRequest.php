@@ -71,6 +71,18 @@ if(!isset($_SESSION['connected'])){
 
 // connection php and transfer of session
 include ("../includes/connect.php");
+
+$sqllink = "SELECT `link` FROM `setting`";
+$resultlink = mysqli_query($con, $sqllink);
+$link = "";
+while($listlink=mysqli_fetch_assoc($resultlink))
+{
+$link=$listlink["link"];
+
+
+  }
+
+  
 $user_dept = $_SESSION['department'];
 $user_level=$_SESSION['level'];
 $username = $_SESSION['username'];
@@ -200,7 +212,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
           }    
 
         $subject ='Job Order Rating';
-        $message = 'Hi '.$perseonnelName.',<br> <br> Mr./Ms. '.$requestor.' rated your Job Order with '.$rateScore.'. Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+        $message = 'Hi '.$perseonnelName.',<br> <br> Mr./Ms. '.$requestor.' rated your Job Order with '.$rateScore.'. Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
         
 
          require '../vendor/autoload.php';

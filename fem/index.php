@@ -85,7 +85,15 @@
    $_SESSION['ratingRemarks'] = "";
    $_SESSION['ratedDate'] = "";
    
+   $sqllink = "SELECT `link` FROM `setting`";
+   $resultlink = mysqli_query($con, $sqllink);
+   $link = "";
+   while($listlink=mysqli_fetch_assoc($resultlink))
+   {
+   $link=$listlink["link"];
    
+   
+     }
    
    
    if(isset($_POST['print'])){
@@ -203,7 +211,7 @@
                   }    
 
                 $subject ='Completed Job Order';
-                $message = 'Hi '.$requestor.',<br> <br> MIS has completed one of your job order requests. Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+                $message = 'Hi '.$requestor.',<br> <br> MIS has completed one of your job order requests. Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
                 
 
                  require '../vendor/autoload.php';
@@ -293,7 +301,7 @@
                       //Server settings
                        
                         $subject2 ='Cancelled Job Order';
-                        $message2 = 'Hi '.$requestor.',<br> <br>  Your Job Order with JO number of '.$completejoid.' is CANCELLED by the administrator. Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+                        $message2 = 'Hi '.$requestor.',<br> <br>  Your Job Order with JO number of '.$completejoid.' is CANCELLED by the administrator. Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
                         
                         // email this requestor
                 
@@ -370,7 +378,7 @@
     <body   class="static  bg-white dark:bg-gray-900"  >
     <?php require_once 'nav.php';?>
 
-<div class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
+<div  id="mainContent" class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
     <div
         class="justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
         <div class="text-center py-2 m-auto lg:text-center w-full">
@@ -1649,6 +1657,7 @@ const options = {
 const drawer = new Drawer($targetEl, options);
 drawer.show();
 var show = true;
+var sidebar=0;
 function shows(){
     if(show){
         drawer.hide();
@@ -1658,7 +1667,29 @@ function shows(){
         drawer.show();
         show = true;
     }
-
+    // var sidebar=0;
+    if(sidebar==0){
+    document.getElementById("mainContent").style.width="100%";  
+    document.getElementById("mainContent").style.marginLeft= "0px"; 
+    // document.getElementById("sidebar").style.opacity= ""; 
+    // document.getElementById("sidebar").style.transition = "all .1s";
+    
+    document.getElementById("mainContent").style.transition = "all .3s";
+    
+    
+    
+    
+    
+    
+    sidebar=1;
+    }
+    else{
+      document.getElementById("mainContent").style.width="calc(100% - 288px)";  
+    document.getElementById("mainContent").style.marginLeft= "288px";  
+    
+    sidebar=0;
+    }
+    
 
 }
 

@@ -8,6 +8,9 @@ select[name="employeeTable_length"] {
   select[name="overAllEmployees_length"] {
     width: 73px;
   }
+  select[name="pmsTable_length"] {
+    width: 73px;
+  }
   
   select[name="toRateTable_length"] {
     width: 73px;

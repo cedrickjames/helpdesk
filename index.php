@@ -1,10 +1,21 @@
 
 
+<?php
+   include ("includes/connect.php");
+$sql2 = "SELECT `link` FROM `setting`";
+$result2 = mysqli_query($con, $sql2);
+$link = "";
+while($list=mysqli_fetch_assoc($result2))
+{
+$link=$list["link"];
 
+
+  }    
+?>
 
 <html>
   <head>
-    <meta http-equiv="refresh" content="0;url=http://192.168.60.53/helpdesk/login.php" />
+    <meta http-equiv="refresh" content="0;url=<?php echo $link;?>/login.php" />
     <title></title>
   </head>
  <body>

@@ -91,7 +91,15 @@ $_SESSION['ratedDate'] = "";
 
 
 
+$sqllink = "SELECT `link` FROM `setting`";
+$resultlink = mysqli_query($con, $sqllink);
+$link = "";
+while($listlink=mysqli_fetch_assoc($resultlink))
+{
+$link=$listlink["link"];
 
+
+  }
 if(isset($_POST['print'])){
    $_SESSION['jobOrderNo']= $_POST['pjobOrderNo'] ;
    $_SESSION['status']= $_POST['pstatus'] ;
@@ -186,7 +194,7 @@ if(isset($_POST['rateJo'])){
           }    
 
         $subject ='Job Order Rating';
-        $message = 'Hi '.$perseonnelName.',<br> <br> Mr./Ms. '.$requestor.' rated your Job Order with '.$rateScore.'. Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+        $message = 'Hi '.$perseonnelName.',<br> <br> Mr./Ms. '.$requestor.' rated your Job Order with '.$rateScore.'. Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
         
 
          require '../vendor/autoload.php';

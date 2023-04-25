@@ -32,7 +32,15 @@ else
     $user_name=$_SESSION['name'];
     $username = $_SESSION['username'];
 
-
+    $sqllink = "SELECT `link` FROM `setting`";
+    $resultlink = mysqli_query($con, $sqllink);
+    $link = "";
+    while($listlink=mysqli_fetch_assoc($resultlink))
+    {
+    $link=$listlink["link"];
+    
+    
+      }
     
          //code for submiting the JO
 
@@ -144,7 +152,7 @@ else
                   }    
 
                 $subject ='Job order request';
-                $message = 'Hi '.$headname.',<br> <br>   Mr/Ms. '.$user_name.' filed a job order. Please check the details by signing in into our Helpdesk <br> Click this http://192.168.60.53/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+                $message = 'Hi '.$headname.',<br> <br>   Mr/Ms. '.$user_name.' filed a job order. Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
                 
 
                  require '../vendor/autoload.php';
