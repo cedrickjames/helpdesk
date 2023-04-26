@@ -2,6 +2,9 @@
 select[name="employeeTable_length"] {
     width: 73px;
   }
+  select[name="pmsTable_length"] {
+    width: 73px;
+  }
   
 select[name="adminApprovalTable_length"] {
     width: 73px;

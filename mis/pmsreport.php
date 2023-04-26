@@ -109,6 +109,8 @@ padding-top: 0px;
                <td>Activity</td>
                <td>Performed by</td>
                <td>Remarks</td>
+               <td>Approved By</td>
+
  
             </tr>
             ';
@@ -128,7 +130,7 @@ padding-top: 0px;
             
             if (count($departments) == 1) {
               $DepartmentOnly = $departments[0];
-              $sql="SELECT devices.*, pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments 
+              $sql="SELECT devices.*, pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments, pmsaction.approvedBy
               FROM devices
               LEFT JOIN pmsaction
                   ON devices.computerName = pmsaction.deviceName AND pmsaction.year = '$year'
@@ -142,7 +144,7 @@ padding-top: 0px;
               $department1 = $departments[0];
               $department2 = $departments[1];
 
-              $sql="SELECT  devices.*, pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments FROM devices LEFT JOIN pmsaction ON devices.computerName = pmsaction.deviceName AND pmsaction.year = '$year' WHERE (devices.department = '$department1' OR devices.department = '$department2') AND devices.type != 'Tablet'AND (pmsaction.year = '$year' OR pmsaction.year IS NULL)
+              $sql="SELECT  devices.*, pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments, pmsaction.approvedBy FROM devices LEFT JOIN pmsaction ON devices.computerName = pmsaction.deviceName AND pmsaction.year = '$year' WHERE (devices.department = '$department1' OR devices.department = '$department2') AND devices.type != 'Tablet'AND (pmsaction.year = '$year' OR pmsaction.year IS NULL)
               AND (pmsaction.month = '$month' OR pmsaction.month IS NULL);";
               $result = mysqli_query($con,$sql);
 
@@ -162,6 +164,8 @@ padding-top: 0px;
                 $action = $row['action'];
                 $perfomedBy = $row['performedBy'];
                 $comments = $row['comments'];
+                $approval = $row['approvedBy'];
+
                 if($Date == ""){
                     $status = "Pending";
                 }
@@ -180,6 +184,8 @@ padding-top: 0px;
            <td>'.$action.'</td>
            <td>'.$perfomedBy.'</td>
            <td>'.$comments.'</td>
+           <td>'.$approval.'</td>
+
 
             </tr>';
             $increment++;

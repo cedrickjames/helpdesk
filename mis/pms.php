@@ -406,6 +406,8 @@ if(isset($_POST['addPMSAction'])){
                 <th>Type</th>
                 <th>Activity</th>
                 <th>Performed By</th>
+                <th>Approved By</th>
+
 
                 
 
@@ -429,7 +431,7 @@ if(isset($_POST['addPMSAction'])){
                  
                  if (count($departments) == 1) {
                    $DepartmentOnly = $departments[0];
-                   $sql="SELECT devices.*, pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments 
+                   $sql="SELECT devices.*, pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments, pmsaction.approvedBy 
                    FROM devices
                    LEFT JOIN pmsaction
                        ON devices.computerName = pmsaction.deviceName AND pmsaction.year = '$year'
@@ -443,7 +445,7 @@ if(isset($_POST['addPMSAction'])){
                    $department1 = $departments[0];
                    $department2 = $departments[1];
 
-                   $sql="SELECT  devices.*, pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments FROM devices LEFT JOIN pmsaction ON devices.computerName = pmsaction.deviceName AND pmsaction.year = '$year' WHERE (devices.department = '$department1' OR devices.department = '$department2') AND devices.type != 'Tablet'AND (pmsaction.year = '$year' OR pmsaction.year IS NULL)
+                   $sql="SELECT  devices.*, pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments, pmsaction.approvedBy FROM devices LEFT JOIN pmsaction ON devices.computerName = pmsaction.deviceName AND pmsaction.year = '$year' WHERE (devices.department = '$department1' OR devices.department = '$department2') AND devices.type != 'Tablet'AND (pmsaction.year = '$year' OR pmsaction.year IS NULL)
                    AND (pmsaction.month = '$month' OR pmsaction.month IS NULL);";
                    $result = mysqli_query($con,$sql);
    
@@ -486,6 +488,9 @@ if(isset($_POST['addPMSAction'])){
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['performedBy'];?> 
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['approvedBy'];?> 
               </td>
                  </tr>
              <?php
