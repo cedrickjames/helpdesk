@@ -36,6 +36,8 @@
     $ratingRemarks = $_SESSION['ratingRemarks'] ;
     $ratedDate = $_SESSION['ratedDate'] ;
 
+   $headsDate =  $_SESSION['headsDate'];
+   $adminsDate =  $_SESSION['adminsDate'];
 
     if($_SESSION['status']=="inprogress"){
         $status = "In Progress";
@@ -54,7 +56,9 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Job Order Report</title>
+        <link rel="shortcut icon" href="../resources/img/helpdesk.png">
+
         <style>
         @page { margin: 15px; }
         body{
@@ -168,19 +172,40 @@ if($type == "Computer"){
                 <td class="first"><span class="label">Details</span></td>
                 <td  colspan="4"> <span class="child"> '.$details.'
                     </span></td>
-            <tr>';
+            </tr>';
             if($headsRemarks !=""){
-                $html.=' <td class="first"><span class="label">Head&apos;s Remarks</span></td>
-                <td colspan="4"> <span class="child">'.$headsRemarks.'
-                    </span></td>
+                
+                $html.='<tr>
+            <td class="first"><span class="label">Head&apos;s Remarks</span></td>
+            <td class="second"> <span class="child">'.$headsRemarks .'</span></td>
+            <td><span class="label">Date: </span></td>
+            <td class="fourth"><span class="child">'.$headsDate.'</span></td>
+        </tr>
+        ';
+            }
+            else{
+                $html.='<tr>
+                <td class="first"><span class="label">Head&apos;s Remarks</span></td>
+                <td class="second"> <span class="child">n/a</span></td>
+                <td><span class="label">Date: </span></td>
+                <td class="fourth"><span class="child">'.$headsDate.'</span></td>
             </tr>';
             }
              
-            if($adminsRemarks !=""){
+            if($adminsRemarks !="" ){
                 $html.=' <tr>
-                <td class="first"><span class="label">Admin&apos;s Remaks</span></td>
-                <td colspan="4"> <span class="child">'.$adminsRemarks.'
-                    </span></td>
+                <td class="first"><span class="label">Admin&apos;s Remarks</span></td>
+                <td class="second"> <span class="child">'.$adminsRemarks .'</span></td>
+                <td><span class="label">Date: </span></td>
+                <td class="fourth"><span class="child">'.$adminsDate.'</span></td>
+            </tr>';
+            }
+            else{
+                $html.='<tr>
+                <td class="first"><span class="label">Admin&apos;s Remarks</span></td>
+                <td class="second"> <span class="child">n/a</span></td>
+                <td><span class="label">Date: </span></td>
+                <td class="fourth"><span class="child">'.$adminsDate.'</span></td>
             </tr>';
             }
              
@@ -285,7 +310,7 @@ if($status == "Done"  ){
     
 $html.='<table style="bottom: 35px; position: absolute;">
 <tr>
-<td class="first"><span class="label">Prepared by: </span></td>
+<td class="first"><span class="label">Printed by: </span></td>
 <td class="second"> <span class="child">'.$wholename.'</span></td>
 <td class="third"><span class="label">Date: </span></td>
 <td><span class="child">'.$date.'</span></td>

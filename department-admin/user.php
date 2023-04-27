@@ -253,7 +253,7 @@ if(isset($_POST['rateJo'])){
     if(isset($_POST['cancelJO'])){
         $joid = $_POST['joid2'];
         $reasonCancel = $_POST['reasonCancel'];
-        $sql = "UPDATE `request` SET `status`='cancelled', `reasonOfCancellation`='$reasonCancel' WHERE `id` = '$joid';";
+        $sql = "UPDATE `request` SET `status2`='cancelled', `reasonOfCancellation`='$reasonCancel' WHERE `id` = '$joid';";
         $results = mysqli_query($con,$sql);
         
         

@@ -265,7 +265,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
     if(isset($_POST['cancelJO'])){
         $joid = $_POST['joid2'];
         $reasonCancel = $_POST['reasonCancel'];
-        $sql = "UPDATE `request` SET `status`='cancelled', `reasonOfCancellation`='$reasonCancel' WHERE `id` = '$joid';";
+        $sql = "UPDATE `request` SET `status2`='cancelled', `reasonOfCancellation`='$reasonCancel' WHERE `id` = '$joid';";
         $results = mysqli_query($con,$sql);
         
         
@@ -831,12 +831,12 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                 <div class="justify-center flex">
                 <label for="ratingcomment" class="inline-block align-middle m-auto mr-20 col-span-1 font-semibold text-gray-900 dark:text-gray-900">You are...</label>
                 </div>
-                    <div class="flex justify-center text-center w-20 h-20">Very Satisfied</div>    
+                    <div class="flex justify-center text-center w-20 h-20">Very Unsatisfied</div>    
                     <div class="flex justify-center text-center w-20 h-20">Unsatisfied</div>                    
                     <div class="flex justify-center text-center w-20 h-20">Average</div>                    
                     <div class="flex justify-center text-center w-20 h-20">Satisfied</div>                    
                     <div class="flex justify-center text-center w-20 h-20">Very Satisfied</div>                    
-</div> 
+                </div> 
             <div class="flex justify-center  m-auto">
                 <input type="text" value="5" id="rateScore" name="rateScore" class="hidden">
 

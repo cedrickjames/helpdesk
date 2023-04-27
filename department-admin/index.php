@@ -97,7 +97,8 @@
         $_SESSION['totalRating'] = "";
         $_SESSION['ratingRemarks'] = "";
         $_SESSION['ratedDate'] = "";
-        
+        $_SESSION['headsDate']= "";
+        $_SESSION['adminsDate']= "";
         
         
         
@@ -113,6 +114,8 @@
            $_SESSION['details']= $_POST['pdetails'] ;
            $_SESSION['headsRemarks']= $_POST['pheadsRemarks'] ;
            $_SESSION['adminsRemarks']= $_POST['padminsRemarks'] ;
+           $_SESSION['headsDate']= $_POST['pheadsDate'] ;
+           $_SESSION['adminsDate']= $_POST['padminsDate'] ;
            $_SESSION['assignedPersonnel']= $_POST['passignedPersonnel'] ;
            $_SESSION['section']= $_POST['psection'] ;
            $_SESSION['firstAction']= $_POST['pfirstAction'] ;
@@ -756,6 +759,8 @@
                     data-action3date="<?php echo $row['action3Date'] ?>" 
                     data-headremarks="<?php echo $row['head_remarks']; ?>" 
                     data-adminremarks="<?php echo $row['admin_remarks']; ?>" 
+                    data-headdate="<?php echo $row['head_approval_date']; ?>" 
+                    data-admindate="<?php echo $row['admin_approved_date']; ?>"
                     data-department="<?php echo $row['department'] ?>" 
                     data-status="<?php echo $row['status2'] ?>" 
                     data-action1="<?php echo $row['action1'] ?>" 
@@ -868,6 +873,8 @@
                     data-action3date="<?php echo $row['action3Date'] ?>" 
                     data-headremarks="<?php echo $row['head_remarks']; ?>" 
                     data-adminremarks="<?php echo $row['admin_remarks']; ?>" 
+                    data-headdate="<?php echo $row['head_approval_date']; ?>" 
+                    data-admindate="<?php echo $row['admin_approved_date']; ?>"
                     data-department="<?php echo $row['department'] ?>" 
                     data-status="<?php echo $row['status2'] ?>" 
                     data-action1="<?php echo $row['action1'] ?>" 
@@ -996,6 +1003,8 @@
                     data-action3date="<?php echo $row['action3Date'] ?>" 
                     data-headremarks="<?php echo $row['head_remarks']; ?>" 
                     data-adminremarks="<?php echo $row['admin_remarks']; ?>" 
+                    data-headdate="<?php echo $row['head_approval_date']; ?>" 
+                    data-admindate="<?php echo $row['admin_approved_date']; ?>"
                     data-department="<?php echo $row['department'] ?>" 
                     data-status="<?php echo $row['status2'] ?>" 
                     data-action1="<?php echo $row['action1'] ?>" 
@@ -1140,6 +1149,8 @@
             <input type="text" id="pdetails" name="pdetails" class="hidden">
             <input type="text" id="pheadsRemarks" name="pheadsRemarks" class="hidden">
             <input type="text" id="padminsRemarks" name="padminsRemarks" class="hidden">
+            <input type="text" id="pheadsDate" name="pheadsDate" class="hidden">
+            <input type="text" id="padminsDate" name="padminsDate" class="hidden">
             <input type="text" id="passignedPersonnel2" name="passignedPersonnel" class="hidden">
             <input type="text" id="psection" name="psection" class="hidden">
             <input type="text" id="pfirstAction" name="pfirstAction" class="hidden">
@@ -1267,13 +1278,12 @@
                 </div>
                 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
 
-                <div class="w-full grid gap-4 grid-col-1">
+                <div id="headRemarksDiv" class="w-full grid gap-4 grid-col-1">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Head Remarks: </span><span id="headremarks"></span></h2>
                 </div>
-                <div id="adminremarksDiv" class="hidden w-full grid gap-4 grid-col-1">
+                <div id="adminRemarksDiv" class="w-full grid gap-4 grid-col-1">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Admin Remarks: </span><span id="adminremarks"></span></h2>
                 </div>
-
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
         <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Request Details</label>
                 <textarea disabled id="message" name="message" rows="2" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" > </textarea>
@@ -1299,7 +1309,7 @@
                 <div id="remarksDiv">
                 <hr class="h-px  bg-gray-200 border-0 dark:bg-gray-700">
                 <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Remarks</label>
-                <textarea id="remarks" name="remarks" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave  remarks..."> </textarea>
+                <textarea id="remarks" name="remarks" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave  remarks..."></textarea>
                 </div>
                 <div id="ratingstar" class="hidden w-full grid grid-cols-12">
                         <h2 class="col-span-2 font-semibold text-gray-900 dark:text-gray-900"><span
@@ -1449,6 +1459,34 @@ const optionsModal = {
 const modal = new Modal($targetElModal, optionsModal);
 
 function modalShow(element){
+
+    $headRemarksVar = element.getAttribute("data-headremarks");
+    $adminRemarksVar = element.getAttribute("data-adminremarks");
+
+    if($headRemarksVar == ""){
+        $("#headRemarksDiv").addClass("hidden");
+    }
+    else{
+        $("#headRemarksDiv").removeClass("hidden");
+
+    }
+    if($adminRemarksVar == ""){
+        $("#adminRemarksDiv").addClass("hidden");
+
+    }
+    else{
+        $("#adminRemarksDiv").removeClass("hidden");
+
+    }
+    if($adminRemarksVar == "" && $headRemarksVar == ""){
+        $("#remarkshr").addClass("hidden");
+
+    }
+    else{
+        $("#remarkshr").removeClass("hidden");
+    }
+
+
     document.getElementById("joid2").value =element.getAttribute("data-joid");
     document.getElementById("jonumber").innerHTML =element.getAttribute("data-joidprint");
     document.getElementById("headremarks").innerHTML =element.getAttribute("data-headremarks");
@@ -1506,6 +1544,8 @@ const dateEnd = new Date(element.getAttribute("data-end")); // Get the current d
 const optionsEnd = { year: 'numeric', month: 'long', day: 'numeric' }; // Specify the format options
 const formattedDateEnd = dateEnd.toLocaleDateString('en-US', optionsEnd); // Format the date
 
+document.getElementById("pheadsDate").value = element.getAttribute("data-headdate");
+document.getElementById("padminsDate").value = element.getAttribute("data-admindate");
 document.getElementById("prequestedSchedule").value = formattedDateStart + " to " +formattedDateEnd;
 document.getElementById("ptype").value = element.getAttribute("data-category");
 document.getElementById("ppcNumber").value = element.getAttribute("data-comname");

@@ -317,7 +317,7 @@ else
             <!-- <option value="na" data-val="na"></option> -->
             <option value="Facilities" data-val="fem">Facilities</option>
             <option value="Electrical" data-val="fem">Electrical</option>
-            <option value="Civil_Mechanical" data-val="fem">Civil / Mechanical</option>
+            <option value="Mechanical" data-val="fem">Mechanical</option>
             <option value="Compliance" data-val="fem">Compliance</option>
             <option value="Relayout" data-val="fem">Relayout</option>
             <option value="Quotation" data-val="fem">Quotation</option>

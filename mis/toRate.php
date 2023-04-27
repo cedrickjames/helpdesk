@@ -4,27 +4,7 @@
 $user_dept = $_SESSION['department'];
 $user_level=$_SESSION['level'];
 $user_name = $_SESSION['username'];
-if(isset($_POST['approveRequest'])){
-  $requestID = $_POST['requestID'];
-  $remarks = $_POST['remarks'];
-  $date = date("ym-dH-is");
-  $username = $_SESSION['name'];
-  $sql = "UPDATE `request` SET `status`='For Admin Approval',`status2`='For Admin Approval',`approving_head`='$username',`head_approved_date`='$date',`head_remarks`='$remarks' WHERE `id` = '$requestID';";
-     $results = mysqli_query($con,$sql);
 
-  }
-
-
-
-  if(isset($_POST['dissapproveRequest'])){
-    $requestID = $_POST['requestID'];
-    $remarks = $_POST['remarks'];
-    $date = date("ym-dH-is");
-    $username = $_SESSION['name'];
-    $sql = "UPDATE `request` SET `status`='Disapproved by $username',`status2`='Disapproved by head',`approving_head`='$username',`head_approved_date`='$date',`head_remarks`='$remarks' WHERE `id` = '$requestID';";
-       $results = mysqli_query($con,$sql);
-  
-    }
 ?>
 <section class="mt-10">
 <table id="toRateTable" class="display" style="width:100%">
@@ -67,6 +47,8 @@ if(isset($_POST['approveRequest'])){
                     data-action2date="<?php echo $row['action2Date'] ?>" 
                     data-action3date="<?php echo $row['action3Date'] ?>" 
                     data-headremarks="<?php echo $row['head_remarks']; ?>" 
+                    data-headdate="<?php echo $row['head_approval_date']; ?>" 
+                    data-admindate="<?php echo $row['admin_approved_date']; ?>" 
                     data-adminremarks="<?php echo $row['admin_remarks']; ?>" 
                     data-department="<?php echo $row['department'] ?>" 
                     data-status="<?php echo $row['status2'] ?>" 

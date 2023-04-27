@@ -9,7 +9,7 @@ if(isset($_POST['approveRequest'])){
   $remarks = $_POST['remarks'];
   $date = date("ym-dH-is");
   $username = $_SESSION['name'];
-  $sql = "UPDATE `request` SET `status`='For Admin Approval',`status2`='For Admin Approval',`approving_head`='$username',`head_approved_date`='$date',`head_remarks`='$remarks' WHERE `id` = '$requestID';";
+  $sql = "UPDATE `request` SET `status2`='For Admin Approval',`approving_head`='$username',`head_approved_date`='$date',`head_remarks`='$remarks' WHERE `id` = '$requestID';";
      $results = mysqli_query($con,$sql);
 
   }
@@ -21,7 +21,7 @@ if(isset($_POST['approveRequest'])){
     $remarks = $_POST['remarks'];
     $date = date("ym-dH-is");
     $username = $_SESSION['name'];
-    $sql = "UPDATE `request` SET `status`='Disapproved by $username',`status2`='Disapproved by head',`approving_head`='$username',`head_approved_date`='$date',`head_remarks`='$remarks' WHERE `id` = '$requestID';";
+    $sql = "UPDATE `request` SET `status2`='Disapproved by head',`approving_head`='$username',`head_approved_date`='$date',`head_remarks`='$remarks' WHERE `id` = '$requestID';";
        $results = mysqli_query($con,$sql);
   
     }

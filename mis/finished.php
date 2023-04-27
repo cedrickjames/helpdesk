@@ -6,27 +6,7 @@ $user_level=$_SESSION['level'];
 $username=$_SESSION['username'];
 
 
-if(isset($_POST['approveRequest'])){
-  $requestID = $_POST['requestID'];
-  $remarks = $_POST['remarks'];
-  $date = date("ym-dH-is");
-  $username = $_SESSION['name'];
-  $sql = "UPDATE `request` SET `status`='For Admin Approval',`status2`='For Admin Approval',`approving_head`='$username',`head_approved_date`='$date',`head_remarks`='$remarks' WHERE `id` = '$requestID';";
-     $results = mysqli_query($con,$sql);
 
-  }
-
-
-
-  if(isset($_POST['dissapproveRequest'])){
-    $requestID = $_POST['requestID'];
-    $remarks = $_POST['remarks'];
-    $date = date("ym-dH-is");
-    $username = $_SESSION['name'];
-    $sql = "UPDATE `request` SET `status`='Disapproved by $username',`status2`='Disapproved by head',`approving_head`='$username',`head_approved_date`='$date',`head_remarks`='$remarks' WHERE `id` = '$requestID';";
-       $results = mysqli_query($con,$sql);
-  
-    }
 ?>
 <section class="mt-10">
 <table id="employeeTable" class="display" style="width:100%">
@@ -48,7 +28,7 @@ if(isset($_POST['approveRequest'])){
                 $a=1;
 
                  
-                $sql="select * from `request` WHERE  `status2` = 'rated' and `assignedPersonnel` = '$misusername' order by id asc  ";
+                $sql="select * from `request` WHERE  (`status2` = 'rated' OR `status2` = 'Done') and `assignedPersonnel` = '$misusername' order by id asc  ";
                 $result = mysqli_query($con,$sql);
 
 

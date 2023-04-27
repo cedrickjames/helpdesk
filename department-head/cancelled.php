@@ -4,27 +4,7 @@
 $user_dept = $_SESSION['department'];
 $user_level=$_SESSION['level'];
 
-if(isset($_POST['approveRequest'])){
-  $requestID = $_POST['requestID'];
-  $remarks = $_POST['remarks'];
-  $date = date("ym-dH-is");
-  $username = $_SESSION['name'];
-  $sql = "UPDATE `request` SET `status`='For Admin Approval',`status2`='For Admin Approval',`approving_head`='$username',`head_approved_date`='$date',`head_remarks`='$remarks' WHERE `id` = '$requestID';";
-     $results = mysqli_query($con,$sql);
 
-  }
-
-
-
-  if(isset($_POST['dissapproveRequest'])){
-    $requestID = $_POST['requestID'];
-    $remarks = $_POST['remarks'];
-    $date = date("ym-dH-is");
-    $username = $_SESSION['name'];
-    $sql = "UPDATE `request` SET `status`='Disapproved by $username',`status2`='Disapproved by head',`approving_head`='$username',`head_approved_date`='$date',`head_remarks`='$remarks' WHERE `id` = '$requestID';";
-       $results = mysqli_query($con,$sql);
-  
-    }
 ?>
 <section class="mt-10">
 <table id="adminApprovalTable" class="display" style="width:100%">

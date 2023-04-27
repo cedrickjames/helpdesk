@@ -266,14 +266,6 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
     }
 
 
-    if(isset($_POST['cancelJO'])){
-        $joid = $_POST['joid2'];
-        $reasonCancel = $_POST['reasonCancel'];
-        $sql = "UPDATE `request` SET `status`='cancelled', `reasonOfCancellation`='$reasonCancel' WHERE `id` = '$joid';";
-        $results = mysqli_query($con,$sql);
-        
-        
-        }
 ?>
 
 

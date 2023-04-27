@@ -85,7 +85,8 @@
    $_SESSION['ratingRemarks'] = "";
    $_SESSION['ratedDate'] = "";
    
-   
+   $_SESSION['headsDate']= "";
+      $_SESSION['adminsDate']= "";
    
    
    if(isset($_POST['print'])){
@@ -100,6 +101,8 @@
       $_SESSION['details']= $_POST['pdetails'] ;
       $_SESSION['headsRemarks']= $_POST['pheadsRemarks'] ;
       $_SESSION['adminsRemarks']= $_POST['padminsRemarks'] ;
+      $_SESSION['headsDate']= $_POST['pheadsDate'] ;
+      $_SESSION['adminsDate']= $_POST['padminsDate'] ;
       $_SESSION['assignedPersonnel']= $_POST['passignedPersonnel'] ;
       $_SESSION['section']= $_POST['psection'] ;
       $_SESSION['firstAction']= $_POST['pfirstAction'] ;
@@ -201,7 +204,7 @@
             $action = str_replace("'", "&apos;", $action);
             $recommendation = str_replace("'", "&apos;", $recommendation);
 
-            $sql = "UPDATE `request` SET `status`='Done',`status2`='Done',`actual_finish_date`='$date',`action`='$action', `recommendation`='$recommendation' WHERE `id` = '$requestID';";
+            $sql = "UPDATE `request` SET `status2`='Done',`actual_finish_date`='$date',`action`='$action', `recommendation`='$recommendation' WHERE `id` = '$requestID';";
                $results = mysqli_query($con,$sql);
   
                if($results){
@@ -714,6 +717,8 @@
                         data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" 
                         data-headremarks="<?php echo $row['head_remarks']; ?>" 
                         data-adminremarks="<?php echo $row['admin_remarks'];?>" 
+                        data-headdate="<?php echo $row['head_approval_date']; ?>" 
+                    data-admindate="<?php echo $row['admin_approved_date']; ?>" 
                         data-joid="<?php echo $row['id']; ?>"
                         data-requestoremail="<?php echo $row['email']; ?>" 
                         data-department="<?php echo $row['department'] ?>" 
@@ -824,6 +829,8 @@
                         data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" 
                         data-headremarks="<?php echo $row['head_remarks']; ?>" 
                         data-adminremarks="<?php echo $row['admin_remarks'];?>" 
+                        data-headdate="<?php echo $row['head_approval_date']; ?>" 
+                    data-admindate="<?php echo $row['admin_approved_date']; ?>" 
                         data-joid="<?php echo $row['id']; ?>"
                         data-requestoremail="<?php echo $row['email']; ?>" 
                         data-department="<?php echo $row['department'] ?>" 
@@ -933,6 +940,8 @@
                     data-action3date="<?php echo $row['action3Date'] ?>" 
                     data-headremarks="<?php echo $row['head_remarks']; ?>" 
                     data-adminremarks="<?php echo $row['admin_remarks']; ?>" 
+                    data-headdate="<?php echo $row['head_approval_date']; ?>" 
+                    data-admindate="<?php echo $row['admin_approved_date']; ?>" 
                     data-department="<?php echo $row['department'] ?>" 
                     data-requestoremail="<?php echo $row['email']; ?>" 
                     data-status="<?php echo $row['status2'] ?>" 
@@ -1063,6 +1072,8 @@
             <input type="text" id="pdetails" name="pdetails" class="hidden">
             <input type="text" id="pheadsRemarks" name="pheadsRemarks" class="hidden">
             <input type="text" id="padminsRemarks" name="padminsRemarks" class="hidden">
+            <input type="text" id="pheadsDate" name="pheadsDate" class="hidden">
+            <input type="text" id="padminsDate" name="padminsDate" class="hidden">
             <input type="text" id="passignedPersonnel2" name="passignedPersonnel" class="hidden">
             <input type="text" id="psection" name="psection" class="hidden">
             <input type="text" id="pfirstAction" name="pfirstAction" class="hidden">
@@ -1449,6 +1460,10 @@ document.getElementById("ppcNumber").value = element.getAttribute("data-comname"
 document.getElementById("pdetails").value = element.getAttribute("data-details");
 document.getElementById("pheadsRemarks").value = element.getAttribute("data-headremarks");
 document.getElementById("padminsRemarks").value = element.getAttribute("data-adminremarks");
+
+document.getElementById("pheadsDate").value = element.getAttribute("data-headdate");
+document.getElementById("padminsDate").value = element.getAttribute("data-admindate");
+
 document.getElementById("passignedPersonnel2").value = element.getAttribute("data-assignedpersonnel");
 document.getElementById("psection").value = element.getAttribute("data-section");
 document.getElementById("pfirstAction").value = element.getAttribute("data-action1");

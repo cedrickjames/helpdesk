@@ -192,7 +192,7 @@ if(isset($_POST['submit'])){
       <footer class="w-full bg-white m-4">
 
 <!-- <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" /> -->
-<span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">  <a href="https://flowbite.com/" class="hover:underline">Developed and designed By</a> Cedrick James - MIS Section</span>
+<span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">  <a href="https://flowbite.com/" class="hover:underline">Designed By</a> Cedrick James - MIS Section</span>
 </div>
 </footer>
     </div>
