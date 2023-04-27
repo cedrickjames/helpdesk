@@ -160,7 +160,7 @@
              
             $date = date("Y-m-d");
             $username = $_SESSION['name'];
-            $sql = "UPDATE `request` SET `status`='For Admin approval',`status2`='inprogress',`admin_approved_date`='$date',`admin_remarks`='$remarks',`assignedPersonnel`='$assigned',`assignedPersonnelName`='$perseonnelName' WHERE `id` = '$requestID';";
+            $sql = "UPDATE `request` SET `status2`='inprogress',`admin_approved_date`='$date',`admin_remarks`='$remarks',`assignedPersonnel`='$assigned',`assignedPersonnelName`='$perseonnelName' WHERE `id` = '$requestID';";
                $results = mysqli_query($con,$sql);
 
                if($results){
