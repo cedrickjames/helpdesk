@@ -10,6 +10,9 @@ include ("includes/connect.php");
 
     $section = $_SESSION['level'];
 
+    if($section == "admin"){
+        $section =$_SESSION['adminsection'];
+    }
     $firstdate = date('d', strtotime("first day of $year-$month"));
     $lastDateOfMonth = date('d', strtotime("last day of $year-$month"));
   

@@ -89,7 +89,7 @@ else
                         $newFileName = $jono .'.'. $fileName . '.' . $fileExtension;
                     
                         // check if file has one of the following extensions
-                        $allowedfileExtensions = array('jpg', 'gif', 'png', 'zip', 'txt', 'xls', 'doc' , 'pdf');
+                        $allowedfileExtensions = array('jpg', 'gif', 'png', 'zip', 'txt', 'xls', 'doc' , 'pdf','csv','xlsx');
                     
                         if (in_array($fileExtension, $allowedfileExtensions))
                         {
@@ -99,22 +99,22 @@ else
                     
                             if(move_uploaded_file($fileTmpPath,$dest_path)) 
                             {
-                            $message ='File is successfully uploaded.';
+                            $messageUpload ='File is successfully uploaded.';
                             }
                             else 
                             {
-                            $message = 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
+                            $messageUpload = 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
                             }
                         }
                         else
                         {
-                            $message = 'Upload failed. Allowed file types: ' . implode(',', $allowedfileExtensions);
+                            $messageUpload = 'Upload failed. Allowed file types: ' . implode(',', $allowedfileExtensions);
                         }
                         }
                         else
                         {
-                        $message = 'There is some error in the file upload. Please check the following error.<br>';
-                        $message .= 'Error:' . $_FILES['uploadedFile']['error'];
+                        $messageUpload = 'There is some error in the file upload. Please check the following error.<br>';
+                        $messageUpload .= 'Error:' . $_FILES['uploadedFile']['error'];
                         }
                             
                     }
@@ -199,7 +199,7 @@ else
             
                     $mail->send();
                     $_SESSION['message'] = 'Message has been sent';
-                    echo "<script>alert('Thank you for approving. This request is now sent to your administrator.') </script>";
+                    echo "<script>alert('Thank you for approving. This request is now sent to your administrator. $messageUpload') </script>";
                     echo "<script> location.href='index.php'; </script>";
 
                         // header("location: form.php");
@@ -399,7 +399,7 @@ else
 
 </div>
 <div class="mb-2">
-<label class="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300" for="uploadedFile">Upload file</label>
+<label class="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300" for="uploadedFile">Upload file <span class="text-xs">(jpg, png, zip, txt, xls, doc , pdf, csv, xlsx)</span></label>
 <input  name="uploadedFile" value="upload" class="block w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="uploadedFile" type="file" >
 
 </div>
@@ -552,29 +552,29 @@ else
 
             const asf = new Date(chosendate);
             var type = document.getElementById("type").value;
-            if(type == "Relayout"){
-                asf.setDate(asf.getDate() + 2);
-                if (asf.getDay() === 0) {
-                asf.setDate(asf.getDate() + 1);
+            if (type === "Relayout") {
+            asf.setDate(asf.getDate() + 4);
+            } else {
+            asf.setDate(asf.getDate() + 2);
             }
+            const year = asf.getFullYear();
+            const month = (asf.getMonth() + 1).toString().padStart(2, "0");
+            const day = asf.getDate().toString().padStart(2, "0");
 
-            }
-            else{
-                asf.setDate(asf.getDate() + 1);
-
-            }
+            console.log(`${year}-${month}-${day}`);
 
             if (asf.getDay() === 0) {
                 asf.setDate(asf.getDate() + 1);
             }
-            var setdate = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate().toString().padStart(2, '0');
+
+            var setdate = `${year}-${month}-${day}`;
             document.getElementById("datefinish").value = setdate;
 
-            setdate2 = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate().toString().padStart(2, '0');
+            setdate2 = `${year}-${month}-${day}`;
             console.log(setdate)
 
         } else {
-            alert("Sorry your request date is not accepted!")
+            alert("Sorry your requested date is not accepted!")
 
             const z = new Date();
             var monthNumber = (new Date().getMonth() + 1).toString().padStart(2, '0');

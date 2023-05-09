@@ -388,7 +388,7 @@ if(isset($_POST['addPMSAction'])){
               </td>
               <td >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
-                    <button type="button" id="viewdetails"   onclick="modalShow(this)"  <?php if($row['action']=="") {echo "disabled" ;}?>
+                    <button type="button" id="viewdetails"   onclick="modalShow(this)"  <?php if($row['action']=="" ) {echo "disabled" ;}?>
                     data-deviceid="<?php echo $row['id'];?>" 
                     data-email="<?php echo $row['email'];?>" 
                     data-user="<?php echo $row['user'];?>" 

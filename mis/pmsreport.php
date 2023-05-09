@@ -199,7 +199,7 @@ padding-top: 0px;
         $html.='<table style="bottom: 35px; position: absolute;">
 <tr>
 <td class="first"><span class="label">Prepared by: </span></td>
-<td class="second"> <span class="child">Cedrick James Orozo</span></td>
+<td class="second"> <span class="child">'.$_SESSION['name'].'</span></td>
 <td class="third"><span class="label">Checked by: </span></td>
 <td><span class="child">Jonathan Nemedez</span></td>
 </tr>

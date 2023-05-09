@@ -619,6 +619,9 @@ if(isset($_POST['rateJo'])){
                                         id="finalRatings"></span> out of 5</p>
                             </div>
                         </div>
+                        <div id="comments" class="grid col-span-10">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Comments: </span><span id="userComments"></span></h2>
+                </div>
                     </div>
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Request Details</label>
@@ -863,6 +866,7 @@ document.getElementById("pdelivery").value = element.getAttribute("data-delivery
 document.getElementById("pquality").value = element.getAttribute("data-quality");
 document.getElementById("ptotalRating").value = element.getAttribute("data-ratings");
 document.getElementById("pratingRemarks").value = element.getAttribute("data-requestorremarks");
+document.getElementById("userComments").innerHTML = element.getAttribute("data-requestorremarks");
 document.getElementById("pratedDate").value = element.getAttribute("data-daterate");
 
 

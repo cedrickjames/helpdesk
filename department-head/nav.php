@@ -66,13 +66,22 @@ while($field=mysqli_fetch_assoc($resultLevel))
         <?php
     
     $first_two_letters = substr($username, 0, 2); 
-    if($first_two_letters !="GP")
+    if($first_two_letters !="GP" && $username != "lem")
     {
      ?>  <div class="w-10 h-10 rounded-full  ">
          <div class="rounded-full h-full w-full" style="background-color: #C5957F; background-size: cover; background-image: url('../src/Photo/default.png')"></div>
  
          </div>
      <?php
+    }
+    else if($username == "lem"){
+      ?>
+               <div class="w-10 h-10 rounded-full  "  style="background-color: #C5957F;padding-top: 5px;
+    padding-right: 10px;">
+        <div class="rounded-full h-full w-full mr-5"style="background-color: #C5957F;width: 125%; background-size: cover; background-image: url('../src/Photo/<?php echo $username;?>.png')"></div>
+
+        </div>
+    <?php
     }
     else{
     ?>
@@ -169,13 +178,22 @@ while($field=mysqli_fetch_assoc($resultLevel))
     <?php
     
     $first_two_letters = substr($username, 0, 2); 
-    if($first_two_letters !="GP")
+    if($first_two_letters !="GP" && $username != "lem")
     {
      ?>   <div class=" absolute -left-6 w-24 h-24 rounded-full shadow-lg"  >
      
    <div class="rounded-full h-full w-full  mr-10" id="picture" style="background-color: #C5957F; background-size: cover; background-image: url('../src/Photo/default.png')"></div>
    </div>
      <?php
+    }
+   else if($username == "lem"){
+      ?>
+      <div class=" absolute -left-6 w-24 h-24 rounded-full shadow-lg"  style="padding-top: 10px;
+   padding-right: 20px; background-color: #C5957F;" >
+   
+ <div class="rounded-full h-full w-full  mr-10" id="picture" style="background-color: #C5957F;width: 125%; background-size: cover; background-image: url('../src/Photo/<?php echo $username; ?>.png')"></div>
+ </div>
+   <?php
     }
     else{
     ?>

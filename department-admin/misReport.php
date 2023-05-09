@@ -5,7 +5,12 @@ $user_dept = $_SESSION['department'];
 $user_level=$_SESSION['level'];
 $username=$_SESSION['username'];
 
+$filter = $_SESSION['filtered'];
+if($filter!=""){
+$fromDate = $_SESSION['fromDate'];
+$toDate = $_SESSION['toDate'];
 
+}
 if(isset($_POST['approveRequest'])){
   $requestID = $_POST['requestID'];
   $remarks = $_POST['remarks'];
@@ -46,10 +51,17 @@ if(isset($_POST['approveRequest'])){
         <tbody>
               <?php
                 $a=1;
+if($filter ==""){
+  $sql="SELECT user.username, user.name, COUNT(request.rating_final) as numberOfJO, SUM(request.rating_final) as TotalofRates, ROUND((SUM(request.rating_final))/(COUNT(request.rating_final)), 1) as totalRating FROM user INNER JOIN request ON user.username = request.assignedPersonnel WHERE user.level = 'mis'  AND request.status2 = 'rated'  GROUP BY user.username, request.assignedPersonnelName;";
+  $result = mysqli_query($con,$sql);
 
-                  $sql="SELECT user.username, user.name, COUNT(request.rating_final) as numberOfJO, SUM(request.rating_final) as TotalofRates, ROUND((SUM(request.rating_final))/(COUNT(request.rating_final)), 1) as totalRating FROM user INNER JOIN request ON user.username = request.assignedPersonnel WHERE user.level = 'mis'  AND request.status2 = 'rated' GROUP BY user.username, request.assignedPersonnelName;";
-                  $result = mysqli_query($con,$sql);
+}
+else{
+  $sql="SELECT user.username, user.name, COUNT(request.rating_final) as numberOfJO, SUM(request.rating_final) as TotalofRates, ROUND((SUM(request.rating_final))/(COUNT(request.rating_final)), 1) as totalRating FROM user INNER JOIN request ON user.username = request.assignedPersonnel WHERE user.level = 'mis'  AND request.status2 = 'rated' AND request.admin_approved_date BETWEEN '$fromDate' AND '$toDate' GROUP BY user.username, request.assignedPersonnelName;";
+  $result = mysqli_query($con,$sql);
 
+}
+                 
                 while($row=mysqli_fetch_assoc($result)){
                   ?>
               <tr class="">

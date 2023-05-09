@@ -38,7 +38,7 @@ if(isset($_POST['submit'])){
 
       $_SESSION['selectedMonth'] = $month;
   $_SESSION['selectedYear'] = $year;
-
+  $_SESSION['filtered'] = "";
 
 
       if($level =='user'){

@@ -105,6 +105,11 @@ $_SESSION['ratedDate'] = "";
 
 
 
+if(isset($_POST['filterRatingsDate'])){
+    $_SESSION['filtered'] = "true";
+    $_SESSION['fromDate'] = $_POST['fromDate'];
+    $_SESSION['toDate'] =  $_POST['toDate'] ;
+}
 if(isset($_POST['print'])){
    $_SESSION['jobOrderNo']= $_POST['pjobOrderNo'] ;
    $_SESSION['status']= $_POST['pstatus'] ;
@@ -448,7 +453,33 @@ if(isset($_POST['rateJo'])){
 
 
 </div> -->
-<div id="myTabContent">
+<div class="mt-10">
+  
+<form method = "POST">
+<div class="flex items-center">
+            <div class="relative w-5/12">
+                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                </div>
+                <input  id="fromDate" name="fromDate" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input" placeholder="Request date start"  required>
+            </div>
+            <span class="mx-1 text-gray-500">to</span>
+            <div class="relative w-5/12">
+                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                </div>
+                <input id="toDate" name="toDate" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input" placeholder="Request date finish"  required>
+            </div>
+            <div class="relative w-2/12 p-2">
+            <button type="submit" name="filterRatingsDate"class="w-full h-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Filter</button>
+            </div>
+            </div>
+
+
+</form>
+
+</div>
+<div id="myTabContent" class="mt-10">
     <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="headApproval" role="tabpanel" aria-labelledby="profile-tab">
     <?php include 'misReport.php';?>   
 

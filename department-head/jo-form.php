@@ -91,7 +91,7 @@ else
                         $newFileName = $jono .'.'. $fileName . '.' . $fileExtension;
                     
                         // check if file has one of the following extensions
-                        $allowedfileExtensions = array('jpg', 'gif', 'png', 'zip', 'txt', 'xls', 'doc' , 'pdf');
+                        $allowedfileExtensions = array('jpg', 'gif', 'png', 'zip', 'txt', 'xls', 'doc' , 'pdf','csv','xlsx');
                     
                         if (in_array($fileExtension, $allowedfileExtensions))
                         {
@@ -101,27 +101,28 @@ else
                     
                             if(move_uploaded_file($fileTmpPath,$dest_path)) 
                             {
-                            $message ='File is successfully uploaded.';
+                            $messageUpload ='File is successfully uploaded.';
                             }
                             else 
                             {
-                            $message = 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
+                            $messageUpload = 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
                             }
                         }
                         else
                         {
-                            $message = 'Upload failed. Allowed file types: ' . implode(',', $allowedfileExtensions);
+                            $messageUpload = 'Upload failed. Allowed file types: ' . implode(',', $allowedfileExtensions);
                         }
                         }
                         else
                         {
-                        $message = 'There is some error in the file upload. Please check the following error.<br>';
-                        $message .= 'Error:' . $_FILES['uploadedFile']['error'];
+                        $messageUpload = 'There is some error in the file upload. Please check the following error.<br>';
+                        $messageUpload .= 'Error:' . $_FILES['uploadedFile']['error'];
                         }
                             
                     }
                     else {
-                        $dest_path == "";
+                        $dest_path = "";
+                        $messageUpload = "";
                     }
 
 
@@ -201,7 +202,7 @@ else
             
                     $mail->send();
                     $_SESSION['message'] = 'Message has been sent';
-                    echo "<script>alert('Thank you for approving. This request is now sent to your administrator.') </script>";
+                    echo "<script>alert('Thank you for approving. This request is now sent to your administrator. $messageUpload') </script>";
                     echo "<script> location.href='index.php'; </script>";
 
                         // header("location: form.php");
@@ -290,12 +291,22 @@ else
 <!-- main -->
 
 
-
+<div id="loading-message">
+    <div role="status" class="self-center flex">
+    <svg aria-hidden="true" class="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+    </svg>
+    <span class="">Loading...</span>
+    <!-- <p class="inset-y-1/2 absolute">Loading...</p> -->
+</div>
+  
+</div>
 
 
 <div class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
   
-<form class="px-40" method="POST" accept-charset="utf-8" enctype="multipart/form-data">
+<form class="px-40" method="POST" accept-charset="utf-8" enctype="multipart/form-data" onsubmit="$('#loading-message').css('display', 'flex'); $('#loading-message').show();">
     <div class=" grid gap-6 mb-6 md:grid-cols-2">
 
 
@@ -401,7 +412,7 @@ else
 
 </div>
 <div class="mb-2">
-<label class="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300" for="uploadedFile">Upload file</label>
+<label class="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300" for="uploadedFile">Upload file <span class="text-xs">(jpg, png, zip, txt, xls, doc , pdf, csv, xlsx)</span></label>
 <input  name="uploadedFile" value="upload" class="block w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="uploadedFile" type="file" >
 
 </div>
@@ -419,7 +430,7 @@ else
 
 
 <div class="flex items-center mb-4">
-    <input required id="link-checkbox" type="checkbox" value="True" name="terms" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" >
+    <input required id="link-checkbox" type="checkbox" data-modal-target="terms" data-modal-toggle="terms" value="True" name="terms" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" >
     <label for="link-checkbox" class="ml-2 text-lg font-medium text-gray-900 dark:text-gray-300">I agree and understand the <a href="#"  data-modal-target="terms" data-modal-toggle="terms" class="text-blue-600 dark:text-blue-500 hover:underline">terms and conditions.</a></label>
 </div>
 
@@ -460,7 +471,7 @@ else
                 1. First come first serve base on the approved Job Order request.
                 </p>
                 <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                1. 2. For the relayout must be attached the approve layout plan and request must be file in advance minimum of 3 days including approval time.
+                2. For the relayout must be attached the approve layout plan and request must be file in advance minimum of 3 days including approval time.
                 </p>
                 
             </div>
@@ -473,7 +484,41 @@ else
     </div>
 </div>
   
-
+<div id="emailrules" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+    <div class="relative w-full h-full max-w-2xl md:h-auto">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Rules for requesting email.
+                </h3>
+                <button type="button"  onclick="modalHide()"  class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-6 space-y-6">
+                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+               When requesting an email, you should indicate the following.
+                </p>
+                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                1. Complete name of the user. 
+                </p>
+                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                2. Purpose of using the email. Make sure it is valid and detailed.
+                </p>
+                
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+              
+                <button  onclick="modalHide()" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
  
 
 
@@ -494,7 +539,41 @@ else
 
 <script>
   
+  const $targetElModal = document.getElementById('emailrules');
 
+// options with default values
+const optionsModal = {
+  placement: 'center-center',
+  backdrop: 'dynamic',
+  backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
+  closable: true,
+  onHide: () => {
+      console.log('modal is hidden');
+  },
+  onShow: () => {
+      console.log('modal is shown');
+
+    //   console.log(section);
+  },
+  onToggle: () => {
+      console.log('modal has been toggled');
+
+  }
+};
+const modal = new Modal($targetElModal, optionsModal);
+
+
+
+function modalShow(element){
+
+
+    modal.toggle();
+}
+
+function modalHide(){
+    modal.toggle();
+
+}
     $('#femmis').change(function () {
         var $options = $('#type')
             .val('')
@@ -514,6 +593,9 @@ else
         $("#gridtochange").removeClass("grid-col-1").addClass("grid-cols-2");
         $("#computerdiv").removeClass("hidden");
         $("#computerName").prop("required", true);
+        }
+        else if(this.value == 'Email'){
+            modalShow();
         }
       
         else{
@@ -540,59 +622,60 @@ else
 
     var setdate2;
 
-    function testDate() {
-        var chosendate = document.getElementById("datestart").value;
+function testDate() {
+    var chosendate = document.getElementById("datestart").value;
 
 
-        //  console.log(chosendate)
-        const x = new Date();
-        const y = new Date(chosendate);
+    //  console.log(chosendate)
+    const x = new Date();
+    const y = new Date(chosendate);
 
-        if (x < y) {
-            console.log("Valid");
-            var monthNumber = (new Date().getMonth() + 1).toString().padStart(2, '0');
+    if (x < y) {
+        console.log("Valid");
+        var monthNumber = (new Date().getMonth() + 1).toString().padStart(2, '0');
 
-            const asf = new Date(chosendate);
-            var type = document.getElementById("type").value;
-            if(type == "Relayout"){
-                asf.setDate(asf.getDate() + 2);
-                if (asf.getDay() === 0) {
-                asf.setDate(asf.getDate() + 1);
-            }
-
-            }
-            else{
-                asf.setDate(asf.getDate() + 1);
-
-            }
-
-            if (asf.getDay() === 0) {
-                asf.setDate(asf.getDate() + 1);
-            }
-            var setdate = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate().toString().padStart(2, '0');
-            document.getElementById("datefinish").value = setdate;
-
-            setdate2 = asf.getFullYear() + "-" + monthNumber + "-" + asf.getDate().toString().padStart(2, '0');
-            console.log(setdate)
-
+        const asf = new Date(chosendate);
+        var type = document.getElementById("type").value;
+        if (type === "Relayout") {
+        asf.setDate(asf.getDate() + 4);
         } else {
-            alert("Sorry your request date is not accepted!")
-
-            const z = new Date();
-            var monthNumber = (new Date().getMonth() + 1).toString().padStart(2, '0');
-            z.setDate(z.getDate() + 1);
-            console.log(z);
-            var setdate = z.getFullYear() + "-" + monthNumber + "-" + z.getDate();
-            document.getElementById("datestart").value = setdate;
-            console.log(setdate)
-
-            const asf2 = new Date(setdate);
-            asf2.setDate(asf2.getDate() + 2);
-            setdate2 = asf2.getFullYear() + "-" + monthNumber + "-" + asf2.getDate();
-            document.getElementById("datefinish").value = setdate2;
-
+        asf.setDate(asf.getDate() + 2);
         }
+        const year = asf.getFullYear();
+        const month = (asf.getMonth() + 1).toString().padStart(2, "0");
+        const day = asf.getDate().toString().padStart(2, "0");
+
+        console.log(`${year}-${month}-${day}`);
+
+        if (asf.getDay() === 0) {
+            asf.setDate(asf.getDate() + 1);
+        }
+
+        var setdate = `${year}-${month}-${day}`;
+        document.getElementById("datefinish").value = setdate;
+
+        setdate2 = `${year}-${month}-${day}`;
+        console.log(setdate)
+
+    } else {
+        alert("Sorry your requested date is not accepted!")
+
+        const z = new Date();
+        var monthNumber = (new Date().getMonth() + 1).toString().padStart(2, '0');
+        z.setDate(z.getDate() + 1);
+        console.log(z);
+        var setdate = z.getFullYear() + "-" + monthNumber + "-" + z.getDate();
+        document.getElementById("datestart").value = setdate;
+        console.log(setdate)
+
+        const asf2 = new Date(setdate);
+        asf2.setDate(asf2.getDate() + 2);
+        setdate2 = asf2.getFullYear() + "-" + monthNumber + "-" + asf2.getDate();
+        document.getElementById("datefinish").value = setdate2;
+
     }
+}
+
 
 
     function endDate() {

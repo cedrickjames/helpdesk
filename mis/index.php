@@ -11,8 +11,6 @@
     ini_set( "session.cookie_lifetime", $timeout );
 
     $s_name = session_name();
-    $url1=$_SERVER['REQUEST_URI'];
-    header("Refresh: 500; URL=$url1");
 
     if(isset( $_COOKIE[ $s_name ] )) {
     
@@ -385,7 +383,17 @@
 </head>
     <body   class="static  bg-white dark:bg-gray-900"  >
     <?php require_once 'nav.php';?>
-
+    <div id="loading-message">
+    <div role="status" class="self-center flex">
+    <svg aria-hidden="true" class="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+    </svg>
+    <span class="">Loading...</span>
+    <!-- <p class="inset-y-1/2 absolute">Loading...</p> -->
+</div>
+  
+</div>
 <div id="mainContent"class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
     <div
         class="justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
@@ -398,7 +406,7 @@
             </div>
 
 
-            <div class="m-auto flex flex-col w-2/4">
+            <div class="m-auto flex flex-col w-10/12">
 
                 <div class="mt-0 grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 ">
 
@@ -603,7 +611,7 @@
                             $dateMonth = $date1->format('M');
                             $dateYear = $date1->format('Y');
 
-                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE  (`status2` ='rated' OR `status2` = 'Done')  and `assignedPersonnel` = '$misusername' AND `month`='$dateMonth' AND `year`='$dateYear'";
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE   `status2` = 'Done'  and `assignedPersonnel` = '$misusername' ";
                                         $result = mysqli_query($con, $sql1);
                                         while($count=mysqli_fetch_assoc($result))
                                         {
@@ -611,7 +619,7 @@
                                         if($count["pending"] > 0){
                                             ?>
                                             <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
-                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE (`status2` ='rated' OR `status2` = 'Done')  and `assignedPersonnel` = '$misusername' AND `month`='$dateMonth' AND `year`='$dateYear'";
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE  `status2` = 'Done'  and `assignedPersonnel` = '$misusername' ";
                                                        $result = mysqli_query($con, $sql1);
                                                        while($count=mysqli_fetch_assoc($result))
                                                        {
@@ -867,15 +875,11 @@
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['request_category'];?> 
               </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap truncate" style="max-width: 10px;">
 
-              <?php if($row['request_to'] == "fem"){
-                echo "FEM";}
-                else if($row['request_to'] == "mis"){
-                echo "MIS";
-                }
-                ?> 
-              </td>
+<?php echo $row['assignedPersonnelName'];
+?> 
+</td>
 
 
 
@@ -904,7 +908,7 @@
                             <th>Action</th>
                             <th>Details</th>
                             <th>Requestor</th>
-                            <th>Date Approved</th>
+                            <th>Date Finished</th>
                             <th>Comments</th>
                             <th>Ratings</th>
                         </tr>
@@ -917,7 +921,11 @@
                 $dateYear = $date1->format('Y');
                   $sql="select * from `request` WHERE (`status2` ='rated' OR `status2` = 'Done')  and `assignedPersonnel` = '$misusername' AND `month`='$dateMonth' AND `year`='$dateYear' order by id asc  ";
                   $result = mysqli_query($con,$sql);
-
+                  $count = mysqli_num_rows($result);
+                  if($count==0){
+                    $sql="select * from `request` WHERE `status2` = 'Done' and `assignedPersonnel` = '$misusername' order by id asc  ";
+                  $result = mysqli_query($con,$sql);
+                  }
                 while($row=mysqli_fetch_assoc($result)){
                   ?>
               <tr class="">
@@ -1059,7 +1067,7 @@
     <div class="relative w-full h-full max-w-2xl md:h-auto">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-        <form action="" method="POST">
+        <form action="" method="POST" onsubmit="$('#loading-message').css('display', 'flex'); $('#loading-message').show();">
             <!-- Modal header -->
             <input type="text" id="pjobOrderNo" name="pjobOrderNo" class="hidden">
             <input type="text" id="pstatus" name="pstatus" class="hidden">
@@ -1240,6 +1248,9 @@
                                         id="finalRatings"></span> out of 5</p>
                             </div>
                         </div>
+                        <div id="comments" class="grid col-span-10">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Comments: </span><span id="userComments"></span></h2>
+                </div>
                     </div>
             </div>
             <div id="buttonDiv" class="flex items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -1480,6 +1491,9 @@ document.getElementById("pdelivery").value = element.getAttribute("data-delivery
 document.getElementById("pquality").value = element.getAttribute("data-quality");
 document.getElementById("ptotalRating").value = element.getAttribute("data-ratings");
 document.getElementById("pratingRemarks").value = element.getAttribute("data-requestorremarks");
+
+document.getElementById("userComments").innerHTML = element.getAttribute("data-requestorremarks");
+
 document.getElementById("pratedDate").value = element.getAttribute("data-daterate");
 
 var action1 = element.getAttribute("data-action1");

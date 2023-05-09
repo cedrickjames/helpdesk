@@ -102,6 +102,23 @@
         
         
         
+
+        if(isset($_POST['transferJo'])){
+           $joidtransfer =  $_POST['joidtransfer'];
+           $assigned = $_POST['transferUser'];
+
+            
+
+           $sql1 = "Select * FROM `user` WHERE `username` = '$assigned'";
+           $result = mysqli_query($con, $sql1);
+           while($list=mysqli_fetch_assoc($result))
+           {
+           $personnelEmail=$list["email"];
+           $perseonnelName=$list["name"];
+           }
+           $sql = "UPDATE `request` SET `assignedPersonnel`='$assigned',`assignedPersonnelName`='$perseonnelName' WHERE `id` = '$joidtransfer';";
+           $results = mysqli_query($con,$sql);
+        }
         if(isset($_POST['print'])){
            $_SESSION['jobOrderNo']= $_POST['pjobOrderNo'] ;
            $_SESSION['status']= $_POST['pstatus'] ;
@@ -378,7 +395,17 @@
 </head>
     <body   class="static  bg-white dark:bg-gray-900"  >
     <?php require_once 'nav.php';?>
-
+    <div id="loading-message">
+    <div role="status" class="self-center flex">
+    <svg aria-hidden="true" class="inline w-10 h-10 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/>
+        <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/>
+    </svg>
+    <span class="">Loading...</span>
+    <!-- <p class="inset-y-1/2 absolute">Loading...</p> -->
+</div>
+  
+</div>
 <div id="mainContent" class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
     <div
         class="justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
@@ -888,7 +915,7 @@
                     data-requestor="<?php echo $row['requestor'] ?>"  
                     data-personnel="<?php echo $row['assignedPersonnel'] ?>"
                     data-action="<?php echo $row['action'] ?>" 
-                    data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-joid="<?php echo $row['id']; ?>" data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] === "fem"){  echo "FEM";} else if($row['request_to'] === "mis"){ echo "MIS";  }?> " 
+                    data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-joid="<?php echo $row['id']; ?>" data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] === "fem"){  echo "FEM";} else if($row['request_to'] === "mis"){ echo "MIS";}?>" 
                     data-category="<?php echo $row['request_category']; ?>" 
                     data-telephone="<?php echo $row['telephone']; ?>" 
                     data-attachment="<?php echo $row['attachment']; ?>"  
@@ -1017,7 +1044,7 @@
                     data-personnel="<?php echo $row['assignedPersonnel'] ?>"
                     data-action="<?php echo $row['action'] ?>" 
                     data-requestoremail="<?php echo $row['email']; ?>" 
-                    data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-joid="<?php echo $row['id']; ?>" data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] === "fem"){  echo "FEM";} else if($row['request_to'] === "mis"){ echo "MIS";  }?> " 
+                    data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-joid="<?php echo $row['id']; ?>" data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] === "fem"){  echo "FEM";} else if($row['request_to'] === "mis"){ echo "MIS";}?>" 
                     data-category="<?php echo $row['request_category']; ?>" 
                     data-telephone="<?php echo $row['telephone']; ?>" 
                     data-attachment="<?php echo $row['attachment']; ?>"  
@@ -1136,9 +1163,12 @@
     <div class="relative w-full h-full max-w-2xl md:h-auto">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-        <form action="" method="POST">
+        <form action="" method="POST" onsubmit="$('#loading-message').css('display', 'flex'); $('#loading-message').show();">
             <!-- Modal header -->
+            
             <input type="text" id="pjobOrderNo" name="pjobOrderNo" class="hidden">
+            <input type="text" id="joidtransfer" name="joidtransfer" class="hidden">
+
             <input type="text" id="pstatus" name="pstatus" class="hidden">
             <input type="text" id="prequestor" name="prequestor" class="hidden">
             <input type="text" id="pdepartment" name="pdepartment" class="hidden">
@@ -1172,10 +1202,18 @@
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     Job Order Details
                 </h3>
+                <div class="ml-auto">
+                <button onclick="requireSelect()" id="transferButton" type="button" data-modal-target="transfer" data-modal-toggle="transfer" class=" hidden text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 ">
+  <svg class="w-4 h-4 mr-2 -ml-1 " fill="none"  focusable="false"  stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"></path>
+</svg> Transfer
+</button>
+
                 <button  onclick="modalHide()"type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                     <span class="sr-only">Close modal</span>
                 </button>
+        </div>
             </div>
             <!-- Modal body -->
             <div class=" items-center p-6 space-y-2">
@@ -1406,6 +1444,49 @@
         </div>
     </div>
 </div>
+
+<div id="transfer" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button onclick="unrequireSelect()" type="button" data-modal-toggle="transfer" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" >
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="px-6 py-6 lg:px-8">
+                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Choose Personnel</h3>
+               
+                    <div>
+                    <label for="section" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Personnel</label>
+        
+        <select  id="transferUser" name="transferUser" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        <option selected disabled value="">Choose</option>
+            <?php
+            $sql="select * from `user`";
+                            $result = mysqli_query($con,$sql);
+
+                while($row=mysqli_fetch_assoc($result)){
+                    // $date = new DateTime($row['date_filled']);
+                    ?>
+                     <option data-transfer="<?php echo $row['level'];?>" value="<?php echo $row['username'];?>"><?php echo $row['name'];?></option>;
+                    <?php
+                
+                }
+                
+                ?>
+
+
+        </select>
+
+                    <button type="submit" name="transferJo" class="mt-10 w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                      Transfer
+                    </button>
+              
+            </div>
+        </div>
+    </div>
+</div> 
+
         </form>
             
         </div>
@@ -1488,6 +1569,8 @@ function modalShow(element){
 
 
     document.getElementById("joid2").value =element.getAttribute("data-joid");
+    document.getElementById("joidtransfer").value =element.getAttribute("data-joid");
+
     document.getElementById("jonumber").innerHTML =element.getAttribute("data-joidprint");
     document.getElementById("headremarks").innerHTML =element.getAttribute("data-headremarks");
     document.getElementById("adminremarks").innerHTML =element.getAttribute("data-adminremarks");
@@ -1636,6 +1719,21 @@ else {
         $(this).show();
       }
 })
+
+$("#transferUser option").each(function() {
+var assignedSection1 = $(this).attr("data-transfer");
+//console.log(assignedSection);
+//console.log(section);
+
+
+if(assignedSection1 != sectionFEMorMIS ){
+    $(this).hide();
+}
+else {
+        $(this).show();
+      }
+})
+
 
 var parentElement = document.getElementById("stardiv");
 
@@ -1916,9 +2014,15 @@ const taboptions = {
 const tabs = new Tabs(tabElements, taboptions);
 
 tabs.show('headApproval1');
+document.getElementById("transferUser").required = false;
+function requireSelect(){
+    document.getElementById("transferUser").required = true;
+    
+}
+function unrequireSelect(){
+    document.getElementById("transferUser").required = false;
 
-
-
+}
 function goToOverall(){
     const myElement = document.querySelector('#diamond');
 
@@ -1927,6 +2031,8 @@ const currentTransform = myElement.style.transform = 'translateX(55px) translate
 
 $("#buttonPrintDiv").addClass("hidden");
 $("#recommendationDiv").addClass("hidden");
+$("#transferButton").addClass("hidden");
+
 
 }
 function goToAdmin(){
@@ -1937,6 +2043,8 @@ function goToAdmin(){
     $("#recommendationDiv").addClass("hidden");
 
     $("#ratingstar").addClass("hidden");
+$("#transferButton").addClass("hidden");
+
 }
 
 function goToMis(){
@@ -1953,6 +2061,7 @@ function goToMis(){
     document.getElementById("assigned").required = false;
     $("#recommendationDiv").addClass("hidden");
 
+$("#transferButton").removeClass("hidden");
     
     const currentTransform = myElement.style.transform = 'translateX(275px) translateY(2px) rotate(135deg)';
 
@@ -1974,6 +2083,7 @@ $("#recommendationDiv").removeClass("hidden");
 
 document.getElementById("reasonCancel").required = false;
     document.getElementById("assigned").required = false;
+    $("#transferButton").addClass("hidden");
 
 
 }
@@ -1991,6 +2101,7 @@ const currentTransform = myElement.style.transform = 'translateX(160px) translat
 document.getElementById("reasonCancel").required = false;
     document.getElementById("assigned").required = true;
     $("#recommendationDiv").addClass("hidden");
+    $("#transferButton").addClass("hidden");
 
 
 }
