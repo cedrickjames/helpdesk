@@ -27,6 +27,9 @@
     100% { transform: rotate(360deg); }
 }
 
+select[name="workingStationTable_length"] {
+    width: 73px;
+  }
 select[name="removableDeviceTable_length"] {
     width: 73px;
   }

@@ -388,7 +388,7 @@
 
     <script src="../cdn_tailwindcss.js"></script>
 
-    <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
+    <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css">
     <link rel="shortcut icon" href="../resources/img/helpdesk.png">
 
    
@@ -529,8 +529,20 @@
                                         if($count["pending"] > 0){
                                             ?>
                                             <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
-                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE`status2` ='admin'";
+                                                                     if($_SESSION['leaderof'] == "fem"){
+                                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `status2` ='admin' AND `request_to` ='fem'";
                                                        $result = mysqli_query($con, $sql1);
+                                                                       }
+                                                                       else if($_SESSION['leaderof'] == "mis"){
+                                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `status2` ='admin' AND `request_to` ='mis'";
+                                                                        $result = mysqli_query($con, $sql1);
+                                                                       }
+                                                                       else{
+                                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `status2` ='admin'";
+                                                                        $result = mysqli_query($con, $sql1);
+                                                                       }
+
+                                                     
                                                        while($count=mysqli_fetch_assoc($result))
                                                        {
                                                        echo $count["pending"];
@@ -567,8 +579,20 @@
                                         if($count["pending"] > 0){
                                             ?>
                                             <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
-                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `status2` ='inprogress'";
-                                                       $result = mysqli_query($con, $sql1);
+                                                     
+                                                     if($_SESSION['leaderof'] == "fem"){
+                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `status2` ='inprogress' AND `request_to` ='fem'";
+                                       $result = mysqli_query($con, $sql1);
+                                                       }
+                                                       else if($_SESSION['leaderof'] == "mis"){
+                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `status2` ='inprogress' AND `request_to` ='mis'";
+                                                        $result = mysqli_query($con, $sql1);
+                                                       }
+                                                       else{
+                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `status2` ='inprogress'";
+                                                        $result = mysqli_query($con, $sql1);
+                                                       }
+                                                     
                                                        while($count=mysqli_fetch_assoc($result))
                                                        {
                                                        echo $count["pending"];
@@ -758,9 +782,19 @@
                     <tbody>
               <?php
                 $a=1;
-
-                  $sql="select * from `request` WHERE `status2` ='admin' order by id asc  ";
-                  $result = mysqli_query($con,$sql);
+                if($_SESSION['leaderof'] == "fem"){
+                    $sql="select * from `request` WHERE `status2` ='admin' AND `request_to` = 'fem' order by id asc  ";
+                    $result = mysqli_query($con,$sql);
+                }
+                else if($_SESSION['leaderof'] == "mis"){
+                    $sql="select * from `request` WHERE `status2` ='admin' AND `request_to` = 'mis' order by id asc  ";
+                    $result = mysqli_query($con,$sql);
+                }
+                else{
+                    $sql="select * from `request` WHERE `status2` ='admin' order by id asc  ";
+                    $result = mysqli_query($con,$sql);
+                }
+                 
 
                 while($row=mysqli_fetch_assoc($result)){
                   ?>
@@ -798,7 +832,7 @@
                     data-assignedpersonnel="<?php echo $row['assignedPersonnelName'] ?> " 
                     data-requestor="<?php echo $row['requestor'] ?>"  
                     data-personnel="<?php echo $row['assignedPersonnel'] ?>"
-                    data-action="<?php echo $row['action'] ?>" 
+                    data-action="<?php echo $dataAction = str_replace('"', '', $row['action']); ?>" 
                     data-telephone="<?php echo $row['telephone']; ?>" data-attachment="<?php echo $row['attachment']; ?>" data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-headremarks="<?php echo $row['head_remarks']; ?>" data-adminremarks="<?php echo $row['admin_remarks']; ?>" data-joid="<?php echo $row['id']; ?>" data-requestoremail="<?php echo $row['email']; ?>"  data-requestor="<?php echo $row['requestor']; ?>"  data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] == "fem"){  echo "FEM";} else if($row['request_to'] == "mis"){ echo "MIS";}?>" data-category="<?php echo $row['request_category']; ?>" data-comname="<?php echo $row['computerName']; ?>" data-start="<?php echo $row['reqstart_date']; ?>" data-end="<?php echo $row['reqfinish_date']; ?>" data-details="<?php echo $row['request_details']; ?>" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
                     View more
                     </button>
@@ -873,10 +907,22 @@
                     <tbody>
               <?php
                 $a=1;
-
-                  $sql="select * from `request` WHERE `status2` ='inprogress' order by id asc  ";
-                  $result = mysqli_query($con,$sql);
-
+                if($_SESSION['leaderof']=="fem"){
+                    $sql="select * from `request` WHERE `status2` ='inprogress' AND `request_to`='fem' order by id asc  ";
+                    $result = mysqli_query($con,$sql);
+  
+                }
+                else if($_SESSION['leaderof']=="mis"){
+                    $sql="select * from `request` WHERE `status2` ='inprogress' AND `request_to`='mis' order by id asc  ";
+                    $result = mysqli_query($con,$sql);
+  
+                }
+                else{
+                    $sql="select * from `request` WHERE `status2` ='inprogress' order by id asc  ";
+                    $result = mysqli_query($con,$sql);
+  
+                }
+                  
                 while($row=mysqli_fetch_assoc($result)){
                   ?>
               <tr class="">
@@ -914,7 +960,7 @@
 
                     data-requestor="<?php echo $row['requestor'] ?>"  
                     data-personnel="<?php echo $row['assignedPersonnel'] ?>"
-                    data-action="<?php echo $row['action'] ?>" 
+                    data-action="<?php echo $dataAction = str_replace('"', '', $row['action']); ?>" 
                     data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-joid="<?php echo $row['id']; ?>" data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] === "fem"){  echo "FEM";} else if($row['request_to'] === "mis"){ echo "MIS";}?>" 
                     data-category="<?php echo $row['request_category']; ?>" 
                     data-telephone="<?php echo $row['telephone']; ?>" 
@@ -1004,8 +1050,26 @@
                 $dateMonth = $date1->format('M');
                 $dateYear = $date1->format('Y');
 
-                  $sql="select * from `request` WHERE (`status2` ='rated' OR `status2` = 'Done') AND `month`='$dateMonth' AND `year` = '$dateYear'  order by id asc  ";
+                if($_SESSION['leaderof']=="fem"){
+   
+                    $sql="select * from `request` WHERE (`status2` ='rated' OR `status2` = 'Done') AND `month`='$dateMonth' AND `year` = '$dateYear' AND `request_to`='fem'  order by id asc  ";
                   $result = mysqli_query($con,$sql);
+
+  
+                }
+                else if($_SESSION['leaderof']=="mis"){
+                    $sql="select * from `request` WHERE (`status2` ='rated' OR `status2` = 'Done') AND `month`='$dateMonth' AND `year` = '$dateYear' AND `request_to`='mis'  order by id asc  ";
+                    $result = mysqli_query($con,$sql);
+  
+                }
+                else{
+                    $sql="select * from `request` WHERE (`status2` ='rated' OR `status2` = 'Done') AND `month`='$dateMonth' AND `year` = '$dateYear' order by id asc  ";
+                    $result = mysqli_query($con,$sql);
+                }
+
+
+
+               
 
                 while($row=mysqli_fetch_assoc($result)){
                   ?>
@@ -1042,7 +1106,7 @@
                     data-assignedpersonnel="<?php echo $row['assignedPersonnelName'] ?> " 
                     data-requestor="<?php echo $row['requestor'] ?>"  
                     data-personnel="<?php echo $row['assignedPersonnel'] ?>"
-                    data-action="<?php echo $row['action'] ?>" 
+                    data-action="<?php echo $dataAction = str_replace('"', '', $row['action']); ?>" 
                     data-requestoremail="<?php echo $row['email']; ?>" 
                     data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-joid="<?php echo $row['id']; ?>" data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] === "fem"){  echo "FEM";} else if($row['request_to'] === "mis"){ echo "MIS";}?>" 
                     data-category="<?php echo $row['request_category']; ?>" 
@@ -1712,7 +1776,7 @@ var assignedSection = $(this).attr("data-sectionassign");
 //console.log(section);
 
 
-if(assignedSection != sectionFEMorMIS ){
+if(assignedSection != sectionFEMorMIS && assignedSection != "admin"){
     $(this).hide();
 }
 else {
@@ -1726,7 +1790,7 @@ var assignedSection1 = $(this).attr("data-transfer");
 //console.log(section);
 
 
-if(assignedSection1 != sectionFEMorMIS ){
+if(assignedSection1 != sectionFEMorMIS && assignedSection1 != "admin"){
     $(this).hide();
 }
 else {

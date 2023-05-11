@@ -61,7 +61,7 @@ $headusername= $_SESSION['username'];
                     data-requestor="<?php echo $row['requestor'] ?>"  
                     data-personnel="<?php echo $row['assignedPersonnel'] ?>"
                     data-requestoremail="<?php echo $row['email']; ?>" 
-                    data-action="<?php echo $row['action'] ?>" 
+                    data-action="<?php echo $dataAction = str_replace('"', '', $row['action']); ?>" 
                     data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" data-joid="<?php echo $row['id']; ?>" data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" data-section="<?php if($row['request_to'] === "fem"){  echo "FEM";} else if($row['request_to'] === "mis"){ echo "MIS";  }?> " 
                     data-category="<?php echo $row['request_category']; ?>" 
                     data-telephone="<?php echo $row['telephone']; ?>" 

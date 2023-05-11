@@ -489,41 +489,54 @@ if(isset($_POST['rateJo'])){
 
 
 </div> -->
-<div class="mt-10">
-  
-<form method = "POST">
-    <div class="flex">
-        <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Month</label>
-        <select id="states" name="selectedMonth" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg border-l-gray-100 dark:border-l-gray-700 border-l-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        <option disabled selected> Month</option>
-        <option value="January">January</option>
-        <option value="February">February</option>
-        <option value="March">March</option>
-        <option value="April">April</option>
-        <option value="May">May</option>
-        <option value="June">June</option>
-        <option value="July">July</option>
-        <option value="August">August</option>
-        <option value="September">September</option>
-        <option value="October">October</option>
-        <option value="November">November</option>
-        <option value="December">December</option>
 
 
-    </select>
-        <div class="relative w-full">
-            <input type="number" name="selectedYear"id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-100 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Year" required>
-            <button type="submit" name="changeMonth" class="absolute top-0 right-0 p-2.5 text-sm font-medium text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
-        </div>
-    </div>
-    
-
-</form>
-
-</div>
 <div id="myTabContent" class="mt-5">
-    
+<div data-dial-init class="fixed right-6 bottom-6 group">
+    <div id="speed-dial-menu-default" class="flex flex-col items-center hidden mb-4 space-y-2">
+
+
+
+      
+    </div>
+    <a href="devicesReport.php" target="_blank" type="button" data-dial-toggle="speed-dial-menu-default" aria-controls="speed-dial-menu-default" aria-expanded="false" class="flex items-center justify-center text-white bg-blue-700 rounded-full w-14 h-14 hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800">
+        <svg aria-hidden="true" class="w-8 h-8 transition-transform group-hover:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"  d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z"></path></svg>
+        <span class="sr-only">Open actions menu</span>
+    </a>
+</div>
     <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="headApproval" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="mt-10">
+  
+  <form method = "POST">
+      <div class="flex">
+          <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Month</label>
+          <select id="states" name="selectedMonth" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg border-l-gray-100 dark:border-l-gray-700 border-l-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option disabled selected> Month</option>
+          <option value="January">January</option>
+          <option value="February">February</option>
+          <option value="March">March</option>
+          <option value="April">April</option>
+          <option value="May">May</option>
+          <option value="June">June</option>
+          <option value="July">July</option>
+          <option value="August">August</option>
+          <option value="September">September</option>
+          <option value="October">October</option>
+          <option value="November">November</option>
+          <option value="December">December</option>
+  
+  
+      </select>
+          <div class="relative w-full">
+              <input type="number" name="selectedYear"id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-100 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Year" required>
+              <button type="submit" name="changeMonth" class="absolute top-0 right-0 p-2.5 text-sm font-medium text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
+          </div>
+      </div>
+      
+  
+  </form>
+  
+  </div>
     <button data-modal-target="addDeviceModal" data-modal-toggle="addDeviceModal" type="button" class="w-full mt-5 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Add Device</button>
     <?php include 'removableDevices.php';?>   
 
@@ -531,7 +544,7 @@ if(isset($_POST['rateJo'])){
 
     </div>
     <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="adminApproval" role="tabpanel" aria-labelledby="dashboard-tab">
-    <?php include 'cancelled.php';?>   
+    <?php include 'workingStation.php';?>   
  </div>
 
 </div>
@@ -546,7 +559,7 @@ if(isset($_POST['rateJo'])){
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
         <form method="POST" accept-charset="utf-8" enctype="multipart/form-data" >
             <!-- Modal header -->
-            <input type="text" id="controlNumber" name="controlNumber">
+            <input type="text" id="controlNumber" name="controlNumber" class="hidden">
             <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-medium text-gray-900 dark:text-white">
                     Proof of Scanning
@@ -580,7 +593,7 @@ if(isset($_POST['rateJo'])){
         </div>
             <!-- Modal footer -->
             <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button  type="submit" name="submitProof" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
+                <button  type="submit" id="submitProof" name="submitProof" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
                 <button onclick="modalHideProof()" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
             </div>
             </form>
@@ -639,7 +652,11 @@ if(isset($_POST['rateJo'])){
                     
                             <select name="type1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected value="Flashdrive">Flashdrive</option>
+                            <option  value="SD Card">SD Card</option>
+                            <option  value="Compactflash">Compactflash</option>
                             <option value="Card Reader">Card Reader</option>
+                            <option value="Others">Others</option>
+
                             </select>
                                                 </div>
                     <div class="w-full">
@@ -996,7 +1013,7 @@ if(isset($_POST['rateJo'])){
                 uploadedImage.src = reader.result; // Set the source of the image element to the loaded file
                 uploadedImage.classList.remove('hidden'); // Show the uploaded image
                 placeholder.classList.add('hidden'); // Hide the placeholder
-                submitButton.classList.remove('hidden'); // Show the submit button
+                submitButton.classList.add('hidden'); // Show the submit button
             });
 
             // Read the file as a data URL
@@ -1018,7 +1035,7 @@ if(isset($_POST['rateJo'])){
     var inputCount = document.getElementById("counter").value
     div.id = "div"+inputCount+"";
 
-    var set = "<div class='w-full'><input name='controlNumber"+inputCount+"' type='text' id='first_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert the label here' required></div><div class='w-full'><input name='brand"+inputCount+"' type='text' id='last_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Kingston' required></div><div class='w-full'><input name='size"+inputCount+"' type='text' id='last_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='1GB' required></div><div class='w-full'><input name='color"+inputCount+"' type='text' id='last_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Black' required></div><div class='w-full'><select name='type"+inputCount+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'> <option selected value='Flashdrive'>Flashdrive</option>  <option value='Card Reader'>Card Reader</option>  </select></div><div class='w-full'><button type='button' onclick='removeSet("+inputCount+")' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4  focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>-</button></div>";
+    var set = "<div class='w-full'><input name='controlNumber"+inputCount+"' type='text' id='first_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert the label here' required></div><div class='w-full'><input name='brand"+inputCount+"' type='text' id='last_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Kingston' required></div><div class='w-full'><input name='size"+inputCount+"' type='text' id='last_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='1GB' required></div><div class='w-full'><input name='color"+inputCount+"' type='text' id='last_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Black' required></div><div class='w-full'><select name='type"+inputCount+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'> <option selected value='Flashdrive'>Flashdrive</option><option  value='SD Card'>SD Card</option> <option  value='Compactflash'>Compactflash</option><option value='Card Reader'>Card Reader</option> <option value='Others'>Others</option>  </select></div><div class='w-full'><button type='button' onclick='removeSet("+inputCount+")' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4  focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>-</button></div>";
     div.innerHTML=set;
     inputContainer.appendChild(div);
 
@@ -1104,6 +1121,30 @@ const modalProof = new Modal($targetElModalProof, optionsModalProof);
 
 function modalShowProof(element){
     document.getElementById("controlNumber").value =element.getAttribute("data-deviceid");
+    document.getElementById("scanRemarks").value =element.getAttribute("data-remarks");
+
+    const uploadButton = document.getElementById('uploadButton');
+
+    const submitProof = document.getElementById('submitProof');
+    
+    var proof = element.getAttribute("data-proof");
+    const uploadedImage = document.getElementById('uploadedImage');
+    const placeholder = document.getElementById('placeholder');
+
+    if(proof !=""){
+        uploadedImage.src = proof;
+        uploadedImage.classList.remove('hidden');
+        placeholder.classList.add('hidden');
+        uploadButton.classList.add('hidden');
+        submitProof.classList.add('hidden');
+    }
+    else{
+        uploadedImage.src = "";
+        uploadedImage.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+        uploadButton.classList.remove('hidden');
+        submitProof.classList.remove('hidden');
+    }
     modalProof.toggle();
 
 }
@@ -1806,8 +1847,11 @@ function rate(id){
     }
 }
 $("#sidehome").removeClass("bg-gray-200");
-$("#sidehistory").addClass("bg-gray-200");
+$("#sidehistory").removeClass("bg-gray-200");
 $("#sidepms").removeClass("bg-gray-200");
+$("#sidedevice").addClass("bg-gray-200");
+
+
 </script>
 
 </body>

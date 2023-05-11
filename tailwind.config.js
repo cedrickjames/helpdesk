@@ -5,5 +5,6 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  darkMode: ['class', '[data-mode="dark"]'],
 
 }

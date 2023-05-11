@@ -958,7 +958,7 @@
                      data-actualdatefinished="<?php $date = new DateTime($row['actual_finish_date']); $date = $date->format('F d, Y');echo $date;?>"  
                      data-assignedpersonnel="<?php echo $row['assignedPersonnelName'] ?> " 
                      data-requestor="<?php echo $row['requestor'] ?>" 
-                      data-personnel="<?php echo $row['assignedPersonnel'] ?>" data-action="<?php echo $row['action'] ?>"
+                      data-personnel="<?php echo $row['assignedPersonnel'] ?>" data-action="<?php echo $dataAction = str_replace('"', '', $row['action']); ?>"
                        data-joidprint="<?php $date = new DateTime($row['date_filled']); $date = $date->format('ym');  echo $date.'-'.$row['id']; ?>" 
                        data-joid="<?php echo $row['id']; ?>" 
                        data-datefiled="<?php $date = new DateTime($row['date_filled']); $date = $date->format('F d, Y');echo $date;?>" 

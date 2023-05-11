@@ -67,7 +67,7 @@
         $user_dept = $_SESSION['department'];
         $user_level=$_SESSION['level'];
 
-        $sql1 = "Select * FROM `user` WHERE `level` = 'admin'";
+        $sql1 = "Select * FROM `user` WHERE `level` = 'admin' LIMIT 1";
         $result = mysqli_query($con, $sql1);
         while($list=mysqli_fetch_assoc($result))
         {
@@ -239,18 +239,21 @@ if(isset($_POST['print'])){
 
 }
  
-
+   
 
         if(isset($_POST['approveRequest'])){
             $requestID = $_POST['joid2'];
             $completejoid = $_POST['completejoid'];
-
+            $requestTo = strtolower($_POST['psection']);
             $remarks = $_POST['remarks'];
             $requestor = $_POST['requestor'];
             $requestorEmail = $_POST['requestoremail'];
 
 
-            
+                        
+
+
+
             $date = date("Y-m-d");
             $username = $_SESSION['name'];
             $sql = "UPDATE `request` SET `status2`='admin',`approving_head`='$username',`head_approval_date`='$date',`head_remarks`='$remarks' WHERE `id` = '$requestID';";
@@ -273,7 +276,9 @@ if(isset($_POST['print'])){
                  require '../vendor/autoload.php';
     
                  $mail = new PHPMailer(true);  
-                 $mail2 = new PHPMailer(true);       
+                 $mail2 = new PHPMailer(true);    
+                 $mail4 = new PHPMailer(true);       
+
 
                 //  email the admin               
                  try {
@@ -304,7 +309,49 @@ if(isset($_POST['print'])){
                     $mail->Body    = $message;
             
                     $mail->send();
+              
+                                $sql1 = "Select * FROM `user` WHERE `level` = 'admin' AND `leader` = '$requestTo' ";
+                                $result = mysqli_query($con, $sql1);
+                                while($list=mysqli_fetch_assoc($result))
+                                {
+                                $leaderEmail=$list["email"];
+                                $leaderName=$list["name"];
 
+                                $subject4 ='Job order request';
+                                $message4 = 'Hi '.$leaderName.',<br> <br>   Mr/Ms. '.$requestor.' filed a job order with JO number of '.$completejoid.' . Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+                                
+
+                                
+                                $mail4->isSMTP();                                      // Set mailer to use SMTP
+                                $mail4->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+                                $mail4->SMTPAuth = true;                               // Enable SMTP authentication
+                                $mail4->Username = $account;     // Your Email/ Server Email
+                                $mail4->Password = $accountpass;                     // Your Password
+                                $mail4->SMTPOptions = array(
+                                    'ssl' => array(
+                                    'verify_peer' => false,
+                                    'verify_peer_name' => false,
+                                    'allow_self_signed' => true
+                                    )
+                                                            );                         
+                                $mail4->SMTPSecure = 'none';                           
+                                $mail4->Port = 25;                                   
+                        
+                                //Send Email
+                                // $mail4->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
+                                
+                                //Recipients
+                                $mail4->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
+                                $mail4->addAddress($leaderEmail);              
+                                $mail4->isHTML(true);                                  
+                                $mail4->Subject = $subject4;
+                                $mail4->Body    = $message4;
+                        
+                                $mail4->send();
+                                }
+                                
+            
+                 
                     
                     $subject3 ='Approved Job Order';
                     $message3 = 'Hi '.$requestor.',<br> <br>  Your Job Order with JO number of '.$completejoid.' is now approved by your head. It is now sent to your administrator. Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';

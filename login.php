@@ -21,6 +21,8 @@ if(isset($_POST['submit'])){
     $level = $userRow['level'];
     $userpass = $userRow['password'];
     $usermail = $userRow['email'];
+    $leaderof = $userRow['leader'];
+
 
     if($password == $userpass){
       $_SESSION['name'] = $name;
@@ -28,6 +30,8 @@ if(isset($_POST['submit'])){
       $_SESSION['level'] = $level;
       $_SESSION['username'] = $username;
       $_SESSION['email'] = $usermail;
+      $_SESSION['leaderof'] = $leaderof;
+
 
 
       $_SESSION['connected']=true;
@@ -79,7 +83,7 @@ if(isset($_POST['submit'])){
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -119,7 +123,7 @@ if(isset($_POST['submit'])){
 
 
 </head>
-<body  onload=navFuntion() class="static  bg-white dark:bg-gray-900"  >
+<body  class="static  bg-white dark:bg-gray-900"  >
 
     <!-- nav -->
     <?php require_once 'nav_login.php';?>
@@ -189,6 +193,34 @@ if(isset($_POST['submit'])){
         </form>
 
       </div>
+      <!-- <div class="flex justify-center">
+  <div id="gallery" class="relative w-full overflow-hidden">
+    <div id="slider" class="flex transition-transform duration-500">
+    <img src="resources/img/glory_logo_[1].jpg" alt="Image 1" class="w-1/3 mx-2">
+      <img src="resources/img/admin.png" alt="Image 2" class="w-1/3 mx-2">
+      <img src="resources/img/adminapprove.png" alt="Image 3" class="w-1/3 mx-2">
+      <img src="resources/img/computer.png" alt="Image 4" class="w-1/3 mx-2">
+      <img src="resources/img/glory_logo_[1].jpg" alt="Image 5" class="w-1/3 mx-2">
+      <img src="resources/img/glory_logo_[1].jpg" alt="Image 6" class="w-1/3 mx-2">
+      <img src="resources/img/glory_logo_[1].jpg" alt="Image 7" class="w-1/3 mx-2">
+      <img src="resources/img/glory_logo_[1].jpg" alt="Image 8" class="w-1/3 mx-2">
+      <img src="resources/img/glory_logo_[1].jpg" alt="Image 9" class="w-1/3 mx-2">
+      <img src="resources/img/glory_logo_[1].jpg" alt="Image 10" class="w-1/3 mx-2">
+    </div>
+    <div class="absolute top-1/2 left-0 transform -translate-y-1/2">
+      <button id="prevButton" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+        <i class="fas fa-chevron-left"></i>
+      </button>
+    </div>
+    <div class="absolute top-1/2 right-0 transform -translate-y-1/2">
+      <button id="nextButton" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+        <i class="fas fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
+       -->
+
       <footer class="w-full bg-white m-4">
 
 <!-- <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" /> -->
@@ -218,6 +250,75 @@ if(isset($_POST['submit'])){
 
 <!-- darkmode script -->
 <script>  
+// const gallery = document.getElementById('gallery');
+// const slider = document.getElementById('slider');
+// const prevButton = document.getElementById('prevButton');
+// const nextButton = document.getElementById('nextButton');
+
+// let slidePosition = 0;
+// const slideWidth = gallery.offsetWidth / 3;
+// const maxSlidePosition = -((slider.offsetWidth / 3) * (slider.childElementCount - 3));
+// let autoSlideInterval;
+
+// const slideNext = () => {
+//   slidePosition -= slideWidth;
+//   slider.style.transform = `translateX(${slidePosition}px)`;
+
+//   if (slidePosition < maxSlidePosition) {
+//     setTimeout(() => {
+//       slidePosition = 0;
+//       slider.style.transition = 'none';
+//       slider.style.transform = `translateX(${slidePosition}px)`;
+
+//       setTimeout(() => {
+//         slider.style.transition = '';
+//       }, 10);
+//     }, 500);
+//   }
+// };
+
+// const slidePrevious = () => {
+//   slidePosition += slideWidth;
+//   slider.style.transform = `translateX(${slidePosition}px)`;
+
+//   if (slidePosition > 0) {
+//     setTimeout(() => {
+//       slidePosition = maxSlidePosition;
+//       slider.style.transition = 'none';
+//       slider.style.transform = `translateX(${slidePosition}px)`;
+
+//       setTimeout(() => {
+//         slider.style.transition = '';
+//       }, 10);
+//     }, 500);
+//   }
+// };
+
+// const startAutoSlide = () => {
+//   autoSlideInterval = setInterval(() => {
+//     slideNext();
+//   }, 3000);
+// };
+
+// const stopAutoSlide = () => {
+//   clearInterval(autoSlideInterval);
+// };
+
+// nextButton.addEventListener('click', () => {
+//   stopAutoSlide();
+//   slideNext();
+//   startAutoSlide();
+// });
+
+// prevButton.addEventListener('click', () => {
+//   stopAutoSlide();
+//   slidePrevious();
+//   startAutoSlide();
+// });
+
+// startAutoSlide();
+
+
 var themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
 var themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
