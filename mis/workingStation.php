@@ -35,7 +35,7 @@ $username=$_SESSION['username'];
                 while($row=mysqli_fetch_assoc($result)){
                   ?>
               <tr class="">
-              <td class="">
+              <td data-pcid="<?php echo $row['id'];?>" class="">
               <?php 
               echo $a;?> 
              </td>

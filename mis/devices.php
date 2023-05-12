@@ -50,14 +50,57 @@ session_start();
       header("location: ../index.php");
     }
 
-
-    
+    // if(isset($_POST['deviceIds'])) {
+    //     $deviceIds = $_POST['deviceIds'];
+    //     echo "<script>alert('Selected devices: ".implode(", ", $deviceIds)."');</script>";
+    //   } else {
+    //     echo "<script>alert('No device IDs received');</script>";
+    //   }
 // connection php and transfer of session
 include ("../includes/connect.php");
 $user_dept = $_SESSION['department'];
 $user_level=$_SESSION['level'];
 $username = $_SESSION['username'];
 
+
+
+$rowsList = array();
+
+$sql="SELECT * FROM `devices` LIMIT 3";
+$result = mysqli_query($con,$sql);
+
+while($row=mysqli_fetch_assoc($result)){
+    $rowsList[] = $row;
+}
+
+// echo "<script> console.log ($rowsList)</script>";
+// print_r($rowsList);
+
+// if(isset($_POST['updateSelected'])){
+// $arrayOfSelected =  $_POST['arrayOfSelected'] ;  
+
+// $arrayOfSelected = explode(',', $arrayOfSelected);
+
+
+// foreach ($arrayOfSelected as $element) {
+//     echo $element;
+
+//     $sql="SELECT * FROM `devices` WHERE `id` = '$element'";
+//     $result = mysqli_query($con,$sql);
+
+//     while($row=mysqli_fetch_assoc($result)){
+//         $rowsList[] = $row;
+//     }
+// }
+// $jsonData = json_encode($rowsList);
+// // echo $jsonData;
+// echo "<script> console.log ($rowsList)</script>";
+// // $jsonData = json_encode($rows);
+// // for($i=5; $i<=5; $i++){
+// //   $samp
+// // }
+
+// }
 
 
 if(isset($_POST['changeMonth'])){
@@ -317,6 +360,7 @@ if(isset($_POST['rateJo'])){
   
     <link rel="stylesheet" href="../node_modules/DataTables/datatables.min.css">
     <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Responsive-2.3.0/css/responsive.dataTables.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.6.2/css/select.dataTables.min.css"/>
 
     <link rel="stylesheet" href="index.css">
      <!-- tailwind play cdn -->
@@ -562,7 +606,12 @@ if(isset($_POST['rateJo'])){
     </div>
     <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="adminApproval" role="tabpanel" aria-labelledby="dashboard-tab">
     <?php include 'workingStation.php';?>   
- </div>
+    <form method="POST" action="./getData.php" id="myForm">
+        <input type="text" name="arrayOfSelected" id="arrayOfSelected">
+        <button  type="submit" name="updateSelected" id="updateSelected" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Proceed</button>
+    </form>
+          
+</div>
 
 </div>
 
@@ -694,6 +743,62 @@ if(isset($_POST['rateJo'])){
             <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
                 <button type="submit" name="addRemovableDevice" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
                 <button data-modal-toggle="addDeviceModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="editDeviceModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+ <div class="relative w-full max-w-12xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Add device
+                </h3>
+                <button type="button" onclick="devicemodalHide()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-6 space-y-6">
+            <form method="post">
+
+                <div id="inputDevicesData" class="overflow-auto max-h-96 items-center justify-items-center text-center">
+                    <div class="grid gap-1  md:grid-cols-12 " id="div1">
+                    <div class="w-full">
+                        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
+                        <input name="brand1" type="text" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Kingston" required>
+                    </div>
+                    <div class="w-full">
+                        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
+                        <input name="brand1" type="text" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Kingston" required>
+                    </div>
+                    <div class="w-full">
+                        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
+                        <input name="brand1" type="text" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Kingston" required>
+                    </div>
+
+                    </div>
+                   
+
+                    
+                    
+                </div>
+           
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button type="submit" name="addRemovableDevice" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
+                <button onclick="devicemodalHide()" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
             </div>
             </form>
         </div>
@@ -1004,10 +1109,24 @@ if(isset($_POST['rateJo'])){
 <script src="../node_modules/jquery/dist/jquery.min.js"></script>
 
 <script type="text/javascript" src="../node_modules/DataTables/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
+
 
     <script type="text/javascript" src="../node_modules/DataTables/Responsive-2.3.0/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="index.js"></script>
     <script>
+
+
+
+// var rowsList = <?php echo json_encode($rowsList); ?>; // Assign the JSON-encoded data to a JavaScript variable
+// $('#updateSelected').click(function () {
+//                         console.log("Asd");
+
+//                       });
+
+// function showDeviceData(){
+//   console.log("Cedrick");
+// }
          // Get the necessary DOM elements
          const uploadButton = document.getElementById('uploadButton');
         const uploadedImage = document.getElementById('uploadedImage');
@@ -1087,6 +1206,7 @@ document.getElementById("strUser").value = divIdArrayUser;
 
 
 }
+
 
     const $targetElModal = document.getElementById('defaultModal');
 
