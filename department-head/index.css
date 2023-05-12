@@ -12,6 +12,12 @@
     font-size: 30px;
     justify-content: center;
 }
+select[name="workingStationTable_length"] {
+    width: 73px;
+  }
+select[name="removableDeviceTable_length"] {
+    width: 73px;
+  }
 select[name="employeeTable_length"] {
     width: 73px;
   }

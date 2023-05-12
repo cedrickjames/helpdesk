@@ -290,24 +290,29 @@ if(isset($_POST['addPMSAction'])){
     <div class="flex">
         <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Month</label>
         <select id="states" name="selectedMonth" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg border-l-gray-100 dark:border-l-gray-700 border-l-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-        <option disabled selected> Month</option>
-        <option value="January">January</option>
-        <option value="February">February</option>
-        <option value="March">March</option>
-        <option value="April">April</option>
-        <option value="May">May</option>
-        <option value="June">June</option>
-        <option value="July">July</option>
-        <option value="August">August</option>
-        <option value="September">September</option>
-        <option value="October">October</option>
-        <option value="November">November</option>
-        <option value="December">December</option>
+                 <?php 
 
+            $date = new DateTime('01-01-2023');
+
+            $month = $_SESSION['selectedMonth'];
+          for($i=1; $i<=12; $i++){
+            $Month = $date->format('F');
+            if($month == $Month){
+                echo "<option selected value='$Month'>$Month</option>";
+            }
+            else{
+            echo "<option value='$Month'>$Month</option>";
+
+            }
+            $date->modify('+1 month');
+
+          }
+         
+           ?>
 
     </select>
         <div class="relative w-full">
-            <input type="number" name="selectedYear"id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-100 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Year" required>
+            <input type="number"  value="<?php echo $_SESSION['selectedYear']; ?>" name="selectedYear"id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-100 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Year" required>
             <button type="submit" name="changeMonth" class="absolute top-0 right-0 p-2.5 text-sm font-medium text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
         </div>
     </div>
@@ -354,7 +359,7 @@ if(isset($_POST['addPMSAction'])){
                  
                  if (count($departments) == 1) {
                    $DepartmentOnly = $departments[0];
-                   $sql="SELECT devices.department, devices.type,  devices.user, devices.os, devices.computerName,  devices.email, pmsaction.id ,pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments
+                   $sql="SELECT devices.department, devices.type,  devices.user, devices.os, devices.computerName,  devices.email, pmsaction.id ,pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments, pmsaction.approved
                    FROM devices
                    LEFT JOIN pmsaction
                        ON devices.computerName = pmsaction.deviceName AND pmsaction.year = '$year'
@@ -368,7 +373,7 @@ if(isset($_POST['addPMSAction'])){
                    $department1 = $departments[0];
                    $department2 = $departments[1];
 
-                   $sql="SELECT  devices.department,  devices.type,  devices.user, devices.os, devices.computerName,  devices.email, pmsaction.id ,pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments FROM devices LEFT JOIN pmsaction ON devices.computerName = pmsaction.deviceName AND pmsaction.year = '$year' WHERE (devices.department = '$department1' OR devices.department = '$department2') AND devices.type != 'Tablet'AND (pmsaction.year = '$year' OR pmsaction.year IS NULL)
+                   $sql="SELECT  devices.department,  devices.type,  devices.user, devices.os, devices.computerName,  devices.email, pmsaction.id ,pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments, pmsaction.approved FROM devices LEFT JOIN pmsaction ON devices.computerName = pmsaction.deviceName AND pmsaction.year = '$year' WHERE (devices.department = '$department1' OR devices.department = '$department2') AND devices.type != 'Tablet'AND (pmsaction.year = '$year' OR pmsaction.year IS NULL)
                    AND (pmsaction.month = '$month' OR pmsaction.month IS NULL);";
                    $result = mysqli_query($con,$sql);
    
@@ -388,12 +393,12 @@ if(isset($_POST['addPMSAction'])){
               </td>
               <td >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
-                    <button type="button" id="viewdetails"   onclick="modalShow(this)"  <?php if($row['action']=="" ) {echo "disabled" ;}?>
+                    <button type="button" id="viewdetails"   onclick="modalShow(this)"  <?php if($row['action']=="" || $row['approved']==true  ) {echo "disabled" ;}?>
                     data-deviceid="<?php echo $row['id'];?>" 
                     data-email="<?php echo $row['email'];?>" 
                     data-user="<?php echo $row['user'];?>" 
 
-                   class="inline-block px-6 py-2.5 <?php if($row['action']=="") {echo "text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed" ;} else{echo "bg-blue-600 text-white";}?> font-medium text-xs leading-tight uppercase rounded shadow-md <?php if($row['action']=="") {echo "" ;} else{echo "hover:bg-blue-700 hover:shadow-lg";}?> focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
+                   class="inline-block px-6 py-2.5 <?php if($row['action']=="" || $row['approved']==true) {echo "text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed" ;} else{echo "bg-blue-600 text-white";}?> font-medium text-xs leading-tight uppercase rounded shadow-md <?php if($row['action']=="") {echo "" ;} else{echo "hover:bg-blue-700 hover:shadow-lg";}?> focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
                   Approve
                     </button>
                 </td>

@@ -22,7 +22,20 @@ else
 
     session_start();
 
-
+    function convertToSentenceCase($string) {
+        $sentences = preg_split('/(?<=[.?!])\s+/', $string, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);
+        $output = '';
+        foreach ($sentences as $sentence) {
+            $sentence = trim($sentence);
+            if (!empty($sentence)) {
+                $sentence = strtolower($sentence);
+                $sentence = ucfirst($sentence);
+                $output .= $sentence . ' ';
+            }
+        }
+        $output = rtrim($output); // Remove trailing space
+        return $output;
+    }
     $requestor=$_SESSION['name'];
 
 
@@ -141,7 +154,7 @@ else
           
             $start= $_POST['start'];
             $end = $_POST['finish'];
-            $request=$_POST['request'];
+            $request= convertToSentenceCase($_POST['request']);
             $telephone = $_POST['telephone'];
             // $bldg=$_POST['building'];
             
