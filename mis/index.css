@@ -12,6 +12,28 @@
     font-size: 30px;
     justify-content: center;
 }
+.select2 {
+    width: 100% !important;
+    height: 100% !important;
+}
+.selection{
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+.select2-selection{
+    width: 100% !important;
+    height: 90% !important;
+}
+select[name="deviceHistoryTable_length"] {
+    width: 73px;
+  }
+  select[name="cctvTable_length"] {
+    width: 73px;
+  }
+  select[name="printerTable_length"] {
+    width: 73px;
+  }
 select[name="workingStationTable_length"] {
     width: 73px;
   }
@@ -81,8 +103,7 @@ select[name="toRateTable_length"] {
     justify-content: inherit;
     min-width: inherit;
     width: inherit;
-}
-
+}       
 .FrD3PA, .WMb4nA {
     /* position: absolute; */
     width: 100%;

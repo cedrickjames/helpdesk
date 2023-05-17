@@ -63,12 +63,12 @@ $results = mysqli_query($con,$sql);
 ?>
 
 
-<nav class="drop-shadow-md  bg-white px-2 sm:px-4 py-2 dark:bg-gray-900 fixed w-full z-20 top-0  left-0 border-b border-gray-200 dark:border-gray-600">
+<nav class="drop-shadow-md  bg-white px-2 sm:px-4 py-2 dark:bg-gray-800 fixed w-full z-20 top-0  left-0 border-b border-gray-200 dark:border-gray-900">
 
 <div class="flex items-center">
 
       
-      <span id="sidebarButton" type="button" onclick="shows()" class="mx-10">
+      <span id="sidebarButton" type="button" onclick="shows()" class="mx-10  dark:text-white">
       <i class="fa-solid fa-bars fa-lg"></i>
 
       </span> 
@@ -183,7 +183,7 @@ $results = mysqli_query($con,$sql);
 </nav>
 
 <!-- side bar drawer component -->
-<div id="sidebar" class="mt-2 fixed top-16 left-0 z-40 h-screen p-4 pr-0 overflow-y-auto transition-transform bg-white w-80 dark:bg-gray-800 transform-none" tabindex="-1" aria-labelledby="sidebar-label" aria-modal="true" role="dialog">
+<div id="sidebar" class=" mt-2 fixed top-16 left-0 z-40 h-screen p-4 pr-0 overflow-y-auto transition-transform bg-white w-80 dark:bg-gray-700 transform-none" tabindex="-1" aria-labelledby="sidebar-label" aria-modal="true" role="dialog">
 
   <div class="px-4">
   <div class="overflow-hidden flex bg-white overflow-visible relative max-w-sm mx-auto bg-white shadow-lg ring-1 ring-black/5 rounded-xl flex items-center gap-6 dark:bg-slate-800 dark:highlight-white/5">
@@ -226,41 +226,47 @@ $results = mysqli_query($con,$sql);
     <div class="py-5 pr-5 overflow-y-auto">
     <ul class="space-y-2">
          <li>
-            <a href="index.php" id="sidehome" class=" flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+            <a href="index.php" id="sidehome" class="  flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                <!-- <svg aria-hidden="true" class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg> -->
                <i class="fa-solid fa-house"></i>
                <span class="ml-3">Home</span>
             </a>
          </li>
          <li>
-            <a href="myRequest.php" id="sideMyRequest" class=" flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+            <a href="myRequest.php" id="sideMyRequest" class="  flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                <!-- <svg aria-hidden="true" class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg> -->
                <i class="fa-solid fa-ticket"></i>
                <span class="ml-3">My Request</span>
             </a>
          </li>
          <li>
-            <a href="history.php" id="sidehistory" class="flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+            <a href="history.php" id="sidehistory" class="  flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               
             <i class="fa-solid fa-clock-rotate-left"></i> <span class="flex-1 ml-3 whitespace-nowrap">History</span>
             </a>
          </li>
          <li>
-            <a href="user.php" id="sideuser" class="flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+            <a href="user.php" id="sideuser" class="   flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               
             <i class="fa-solid fa-user"></i> <span class="flex-1 ml-3 whitespace-nowrap">User</span>
             </a>
          </li>
          <li>
-            <a href="pms.php" id="sidepms" class="flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+            <a href="pms.php" id="sidepms" class="  flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               
             <i class="fa-solid fa-broom"></i> <span class="flex-1 ml-3 whitespace-nowrap">PMS</span>
             </a>
          </li>
          <li>
-            <a href="devices.php" id="sidedevice" class="flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+            <a href="devices.php" id="sidedevice" class="  flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               
             <i class="fa-solid fa-computer"></i> <span class="flex-1 ml-3 whitespace-nowrap">Devices</span>
+            </a>
+         </li>
+         <li>
+            <a href="documents.php" id="sidedocs" class="flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+              
+            <i class="fa-solid fa-file"></i> <span class="flex-1 ml-3 whitespace-nowrap">Documents</span>
             </a>
          </li>
       </ul>

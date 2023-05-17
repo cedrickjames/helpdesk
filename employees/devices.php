@@ -341,7 +341,7 @@ if(isset($_POST['rateJo'])){
 
 
 </head>
-<body   class="static  bg-white dark:bg-gray-900"  >
+<body   class="static  bg-white dark:bg-gray-700"  >
 
     <!-- nav -->
     <?php require_once 'nav.php';?>
@@ -354,7 +354,7 @@ if(isset($_POST['rateJo'])){
 
 
 
-<div class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
+<div id="mainContent" class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
 <div class="justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
 <div class="text-center py-2 m-auto lg:text-center w-full">
         <!-- <h6 class="text-sm  tracking-tight text-gray-200 sm:text-lg">Good Day</h6> -->
@@ -446,7 +446,7 @@ if(isset($_POST['rateJo'])){
               
                     </ul>
             </div>
-            <div class="rzHaWQ theme light" id="diamond" style="transform: translateX(55px) translateY(2px) rotate(135deg);"></div>
+            <div class="rzHaWQ theme light dark:bg-gray-700" id="diamond" style="transform: translateX(55px) translateY(2px) rotate(135deg);"></div>
         </div>
     </div>
 </div>
@@ -504,13 +504,13 @@ if(isset($_POST['rateJo'])){
         <span class="sr-only">Open actions menu</span>
     </a>
 </div>
-    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="headApproval" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-200" id="headApproval" role="tabpanel" aria-labelledby="profile-tab">
     <div class="mt-10">
   
   <form method = "POST">
       <div class="flex">
           <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Month</label>
-          <select  id="states" name="selectedMonth" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg border-l-gray-100 dark:border-l-gray-700 border-l-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <select  id="states" name="selectedMonth" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg border-l-gray-100  border-l-2 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
           
           <!-- <option value="February">February</option>
           <option value="March">March</option>
@@ -545,7 +545,7 @@ if(isset($_POST['rateJo'])){
   
       </select>
           <div class="relative w-full">
-              <input type="number" value="<?php echo $_SESSION['selectedYear']; ?>" name="selectedYear"id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-100 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Year" required>
+              <input type="number" value="<?php echo $_SESSION['selectedYear']; ?>" name="selectedYear"id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-100 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Year" required>
               <button type="submit" name="changeMonth" class="absolute top-0 right-0 p-2.5 text-sm font-medium text-white bg-blue-700 rounded-r-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></button>
           </div>
       </div>
@@ -560,7 +560,7 @@ if(isset($_POST['rateJo'])){
 
 
     </div>
-    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="adminApproval" role="tabpanel" aria-labelledby="dashboard-tab">
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-200" id="adminApproval" role="tabpanel" aria-labelledby="dashboard-tab">
     <?php include 'workingStation.php';?>   
  </div>
 
@@ -1480,6 +1480,14 @@ const options = {
 const drawer = new Drawer($targetEl, options);
 drawer.show();
 var show = true;
+
+var screenWidth = window.screen.width;   // Screen width in pixels
+var screenHeight = window.screen.height; // Screen height in pixels
+
+console.log("Screen width: " + screenWidth);
+console.log("Screen height: " + screenHeight);
+var sidebar=0;
+   
 function shows(){
     if(show){
         drawer.hide();
@@ -1490,10 +1498,39 @@ function shows(){
         show = true;
     }
 
-
+    if(sidebar==0){
+    document.getElementById("mainContent").style.width="100%";  
+    document.getElementById("mainContent").style.marginLeft= "0px"; 
+    // document.getElementById("sidebar").style.opacity= ""; 
+    // document.getElementById("sidebar").style.transition = "all .1s";
+    
+    document.getElementById("mainContent").style.transition = "all .3s";
+    
+    
+    
+    
+    
+    
+    sidebar=1;
+    }
+    else{
+      document.getElementById("mainContent").style.width="calc(100% - 288px)";  
+    document.getElementById("mainContent").style.marginLeft= "288px";  
+    
+    sidebar=0;
+    }
+    
 }
 
+if (screenWidth <= 1132){
+    shows();
 
+}
+else{
+drawer.show();
+// sidebar=0;/
+    
+}
 
 
 
@@ -1514,7 +1551,7 @@ const tabElements= [
 // options with default values
 const taboptions = {
     defaultTabId: 'headApproval1',
-    activeClasses: 'text-white hover:text-amber-400 dark:text-blue-500 dark:hover:text-blue-400 border-blue-600 dark:border-blue-500',
+    activeClasses: 'text-amber-400 hover:text-amber-400 dark:text-amber-400 dark:hover:text-amber-400 border-amber-600 dark:border-amber-500',
     inactiveClasses: 'text-gray-300 hover:text-amber-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300',
     onShow: () => {
         console.log('tab is shown');
@@ -1866,7 +1903,7 @@ function rate(id){
 $("#sidehome").removeClass("bg-gray-200");
 $("#sidehistory").removeClass("bg-gray-200");
 $("#sidepms").removeClass("bg-gray-200");
-$("#sidedevice").addClass("bg-gray-200");
+$("#sidedevice").addClass("bg-gray-200 dark:bg-gradient-to-br from-green-400 to-blue-600");
 
 
 </script>

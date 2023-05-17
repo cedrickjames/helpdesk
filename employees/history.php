@@ -296,7 +296,7 @@ if(isset($_POST['rateJo'])){
 
 
 </head>
-<body   class="static  bg-white dark:bg-gray-900"  >
+<body   class="static  bg-white dark:bg-gray-700"  >
 
     <!-- nav -->
     <?php require_once 'nav.php';?>
@@ -309,7 +309,7 @@ if(isset($_POST['rateJo'])){
 
 
 
-<div class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
+<div id="mainContent"  class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
 <div class="justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
 <div class="text-center py-2 m-auto lg:text-center w-full">
         <!-- <h6 class="text-sm  tracking-tight text-gray-200 sm:text-lg">Good Day</h6> -->
@@ -401,7 +401,7 @@ if(isset($_POST['rateJo'])){
               
                     </ul>
             </div>
-            <div class="rzHaWQ theme light" id="diamond" style="transform: translateX(55px) translateY(2px) rotate(135deg);"></div>
+            <div class="rzHaWQ theme light dark:bg-gray-700" id="diamond" style="transform: translateX(55px) translateY(2px) rotate(135deg);"></div>
         </div>
     </div>
 </div>
@@ -444,14 +444,14 @@ if(isset($_POST['rateJo'])){
 
 
 </div> -->
-<div id="myTabContent">
-    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="headApproval" role="tabpanel" aria-labelledby="profile-tab">
+<div id="myTabContent" class="mt-10">
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-200" id="headApproval" role="tabpanel" aria-labelledby="profile-tab">
     <?php include 'finished.php';?>   
 
 
 
     </div>
-    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="adminApproval" role="tabpanel" aria-labelledby="dashboard-tab">
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-200" id="adminApproval" role="tabpanel" aria-labelledby="dashboard-tab">
     <?php include 'cancelled.php';?>   
  </div>
 
@@ -516,24 +516,24 @@ if(isset($_POST['rateJo'])){
             <!-- Modal body -->
             <div class=" items-center p-6 space-y-2">
             <div id="cancelledByDiv"class="hidden w-full">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Cancelled by: </span><span id="cancelledBy"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Cancelled by: </span><span class="dark:text-white" id="cancelledBy"></span></h2>
     
          
                 </div>
             <div id="assignedPersonnelDiv"class=" w-full">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Assigned Personnel : </span><span id="assignedPersonnel"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Assigned Personnel : </span><span class="dark:text-white" id="assignedPersonnel"></span></h2>
     
          
                 </div>
             <input type="text" name="joid2" id="joid2" class="hidden col-span-2 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 
                 <div class="w-full grid gap-4 grid-cols-2">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">JO Number : </span><span id="jonumber"></span></h2>
-                    <h2 class="pl-10 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Date filed: </span><span id="datefiled"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">JO Number : </span><span class="dark:text-white" id="jonumber"></span></h2>
+                    <h2 class="pl-10 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Date filed: </span><span class="dark:text-white" id="datefiled"></span></h2>
                 </div>
                 <div class="w-full grid gap-4 grid-cols-2">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Requested Section: </span><span id="sectionmodal"></span></h2>
-                     <h2 class="pl-10 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Type: </span><span id="category"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Requested Section: </span><span class="dark:text-white" id="sectionmodal"></span></h2>
+                     <h2 class="pl-10 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Type: </span><span class="dark:text-white" id="category"></span></h2>
                 </div>
                 <div class="w-full grid gap-4 grid-cols-2">
                 <div id="categoryDivParent" class="grid gap-4 grid-cols-2">
@@ -588,7 +588,7 @@ if(isset($_POST['rateJo'])){
 
                 </div>
                 <div id="actualDateFinishedDiv" class="w-full grid gap-4 grid-cols-2">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Actual date finished : </span><span id="actualDateFinished"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Actual date finished : </span><span class="dark:text-white" id="actualDateFinished"></span></h2>
                     </div>
 
                     <div id="ratingstar" class="w-full grid grid-cols-12">
@@ -620,7 +620,7 @@ if(isset($_POST['rateJo'])){
                             </div>
                         </div>
                         <div id="comments" class="grid col-span-10">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Comments: </span><span id="userComments"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Comments: </span><span class="dark:text-white" id="userComments"></span></h2>
                 </div>
                     </div>
         <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
@@ -634,13 +634,13 @@ if(isset($_POST['rateJo'])){
                 </div>
                 <div id="actionsDiv">
                 <div id="action1div" class="w-full grid gap-4 grid-col-1">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 1: </span><span id="action1"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 1: </span><span class="dark:text-white" id="action1"></span></h2>
                 </div>
                 <div id="action2div" class="w-full grid gap-4 grid-col-1">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 2: </span><span id="action2"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 2: </span><span  class="dark:text-white" id="action2"></span></h2>
                 </div>
                 <div id="action3div" class="w-full grid gap-4 grid-col-1">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 3: </span><span id="action3"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 3: </span><span class="dark:text-white" id="action3"></span></h2>
                 </div> 
                 </div>
 
@@ -1110,6 +1110,13 @@ const options = {
 const drawer = new Drawer($targetEl, options);
 drawer.show();
 var show = true;
+
+var screenWidth = window.screen.width;   // Screen width in pixels
+var screenHeight = window.screen.height; // Screen height in pixels
+
+console.log("Screen width: " + screenWidth);
+console.log("Screen height: " + screenHeight);
+var sidebar=0;
 function shows(){
     if(show){
         drawer.hide();
@@ -1120,9 +1127,39 @@ function shows(){
         show = true;
     }
 
-
+    if(sidebar==0){
+    document.getElementById("mainContent").style.width="100%";  
+    document.getElementById("mainContent").style.marginLeft= "0px"; 
+    // document.getElementById("sidebar").style.opacity= ""; 
+    // document.getElementById("sidebar").style.transition = "all .1s";
+    
+    document.getElementById("mainContent").style.transition = "all .3s";
+    
+    
+    
+    
+    
+    
+    sidebar=1;
+    }
+    else{
+      document.getElementById("mainContent").style.width="calc(100% - 288px)";  
+    document.getElementById("mainContent").style.marginLeft= "288px";  
+    
+    sidebar=0;
+    }
+    
 }
 
+if (screenWidth <= 1132){
+    shows();
+
+}
+else{
+drawer.show();
+// sidebar=0;/
+    
+}
 
 
 
@@ -1144,7 +1181,7 @@ const tabElements= [
 // options with default values
 const taboptions = {
     defaultTabId: 'headApproval1',
-    activeClasses: 'text-white hover:text-amber-400 dark:text-blue-500 dark:hover:text-blue-400 border-blue-600 dark:border-blue-500',
+    activeClasses: 'text-amber-400 hover:text-amber-400 dark:text-amber-400 dark:hover:text-amber-400 border-amber-600 dark:border-amber-500',
     inactiveClasses: 'text-gray-300 hover:text-amber-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300',
     onShow: () => {
         console.log('tab is shown');
@@ -1494,7 +1531,7 @@ function rate(id){
     }
 }
 $("#sidehome").removeClass("bg-gray-200");
-$("#sidehistory").addClass("bg-gray-200");
+$("#sidehistory").addClass("bg-gray-200 dark:bg-gradient-to-br from-green-400 to-blue-600");
 $("#sidepms").removeClass("bg-gray-200");
 </script>
 

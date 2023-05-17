@@ -381,7 +381,7 @@
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
    
 </head>
-    <body   class="static  bg-white dark:bg-gray-900"  >
+    <body   class="static  bg-white dark:bg-gray-700"  >
     <?php require_once 'nav.php';?>
     <div id="loading-message">
     <div role="status" class="self-center flex">
@@ -406,11 +406,11 @@
             </div>
 
 
-            <div class="m-auto flex flex-col w-10/12">
+            <div class="m-auto flex flex-col w-11/12">
 
                 <div class="mt-0 grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 ">
 
-                    <div class="flex items-start rounded-xl bg-teal-700 dark:bg-white p-4 shadow-lg">
+                    <div class="flex items-start rounded-xl bg-teal-700 dark:bg-teal-700 p-4 shadow-lg">
                         <div
                             class="flex h-12 w-12 overflow-hidden items-center justify-center rounded-full border border-red-100 bg-red-50">
                             <img src="../resources/img/Engineer.png" class="h-full w-full text-blue-400" fill="none"
@@ -419,7 +419,7 @@
                         </div>
 
                         <div class="ml-3">
-                            <h2 class="font-semibold text-gray-100 dark:text-gray-900">FEM Pending</h2>
+                            <h2 class="font-semibold text-gray-100 dark:text-gray-100">FEM Pending</h2>
                             <p class="mt-2 text-xl text-left text-gray-100"><?php 
                                         $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE request_to = 'fem' AND status2 = 'inprogress'";
                                         $result = mysqli_query($con, $sql1);
@@ -431,7 +431,7 @@
                             ?></p>
                         </div>
                     </div>
-                    <div class="flex items-start rounded-xl bg-sky-900 dark:bg-white p-4 shadow-lg">
+                    <div class="flex items-start rounded-xl bg-sky-900 dark:bg-sky-900 p-4 shadow-lg">
                         <div
                             class="flex h-12 w-12 items-center overflow-hidden  justify-center rounded-full border border-indigo-100 bg-indigo-50">
                             <img src="../resources/img/itboy.png" class="h-full w-full text-blue-400" fill="none"
@@ -440,7 +440,7 @@
                         </div>
 
                         <div class="ml-3">
-                            <h2 class="font-semibold text-gray-100 dark:text-gray-900">MIS Pending</h2>
+                            <h2 class="font-semibold text-gray-100 dark:text-gray-100">MIS Pending</h2>
                             <p class="mt-2 text-xl text-left text-gray-100"><?php 
                                         $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE request_to = 'mis' AND status2 = 'inprogress'";
                                         $result = mysqli_query($con, $sql1);
@@ -452,7 +452,7 @@
                             ?></p>
                         </div>
                     </div>
-                    <div class="flex items-start rounded-xl bg-sky-900 dark:bg-white p-4 shadow-lg">
+                    <div class="flex items-start rounded-xl bg-sky-900 dark:bg-sky-900 p-4 shadow-lg">
                         <div
                             class="flex h-12 w-12 items-center overflow-hidden  justify-center rounded-full ">
                             <img src="../resources/img/star.png" class="h-full w-full text-blue-400" fill="none"
@@ -460,8 +460,8 @@
 
                         </div>
 
-                        <div class="ml-3">
-                            <h2 class="font-semibold text-gray-100 dark:text-gray-900">Your Rating</h2>
+                        <div class="ml-3 w-full">
+                            <h2 class="font-semibold text-gray-100 dark:text-gray-100 text-left">Your Rating</h2>
                            <?php 
                                         $sql1 = "SELECT ROUND((SELECT SUM(`rating_final`) AS totalrating FROM `request` WHERE `assignedPersonnel` = '$misusername' and `status2` = 'rated') / Count(id), 1) AS totalrating FROM `request` WHERE `assignedPersonnel` = '$misusername' and `status2` = 'rated'";
                                         $result = mysqli_query($con, $sql1);
@@ -539,7 +539,7 @@
                                     
                                         if($count["pending"] > 0){
                                             ?>
-                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-border-white"> <?php 
                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `status2` ='inprogress' and `assignedPersonnel` = '$misusername'";
                                                        $result = mysqli_query($con, $sql1);
                                                        while($count=mysqli_fetch_assoc($result))
@@ -578,7 +578,7 @@
                                     
                                         if($count["pending"] > 0){
                                             ?>
-                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-border-white"> <?php 
                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request  WHERE `status2` ='inprogress' and `request_to` = 'mis'";
                                                        $result = mysqli_query($con, $sql1);
                                                        while($count=mysqli_fetch_assoc($result))
@@ -618,7 +618,7 @@
                                     
                                         if($count["pending"] > 0){
                                             ?>
-                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-border-white"> <?php 
                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE  `status2` = 'Done'  and `assignedPersonnel` = '$misusername' ";
                                                        $result = mysqli_query($con, $sql1);
                                                        while($count=mysqli_fetch_assoc($result))
@@ -640,7 +640,7 @@
                     </li>
                             </ul>
                         </div>
-                        <div class="rzHaWQ theme light" id="diamond"
+                        <div class="rzHaWQ theme light dark:bg-gray-700" id="diamond"
                             style="transform: translateX(55px) translateY(2px) rotate(135deg);"></div>
                     </div>
                 </div>
@@ -678,8 +678,8 @@
 
 
 
-    <div id="myTabContent">
-        <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="headApproval" role="tabpanel"
+    <div id="myTabContent" class="mt-10">
+        <div class="hidden p-4 rounded-lg  bg-gray-50 dark:bg-gray-200" id="headApproval" role="tabpanel"
             aria-labelledby="profile-tab">
             <section class="mt-10">
                 <table id="employeeTable" class="display" style="width:100%">
@@ -792,7 +792,7 @@
 
             </section>
         </div>
-        <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="overall" role="tabpanel"
+        <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-200" id="overall" role="tabpanel"
             aria-labelledby="profile-tab">
             <section class="mt-10">
                 <table id="overAllTable" class="display" style="width:100%">
@@ -898,7 +898,7 @@
 
             </section>
         </div>
-        <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="forRating" role="tabpanel"
+        <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-200" id="forRating" role="tabpanel"
             aria-labelledby="profile-tab">
             <section class="mt-10">
                 <table id="forRatingTable" class="display" style="width:100%">
@@ -1129,17 +1129,17 @@
 
 
             <div class="w-full grid gap-4 grid-cols-2">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Requestor : </span><span id="requestor"></span></h2>
-                     <h2 class="pl-10 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Email: </span><span id="requestorEmail"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Requestor : </span><span class="dark:text-white" id="requestor"></span></h2>
+                     <h2 class="pl-10 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Email: </span><span class="dark:text-white" id="requestorEmail"></span></h2>
          
                 </div>
                 <div class="w-full grid gap-4 grid-cols-2">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">JO Number : </span><span id="jonumber"></span></h2>
-                    <h2 class="pl-10 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Date filed: </span><span id="datefiled"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">JO Number : </span><span class="dark:text-white" id="jonumber"></span></h2>
+                    <h2 class="pl-10 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Date filed: </span><span class="dark:text-white" id="datefiled"></span></h2>
                 </div>
                 <div class="w-full grid gap-4 grid-cols-2">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Requested Section: </span><span id="sectionmodal"></span></h2>
-                     <h2  class="pl-10 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Type: </span><span id="category"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Requested Section: </span><span class="dark:text-white" id="sectionmodal"></span></h2>
+                     <h2  class="pl-10 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Type: </span><span class="dark:text-white" id="category"></span></h2>
                 </div>
                 <div class="w-full grid gap-4 grid-cols-2">
                 <div id="categoryDivParent" class="grid gap-4 grid-cols-2">
@@ -1250,7 +1250,7 @@
                             </div>
                         </div>
                         <div id="comments" class="grid col-span-10">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Comments: </span><span id="userComments"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-white"><span class="text-gray-400">Comments: </span><span id="userComments"></span></h2>
                 </div>
                     </div>
             </div>
@@ -1357,6 +1357,9 @@
     <script type="text/javascript" src="index.js"></script>
 
 <script>
+
+
+
 function printreport(){
     document.getElementById("action").required = false;
 }
@@ -1754,7 +1757,17 @@ const options = {
 const drawer = new Drawer($targetEl, options);
 drawer.show();
 var show = true;
+
+
+var screenWidth = window.screen.width;   // Screen width in pixels
+var screenHeight = window.screen.height; // Screen height in pixels
+
+console.log("Screen width: " + screenWidth);
+console.log("Screen height: " + screenHeight);
 var sidebar=0;
+    
+
+
 function shows(){
     if(show){
         drawer.hide();
@@ -1790,7 +1803,15 @@ function shows(){
 
 }
 
+if (screenWidth <= 1132){
+    shows();
 
+}
+else{
+drawer.show();
+// sidebar=0;/
+    
+}
 const tabElements= [
     {
         id: 'headApproval1',
@@ -1812,7 +1833,7 @@ const tabElements= [
 
 const taboptions = {
     defaultTabId: 'headApproval1',
-    activeClasses: 'text-white hover:text-amber-400 dark:text-blue-500 dark:hover:text-blue-400 border-blue-600 dark:border-blue-500',
+    activeClasses: 'text-amber-400 hover:text-amber-400 dark:text-amber-400 dark:hover:text-amber-400 border-amber-400 dark:text-amber-400',
     inactiveClasses: 'text-gray-300 hover:text-amber-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300',
     onShow: () => {
         console.log('tab is shown');
@@ -1936,11 +1957,16 @@ function endDate() {
 
 
 
-$("#sidehome").addClass("bg-gray-200");
+$("#sidehome").addClass("bg-gray-200 dark:bg-gradient-to-br from-green-400 to-blue-600");
 $("#sidehistory").removeClass("bg-gray-200");
 $("#sideMyRequest").removeClass("bg-gray-200");
 $("#sidepms").removeClass("bg-gray-200");
-
+// dark:bg-gradient-to-br from-green-400 to-blue-600
+// dark:bg-gradient-to-br from-green-400 to-blue-600
+// dark:bg-gradient-to-br from-green-400 to-blue-600
+// dark:bg-gradient-to-br from-green-400 to-blue-600
+// dark:bg-gradient-to-br from-green-400 to-blue-600
+// dark:bg-gradient-to-br from-green-400 to-blue-600
 
 </script>
 

@@ -50,7 +50,7 @@ while($field=mysqli_fetch_assoc($resultLevel))
 <div class="flex items-center">
 
       
-      <span id="sidebarButton" type="button" onclick="shows()" class="mx-10">
+      <span id="sidebarButton" type="button" onclick="shows()" class="mx-10 dark:text-white">
       <i class="fa-solid fa-bars fa-lg"></i>
 
       </span> 
@@ -161,7 +161,7 @@ while($field=mysqli_fetch_assoc($resultLevel))
 </nav>
 
 <!-- side bar drawer component -->
-<div id="sidebar" class="mt-2 fixed top-16 left-0 z-40 h-screen p-4 pr-0 overflow-y-auto transition-transform bg-white w-80 dark:bg-gray-800 transform-none" tabindex="-1" aria-labelledby="sidebar-label" aria-modal="true" role="dialog">
+<div id="sidebar" class="mt-2 fixed top-16 left-0 z-40 h-screen p-4 pr-0 overflow-y-auto transition-transform bg-white w-80 dark:bg-gray-700 transform-none" tabindex="-1" aria-labelledby="sidebar-label" aria-modal="true" role="dialog">
 
   <div class="px-4">
   <div class="overflow-hidden flex bg-white overflow-visible relative max-w-sm mx-auto bg-white shadow-lg ring-1 ring-black/5 rounded-xl flex items-center gap-6 dark:bg-slate-800 dark:highlight-white/5">
@@ -227,6 +227,12 @@ while($field=mysqli_fetch_assoc($resultLevel))
             <a href="devices.php" id="sidedevice" class="flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
               
             <i class="fa-solid fa-computer"></i> <span class="flex-1 ml-3 whitespace-nowrap">Devices</span>
+            </a>
+         </li>
+         <li>
+            <a href="documents.php" id="sidedocs" class="flex items-center p-4 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+              
+            <i class="fa-solid fa-file"></i> <span class="flex-1 ml-3 whitespace-nowrap">Documents</span>
             </a>
          </li>
       </ul>

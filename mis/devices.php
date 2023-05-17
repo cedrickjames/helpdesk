@@ -102,6 +102,306 @@ while($row=mysqli_fetch_assoc($result)){
 
 // }
 
+if(isset($_POST['editDevice'])){
+$numberOfSelectedDevice = $_POST['numberOfSelectedDevice'];
+$modifier=$_SESSION['name'];
+for($i=0; $i<$numberOfSelectedDevice; $i++){
+    $deviceId = $_POST['deviceId'.$i];
+    $pcTag = $_POST['pcTag'.$i];
+    $assetTag = $_POST['assetTag'.$i];
+    $pcname = $_POST['pcname'.$i];
+    $type = $_POST['type'.$i];
+    $user = $_POST['user'.$i];
+    $ipaddress = $_POST['ipaddress'.$i];
+    $department = $_POST['department'.$i];
+    
+    $macAddress = $_POST['macAddress'.$i];
+    $email = $_POST['email'.$i];
+    $pcname = $_POST['pcname'.$i];
+    $os = $_POST['os'.$i];
+    $status = $_POST['status'.$i];
+
+    $changedFields = array();
+    $changedDevice = array();
+
+    $date = new DateTime(); 
+    $date = $date->format('F d, Y');
+
+    $oldData = "SELECT * FROM `devices` WHERE `id` = '$deviceId'";
+    $resultOldData = mysqli_query($con, $oldData);
+$link = "";
+while($row=mysqli_fetch_assoc($resultOldData))
+{
+    if ($row['department'] !== $department) {
+        $fromDepartment = $row['department'];
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','department','$fromDepartment','$department', '$modifier', '$date')";
+        $results = mysqli_query($con,$sql);
+        
+    }
+    
+    if ($row['type'] !== $type) {
+        $fromtype = $row['type'];
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','type','$fromtype','$type', '$modifier', '$date')";
+        $results = mysqli_query($con,$sql);
+    }
+    
+    if ($row['user'] !== $user) {
+        $fromuser = $row['user'];
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','user','$fromuser','$user', '$modifier', '$date')";
+        $results = mysqli_query($con,$sql);
+    }
+    
+    if ($row['os'] !== $os) {
+        $fromos = $row['os'];
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','os','$fromos','$os', '$modifier', '$date')";
+        $results = mysqli_query($con,$sql);
+    }
+    
+    if ($row['computerName'] !== $pcname) {
+        $fromcomputerName = $row['computerName'];
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','computerName','$fromcomputerName','$pcname', '$modifier', '$date')";
+        $results = mysqli_query($con,$sql);
+    }
+    
+    if ($row['macAddress'] !== $macAddress) {
+        $frommacAddress = $row['macAddress'];
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','macAddress','$frommacAddress','$macAddress', '$modifier', '$date')";
+        $results = mysqli_query($con,$sql);
+    }
+    
+    if ($row['ipAddress'] !== $ipaddress) {
+        $fromipAddress = $row['ipAddress'];
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','ipAddress','$fromipAddress','$ipaddress', '$modifier', '$date')";
+        $results = mysqli_query($con,$sql);
+
+        if($ipaddress!="Dynamic"){
+            $sqlUpdate = "UPDATE `ipaddress` SET `deviceId`='' WHERE `deviceId` = '$deviceId' ";
+            $resultsUpdate = mysqli_query($con,$sqlUpdate);
+            $sqlUpdate = "UPDATE `ipaddress` SET `deviceId`='$deviceId' WHERE `ipaddress` = '$ipaddress' ";
+            $resultsUpdate = mysqli_query($con,$sqlUpdate);
+        }else{
+            $sqlUpdate = "UPDATE `ipaddress` SET `deviceId`='' WHERE `deviceId` = '$deviceId' ";
+            $resultsUpdate = mysqli_query($con,$sqlUpdate);
+        }
+
+    }
+    
+    if ($row['email'] !== $email) {
+        $fromemail = $row['email'];
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','email','$fromemail','$email', '$modifier', '$date')";
+        $results = mysqli_query($con,$sql);
+    }
+    
+    if ($row['pctag'] !== $pcTag) {
+        $frompctag = $row['pctag'];
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','pctag','$frompctag','$pcTag', '$modifier', '$date')";
+        $results = mysqli_query($con,$sql);
+    }
+    
+    if ($row['assetTag'] !== $assetTag) {
+        $fromassetTag = $row['assetTag'];
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','assetTag','$fromassetTag','$assetTag', '$modifier', '$date')";
+        $results = mysqli_query($con,$sql);
+    }
+    
+    if ($row['deactivated'] !== $status) {
+        $fromdeactivated = $row['deactivated'];
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','deactivated','$fromdeactivated','$deactivated', '$modifier', '$date')";
+        $results = mysqli_query($con,$sql);
+    }
+    // foreach ($changedFields as $field) {
+    //     echo "The field '$field' was changed.";
+
+    // }
+  }
+
+
+
+    // echo "<br> $deviceId $pcTag   $assetTag   $pcname   $type   $user   $ipaddress   $department   $macAddress   $email   $pcname   $os  $status   ";
+    $sql = "UPDATE `devices` SET `department`='$department',`type`='$type',`user`='$user',`os`='$os',`computerName`='$pcname',`macAddress`='$macAddress',`ipAddress`='$ipaddress',`email`='$email',`pctag`='$pcTag',`assetTag`='$assetTag',`deactivated`='$status' WHERE `id` = '$deviceId'";
+    $results = mysqli_query($con,$sql);
+    
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+if(isset($_POST['editDeviceCctv'])){
+    $numberOfSelectedDevice = $_POST['numberOfSelectedDevicesCctv'];
+    $modifier=$_SESSION['name'];
+    for($i=0; $i<$numberOfSelectedDevice; $i++){
+        $deviceId = $_POST['deviceId'.$i];
+        $dvrNo = $_POST['dvrNo'.$i];
+        $cameraNo = $_POST['cameraNo'.$i];
+        $location = $_POST['location'.$i];
+        $type = $_POST['type'.$i];
+        $bldgAssigned = $_POST['bldgAssigned'.$i];
+        $ipaddress = $_POST['ipaddress'.$i];
+    
+        $changedFields = array();
+        $changedDevice = array();
+    
+        $date = new DateTime(); 
+        $date = $date->format('F d, Y');
+    
+        $oldData = "SELECT * FROM `cctv` WHERE `id` = '$deviceId'";
+        $resultOldData = mysqli_query($con, $oldData);
+    $link = "";
+    while($row=mysqli_fetch_assoc($resultOldData))
+    {
+        if ($row['dvrNo'] !== $dvrNo) {
+            $fromdvrNo = $row['dvrNo'];
+            $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','DVR No','$fromdvrNo','$department', '$modifier', '$date', 'cctv')";
+            $results = mysqli_query($con,$sql);
+            
+        }
+        
+        if ($row['type'] !== $type) {
+            $fromtype = $row['type'];
+            $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','type','$fromtype','$type', '$modifier', '$date', 'cctv')";
+            $results = mysqli_query($con,$sql);
+        }
+        
+        if ($row['cameraNo'] !== $cameraNo) {
+            $fromcameraNo = $row['cameraNo'];
+            $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','Camera No','$fromcameraNo','$cameraNo', '$modifier', '$date', 'cctv')";
+            $results = mysqli_query($con,$sql);
+        }
+        
+        if ($row['location'] !== $location) {
+            $fromlocation = $row['location'];
+            $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','location','$fromlocation','$location', '$modifier', '$date', 'cctv')";
+            $results = mysqli_query($con,$sql);
+        }
+        
+        if ($row['bldgAssigned'] !== $bldgAssigned) {
+            $frombldgAssigned = $row['bldgAssigned'];
+            $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','bldgAssigned','$frombldgAssigned','$pcname', '$modifier', '$date', 'cctv')";
+            $results = mysqli_query($con,$sql);
+        }
+        
+        if ($row['ipAddress'] !== $ipaddress) {
+            $fromipAddress = $row['ipAddress'];
+            $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','ipAddress','$fromipAddress','$ipaddress', '$modifier', '$date', 'cctv')";
+            $results = mysqli_query($con,$sql);
+    
+            if($ipaddress!="Dynamic" || $ipaddress !="None"){
+                $sqlUpdate = "UPDATE `ipaddress` SET `deviceId`='' WHERE `deviceId` = '$deviceId' ";
+                $resultsUpdate = mysqli_query($con,$sqlUpdate);
+                $sqlUpdate = "UPDATE `ipaddress` SET `deviceId`='$deviceId' WHERE `ipaddress` = '$ipaddress' ";
+                $resultsUpdate = mysqli_query($con,$sqlUpdate);
+            }else{
+                $sqlUpdate = "UPDATE `ipaddress` SET `deviceId`='' WHERE `deviceId` = '$deviceId' ";
+                $resultsUpdate = mysqli_query($con,$sqlUpdate);
+            }
+    
+        }
+        
+       
+      }
+    
+    
+    
+        // echo "<br> $deviceId $pcTag   $assetTag   $pcname   $type   $user   $ipaddress   $department   $macAddress   $email   $pcname   $os  $status   ";
+        $sql = "UPDATE `cctv` SET `dvrNo`='$dvrNo',`cameraNo`='$cameraNo',`location`='$location',`type`='$type',`bldgAssigned`='$bldgAssigned',`ipAddress`='$ipaddress' WHERE `id` = '$deviceId'";
+        $results = mysqli_query($con,$sql);
+        
+    }
+    
+    
+    }
+
+
+
+    if(isset($_POST['editDevicePrinter'])){
+        $numberOfSelectedDevice = $_POST['numberOfSelectedDevicesPrinter'];
+        $modifier=$_SESSION['name'];
+        for($i=0; $i<$numberOfSelectedDevice; $i++){
+            $deviceId = $_POST['deviceId'.$i];
+            $type = $_POST['type'.$i];
+            $model = $_POST['model'.$i];
+            $location = $_POST['location'.$i];
+            $serialNo = $_POST['serialNo'.$i];
+            $ipaddress = $_POST['ipaddress'.$i];
+        
+            $changedFields = array();
+            $changedDevice = array();
+        
+            $date = new DateTime(); 
+            $date = $date->format('F d, Y');
+        
+            $oldData = "SELECT * FROM `printer` WHERE `id` = '$deviceId'";
+            $resultOldData = mysqli_query($con, $oldData);
+        $link = "";
+        while($row=mysqli_fetch_assoc($resultOldData))
+        {
+            if ($row['type'] !== $type) {
+                $fromtype = $row['type'];
+                $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','Brand','$fromtype','$type', '$modifier', '$date', 'printer')";
+                $results = mysqli_query($con,$sql);
+                
+            }       
+            if ($row['model'] !== $model) {
+                $frommodel = $row['model'];
+                $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','Model','$frommodel','$model', '$modifier', '$date', 'printer')";
+                $results = mysqli_query($con,$sql);
+            }
+            
+            if ($row['location'] !== $location) {
+                $fromlocation = $row['location'];
+                $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','Location','$fromlocation','$location', '$modifier', '$date', 'printer')";
+                $results = mysqli_query($con,$sql);
+            }
+            if ($row['serialNo'] !== $serialNo) {
+                $fromserialNo = $row['serialNo'];
+                $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','Serial No.','$fromlocation','$location', '$modifier', '$date', 'printer')";
+                $results = mysqli_query($con,$sql);
+            }
+            
+            if ($row['ipAddress'] !== $ipaddress) {
+                $fromipAddress = $row['ipAddress'];
+                $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','Ip Address','$fromipAddress','$ipaddress', '$modifier', '$date', 'printer')";
+                $results = mysqli_query($con,$sql);
+        
+                if($ipaddress!="Dynamic" || $ipaddress !="None"){
+                    $sqlUpdate = "UPDATE `ipaddress` SET `deviceId`='' WHERE `deviceId` = '$deviceId' ";
+                    $resultsUpdate = mysqli_query($con,$sqlUpdate);
+                    $sqlUpdate = "UPDATE `ipaddress` SET `deviceId`='$deviceId' WHERE `ipaddress` = '$ipaddress' ";
+                    $resultsUpdate = mysqli_query($con,$sqlUpdate);
+                }else{
+                    $sqlUpdate = "UPDATE `ipaddress` SET `deviceId`='' WHERE `deviceId` = '$deviceId' ";
+                    $resultsUpdate = mysqli_query($con,$sqlUpdate);
+                }
+        
+            }
+            
+           
+          }
+        
+        
+        
+            // echo "<br> $deviceId $pcTag   $assetTag   $pcname   $type   $user   $ipaddress   $department   $macAddress   $email   $pcname   $os  $status   ";
+            $sql = "UPDATE `printer` SET `type`='$type',`model`='$model',`location`='$location',`serialNo`='$serialNo',`ipAddress`='$ipaddress' WHERE `id` = '$deviceId'";
+            $results = mysqli_query($con,$sql);
+            
+        }
+        
+        
+        }
+
+
+
+
 
 if(isset($_POST['changeMonth'])){
     $month = $_POST['selectedMonth'];
@@ -363,6 +663,8 @@ if(isset($_POST['rateJo'])){
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.6.2/css/select.dataTables.min.css"/>
 
     <link rel="stylesheet" href="index.css">
+    <link href="../node_modules/select2/dist/css/select2.min.css" rel="stylesheet" />
+
      <!-- tailwind play cdn -->
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <script src="../cdn_tailwindcss.js"></script>
@@ -398,7 +700,7 @@ if(isset($_POST['rateJo'])){
 
 
 
-<div class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
+<div id="mainContent" class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
 <div class="justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
 <div class="text-center py-2 m-auto lg:text-center w-full">
         <!-- <h6 class="text-sm  tracking-tight text-gray-200 sm:text-lg">Good Day</h6> -->
@@ -486,7 +788,52 @@ if(isset($_POST['rateJo'])){
                         <p class="_5NHXTA _2xcaIA ZSdr0w CCfw7w GHIRjw">Computer</p>
                     </button></div>
                 </li>   
-            
+                <li  role="presentation">
+                    
+                    <div class="p__uwg" style="width: 113px; margin-left: 16px; margin-right: 0px;">
+                    <button id="cctvTab" onclick="goToCCTV()"
+                            class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" type="button" tabindex="-1" role="tab" aria-controls="adminApproval" aria-selected="false">
+                            <div class="_1cZINw">
+                                <div class="_qiHHw Ut_ecQ kHy45A">
+    
+                                <img src="../resources/img/cctv.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    
+                                </div>
+                            </div>
+                            <p class="_5NHXTA _2xcaIA ZSdr0w CCfw7w GHIRjw">CCTV</p>
+                        </button></div>
+                    </li>  
+                    <li  role="presentation">
+                    
+                    <div class="p__uwg" style="width: 113px; margin-left: 16px; margin-right: 0px;">
+                    <button id="printerTab" onclick="goToPrinter()"
+                            class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" type="button" tabindex="-1" role="tab" aria-controls="adminApproval" aria-selected="false">
+                            <div class="_1cZINw">
+                                <div class="_qiHHw Ut_ecQ kHy45A">
+    
+                                <img src="../resources/img/printer.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    
+                                </div>
+                            </div>
+                            <p class="_5NHXTA _2xcaIA ZSdr0w CCfw7w GHIRjw">Printer</p>
+                        </button></div>
+                    </li>  
+                <li  role="presentation">
+                    
+                    <div class="p__uwg" style="width: 113px; margin-left: 16px; margin-right: 0px;">
+                    <button id="deviceHistoryTab" onclick="goToDeviceHistory()"
+                            class="_1QoxDw o4TrkA CA2Rbg cwOZMg zQlusQ uRvRjQ POMxOg" type="button" tabindex="-1" role="tab" aria-controls="adminApproval" aria-selected="false">
+                            <div class="_1cZINw">
+                                <div class="_qiHHw Ut_ecQ kHy45A">
+    
+                                <img src="../resources/img/history.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    
+                                </div>
+                            </div>
+                            <p class="_5NHXTA _2xcaIA ZSdr0w CCfw7w GHIRjw">History</p>
+                        </button></div>
+                    </li>   
+                
               
                     </ul>
             </div>
@@ -605,14 +952,37 @@ if(isset($_POST['rateJo'])){
 
     </div>
     <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="adminApproval" role="tabpanel" aria-labelledby="dashboard-tab">
+
     <?php include 'workingStation.php';?>   
-    <form method="POST" action="./getData.php" id="myForm">
-        <input type="text" name="arrayOfSelected" id="arrayOfSelected">
-        <button  type="submit" name="updateSelected" id="updateSelected" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Proceed</button>
+    <form class="mt-10" method="POST" action="./getData.php" id="myForm">
+        <input type="text" name="arrayOfSelected" id="arrayOfSelected" class="hidden">
+        <button  type="submit" name="updateSelected" id="updateSelected" class="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Edit</button>
     </form>
           
 </div>
+<div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="cctv" role="tabpanel" aria-labelledby="dashboard-tab">
 
+<?php include 'cctv.php';?>   
+<form class="mt-10" method="POST" action="./getDataCctv.php" id="myFormcctv">
+    <input type="text" name="arrayOfSelectedcctv" id="arrayOfSelectedcctv" class="hidden">
+    <button  type="submit" name="updateSelectedcctv" id="updateSelectedcctv" class="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Edit</button>
+</form>
+      
+</div>
+<div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="printer" role="tabpanel" aria-labelledby="dashboard-tab">
+
+<?php include 'printer.php';?>   
+<form class="mt-10" method="POST" action="./getDataPrinter.php" id="myFormprinter">
+    <input type="text" name="arrayOfSelectedprinter" id="arrayOfSelectedprinter" class="hidden">
+    <button  type="submit" name="updateSelectedprinter" id="updateSelectedprinter" class="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Edit</button>
+</form>
+      
+</div>
+<div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="deviceHistory" role="tabpanel" aria-labelledby="dashboard-tab">
+    <?php include 'deviceHistory.php';?>   
+   
+          
+</div>
 </div>
 
 
@@ -765,7 +1135,23 @@ if(isset($_POST['rateJo'])){
             <!-- Modal body -->
             <div class="p-6 space-y-6">
             <form method="post">
+            <input type="number" id="numberOfSelectedDevices" name="numberOfSelectedDevice" class="hidden">
+            <div id="devicelabel" class="overflow-auto max-h-96 items-center justify-items-center text-center">
+                    <div class="grid gap-1  md:grid-cols-11 " >
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Tag</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Tag</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Name</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mac Address</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Email</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">OS</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Active</label>
 
+                            </div>
+                    </div>
                 <div id="inputDevicesData" class="overflow-auto max-h-96 items-center justify-items-center text-center">
                     <div class="grid gap-1  md:grid-cols-12 " id="div1">
                     <div class="w-full">
@@ -797,7 +1183,7 @@ if(isset($_POST['rateJo'])){
             </div>
             <!-- Modal footer -->
             <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button type="submit" name="addRemovableDevice" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
+                <button type="submit" name="editDevice" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
                 <button onclick="devicemodalHide()" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
             </div>
             </form>
@@ -805,6 +1191,91 @@ if(isset($_POST['rateJo'])){
     </div>
 </div>
 
+
+<div id="editDeviceModalCctv" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+ <div class="relative w-full max-w-12xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Add device
+                </h3>
+                <button type="button" onclick="devicemodalHideCctv()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-6 space-y-6">
+            <form method="post">
+            <input type="number" id="numberOfSelectedDevicesCctv" name="numberOfSelectedDevicesCctv" class="hidden">
+            <div id="devicelabel" class="overflow-auto max-h-96 items-center justify-items-center text-center">
+                    <div class="grid gap-1  md:grid-cols-6 " >
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DVR No.</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Camera No.</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bldg. Assigned</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
+
+                            </div>
+                    </div>
+                <div id="inputDevicesDataCctv" class="overflow-auto max-h-96 items-center justify-items-center text-center">          
+                    
+                </div>
+           
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button type="submit" name="editDeviceCctv" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
+                <button onclick="devicemodalHideCctv()" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="editDeviceModalPrinter" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+ <div class="relative w-full max-w-12xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Add device
+                </h3>
+                <button type="button" onclick="devicemodalHidePrinter()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-6 space-y-6">
+            <form method="post">
+            <input type="number" id="numberOfSelectedDevicesPrinter" name="numberOfSelectedDevicesPrinter" class="hidden">
+            <div id="devicelabel" class="overflow-auto max-h-96 items-center justify-items-center text-center">
+                    <div class="grid gap-1  md:grid-cols-5" >
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Model</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Serial No.</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
+
+                            </div>
+                    </div>
+                <div id="inputDevicesDataPrinter" class="overflow-auto max-h-96 items-center justify-items-center text-center">          
+                    
+                </div>
+           
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button type="submit" name="editDevicePrinter" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
+                <button onclick="devicemodalHidePrinter()" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- Main modal -->
 <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
@@ -1107,7 +1578,7 @@ if(isset($_POST['rateJo'])){
 
 <script src="../node_modules/flowbite/dist/flowbite.js"></script>
 <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-
+<script src="../node_modules/select2/dist/js/select2.min.js"></script>
 <script type="text/javascript" src="../node_modules/DataTables/datatables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.6.2/js/dataTables.select.min.js"></script>
 
@@ -1116,6 +1587,8 @@ if(isset($_POST['rateJo'])){
     <script type="text/javascript" src="index.js"></script>
     <script>
 
+
+    $('.js-example-basic-single').select2();
 
 
 // var rowsList = <?php echo json_encode($rowsList); ?>; // Assign the JSON-encoded data to a JavaScript variable
@@ -1171,7 +1644,7 @@ if(isset($_POST['rateJo'])){
     var inputCount = document.getElementById("counter").value
     div.id = "div"+inputCount+"";
 
-    var set = "<div class='w-full'><input name='controlNumber"+inputCount+"' type='text' id='first_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert the label here' required></div><div class='w-full'><input name='brand"+inputCount+"' type='text' id='last_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Kingston' required></div><div class='w-full'><input name='size"+inputCount+"' type='text' id='last_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='1GB' required></div><div class='w-full'><input name='color"+inputCount+"' type='text' id='last_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Black' required></div><div class='w-full'><select name='type"+inputCount+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'> <option selected value='Flashdrive'>Flashdrive</option><option  value='SD Card'>SD Card</option> <option  value='Compactflash'>Compactflash</option><option value='Card Reader'>Card Reader</option> <option value='Others'>Others</option>  </select></div><div class='w-full'><button type='button' onclick='removeSet("+inputCount+")' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4  focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>-</button></div>";
+    var set = "<div class='w-full'><input name='controlNumber"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert the label here' required></div><div class='w-full'><input name='brand"+inputCount+"' type='text' id='last_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Kingston' required></div><div class='w-full'><input name='size"+inputCount+"' type='text' id='last_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='1GB' required></div><div class='w-full'><input name='color"+inputCount+"' type='text' id='last_name' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Black' required></div><div class='w-full'><select name='type"+inputCount+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'> <option selected value='Flashdrive'>Flashdrive</option><option  value='SD Card'>SD Card</option> <option  value='Compactflash'>Compactflash</option><option value='Card Reader'>Card Reader</option> <option value='Others'>Others</option>  </select></div><div class='w-full'><button type='button' onclick='removeSet("+inputCount+")' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4  focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>-</button></div>";
     div.innerHTML=set;
     inputContainer.appendChild(div);
 
@@ -1597,9 +2070,21 @@ const options = {
 * targetEl: required
 * options: optional
 */
+
 const drawer = new Drawer($targetEl, options);
 drawer.show();
 var show = true;
+
+
+var screenWidth = window.screen.width;   // Screen width in pixels
+var screenHeight = window.screen.height; // Screen height in pixels
+
+console.log("Screen width: " + screenWidth);
+console.log("Screen height: " + screenHeight);
+var sidebar=0;
+    
+
+
 function shows(){
     if(show){
         drawer.hide();
@@ -1609,10 +2094,41 @@ function shows(){
         drawer.show();
         show = true;
     }
-
+    // var sidebar=0;
+    if(sidebar==0){
+    document.getElementById("mainContent").style.width="100%";  
+    document.getElementById("mainContent").style.marginLeft= "0px"; 
+    // document.getElementById("sidebar").style.opacity= ""; 
+    // document.getElementById("sidebar").style.transition = "all .1s";
+    
+    document.getElementById("mainContent").style.transition = "all .3s";
+    
+    
+    
+    
+    
+    
+    sidebar=1;
+    }
+    else{
+      document.getElementById("mainContent").style.width="calc(100% - 288px)";  
+    document.getElementById("mainContent").style.marginLeft= "288px";  
+    
+    sidebar=0;
+    }
+    
 
 }
 
+if (screenWidth <= 1132){
+    shows();
+
+}
+else{
+drawer.show();
+// sidebar=0;/
+    
+}
 
 
 
@@ -1628,7 +2144,23 @@ const tabElements= [
         id: 'adminApproval1',
         triggerEl: document.querySelector('#adminApprovalTab'),
         targetEl: document.querySelector('#adminApproval')
+    },   
+     {
+        id: 'cctv',
+        triggerEl: document.querySelector('#cctvTab'),
+        targetEl: document.querySelector('#cctv')
+    },
+    {
+        id: 'printer',
+        triggerEl: document.querySelector('#printerTab'),
+        targetEl: document.querySelector('#printer')
+    },
+    {
+        id: 'deviceHistoryTab',
+        triggerEl: document.querySelector('#deviceHistoryTab'),
+        targetEl: document.querySelector('#deviceHistory')
     }
+    
 ];
 
 // options with default values
@@ -1657,7 +2189,29 @@ tabs.show('headApproval1');
 // // get the current active tab object
 // tabs.getActiveTab()
 
+function goToDeviceHistory(){
+    const myElement = document.querySelector('#diamond');
 
+// Get the current transform value
+const currentTransform = myElement.style.transform = 'translateX(570px) translateY(2px) rotate(135deg)';
+
+}
+
+function goToCCTV(){
+    const myElement = document.querySelector('#diamond');
+
+// Get the current transform value
+const currentTransform = myElement.style.transform = 'translateX(310px) translateY(2px) rotate(135deg)';
+
+}
+
+function goToPrinter(){
+    const myElement = document.querySelector('#diamond');
+
+// Get the current transform value
+const currentTransform = myElement.style.transform = 'translateX(440px) translateY(2px) rotate(135deg)';
+
+}
 function goToAdmin(){
     const myElement = document.querySelector('#diamond');
     

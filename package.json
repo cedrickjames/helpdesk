@@ -4,6 +4,7 @@
     "datatables.net-dt": "^1.13.4",
     "flowbite": "^1.5.3",
     "jquery": "^3.6.3",
+    "select2": "^4.1.0-rc.0",
     "tw-elements": "^1.0.0-alpha13"
   },
   "devDependencies": {

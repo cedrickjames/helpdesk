@@ -18,6 +18,9 @@ $username=$_SESSION['username'];
                 <th>Asset Tag</th>
                 <th>Type</th>
                 <th>User</th>
+                <th>Ip Address</th>
+                <th>Department</th>
+
                 <th>Status</th>
 
             </tr>
@@ -29,7 +32,7 @@ $username=$_SESSION['username'];
                           $year = $_SESSION['selectedYear'];
                 $a=1;
 
-                $sql="SELECT * FROM `devices` WHERE `department` = '$user_dept' AND `type` != 'Tablet'";
+                $sql="SELECT * FROM `devices` ";
                 $result = mysqli_query($con,$sql);
 
                 while($row=mysqli_fetch_assoc($result)){
@@ -57,7 +60,12 @@ $username=$_SESSION['username'];
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['user'];?> 
               </td>
-            
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['ipAddress'];?> 
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['department'];?> 
+              </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                 <?php if($row['deactivated'] == false){
                     echo "Active";

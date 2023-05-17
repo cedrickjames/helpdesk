@@ -324,7 +324,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
 
 
 </head>
-<body   class="static  bg-white dark:bg-gray-900"  >
+<body   class="static  bg-white dark:bg-gray-700"  >
 
     <!-- nav -->
     <?php require_once 'nav.php';?>
@@ -359,14 +359,14 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
 
 <div class="mt-0 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 ">
 
-  <div class="flex items-start rounded-xl bg-teal-700 dark:bg-white p-4 shadow-lg">
+  <div class="flex items-start rounded-xl bg-teal-700 dark:bg-teal-700 p-4 shadow-lg">
     <div class="flex h-12 w-12 overflow-hidden items-center justify-center rounded-full border border-red-100 bg-red-50">
     <img src="../resources/img/Engineer.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 
     </div>
 
     <div class="ml-3">
-      <h2 class="font-semibold text-gray-100 dark:text-gray-900">FEM Pending</h2>
+      <h2 class="font-semibold text-gray-100 dark:text-gray-100">FEM Pending</h2>
       <p class="mt-2 text-xl text-left text-gray-100"><?php 
                                         $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE request_to = 'fem' AND status2 = 'inprogress'";
                                         $result = mysqli_query($con, $sql1);
@@ -378,14 +378,14 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                             ?></p>
     </div>
   </div>
-  <div class="flex items-start rounded-xl bg-sky-900 dark:bg-white p-4 shadow-lg">
+  <div class="flex items-start rounded-xl bg-sky-900 dark:bg-sky-900 p-4 shadow-lg">
     <div class="flex h-12 w-12 items-center overflow-hidden  justify-center rounded-full border border-indigo-100 bg-indigo-50">
     <img src="../resources/img/itboy.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 
     </div>
 
     <div class="ml-3">
-      <h2 class="font-semibold text-gray-100 dark:text-gray-900">MIS Pending</h2>
+      <h2 class="font-semibold text-gray-100 dark:text-gray-100">MIS Pending</h2>
       <p class="mt-2 text-xl text-left text-gray-100"><?php 
                                         $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE request_to = 'mis' AND status2 = 'inprogress'";
                                         $result = mysqli_query($con, $sql1);
@@ -420,7 +420,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                                     
                                         if($count["pending"] > 0){
                                             ?>
-                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-white"> <?php 
                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `requestorUsername` = '$username' and `status2` = 'head'";
                                                        $result = mysqli_query($con, $sql1);
                                                        while($count=mysqli_fetch_assoc($result))
@@ -457,7 +457,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                                     
                                         if($count["pending"] > 0){
                                             ?>
-                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-white"> <?php 
                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `requestorUsername` = '$username' and `status2` = 'admin'";
                                                        $result = mysqli_query($con, $sql1);
                                                        while($count=mysqli_fetch_assoc($result))
@@ -495,7 +495,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                                     
                                         if($count["pending"] > 0){
                                             ?>
-                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-white"> <?php 
                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE`requestorUsername` = '$username' and `status2` = 'inprogress'";
                                                        $result = mysqli_query($con, $sql1);
                                                        while($count=mysqli_fetch_assoc($result))
@@ -532,7 +532,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                                     
                                         if($count["pending"] > 0){
                                             ?>
-                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-white"> <?php 
                                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE requestorUsername='$username' AND status2='Done'";
                                                        $result = mysqli_query($con, $sql1);
                                                        while($count=mysqli_fetch_assoc($result))
@@ -554,7 +554,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                     </li>
                     </ul>
             </div>
-            <div class="rzHaWQ theme light" id="diamond" style="transform: translateX(55px) translateY(2px) rotate(135deg);"></div>
+            <div class="rzHaWQ theme light dark:bg-gray-700" id="diamond" style="transform: translateX(55px) translateY(2px) rotate(135deg);"></div>
         </div>
     </div>
 </div>
@@ -598,19 +598,19 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
 
 </div> -->
 <div id="myTabContent" class="mt-4">
-    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="headApproval" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-200" id="headApproval" role="tabpanel" aria-labelledby="profile-tab">
     <?php include 'headApproval.php';?>   
 
 
 
     </div>
-    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="adminApproval" role="tabpanel" aria-labelledby="dashboard-tab">
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-200" id="adminApproval" role="tabpanel" aria-labelledby="dashboard-tab">
     <?php include 'adminApproval.php';?>   
  </div>
-    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="inProgress" role="tabpanel" aria-labelledby="settings-tab">
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-200" id="inProgress" role="tabpanel" aria-labelledby="settings-tab">
     <?php include 'inProgress.php';?>   
  </div>
-    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="toRate" role="tabpanel" aria-labelledby="contacts-tab">
+    <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-200" id="toRate" role="tabpanel" aria-labelledby="contacts-tab">
     <?php include 'toRate.php';?>   
  </div>
 </div>
@@ -673,28 +673,28 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
             <!-- Modal body -->
             <div class=" items-center p-6 space-y-2">
             <div id="assignedPersonnelDiv"class="hidden w-full">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Assigned Personnel : </span><span id="assignedPersonnel"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-500"><span class="text-gray-400">Assigned Personnel : </span><span  class="dark:text-white" id="assignedPersonnel"></span></h2>
     
          
                 </div>
             <input type="text" name="joid2" id="joid2" class="hidden col-span-2 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 
                 <div class="w-full grid gap-4 grid-cols-2">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">JO Number : </span><span id="jonumber"></span></h2>
-                    <h2 class="pl-10 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Date filed: </span><span id="datefiled"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-500"><span class="text-gray-400">JO Number : </span><span class="dark:text-white" id="jonumber"></span></h2>
+                    <h2 class="pl-10 font-semibold text-gray-900 dark:text-gray-500"><span class="text-gray-400">Date filed: </span><span class="dark:text-white" id="datefiled"></span></h2>
                 </div>
                 <div class="w-full grid gap-4 grid-cols-2">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Requested Section: </span><span id="sectionmodal"></span></h2>
-                     <h2 class="pl-10 font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Type: </span><span id="category"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-500"><span class="text-gray-400">Requested Section: </span><span class="dark:text-white" id="sectionmodal"></span></h2>
+                     <h2 class="pl-10 font-semibold text-gray-900 dark:text-gray-500"><span class="text-gray-400">Type: </span><span class="dark:text-white" id="category"></span></h2>
                 </div>
                 <div class="w-full grid gap-4 grid-cols-2">
                 <div id="categoryDivParent" class="grid gap-4 grid-cols-2">
-                <h2 class="float-left font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Computer Name: </span></h2>
+                <h2 class="float-left font-semibold text-gray-900 dark:text-gray-500"><span class="text-gray-400">Computer Name: </span></h2>
                 <input type="text" name="computername" id="computername"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     
                 </div>
                      <div class="grid gap-4 grid-cols-2">
-                <h2 id="telephoneh2" class="pl-10 float-left font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Telephone</span></h2>
+                <h2 id="telephoneh2" class="pl-10 float-left font-semibold text-gray-900 dark:text-gray-500"><span class="text-gray-400">Telephone</span></h2>
                 <input type="text" name="telephone" id="telephone"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     
                 </div>
@@ -745,13 +745,13 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                 <textarea id="message" name="message" rows="1" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
                 <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                 <div id="action1div" class="w-full grid gap-4 grid-col-1">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 1: </span><span id="action1"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 1: </span><span class="dark:text-white" id="action1"></span></h2>
                 </div>
                 <div id="action2div" class="w-full grid gap-4 grid-col-1">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 2: </span><span id="action2"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 2: </span><span class="dark:text-white" id="action2"></span></h2>
                 </div>
                 <div id="action3div" class="w-full grid gap-4 grid-col-1">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 3: </span><span id="action3"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Action 3: </span><span class="dark:text-white" id="action3"></span></h2>
                 </div> 
                 <div id="actionDetailsDiv" class="hidden">
                 <label for="message" class="py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400">Details of action</label>
@@ -759,7 +759,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
             
                 </div>
                 <div id="recommendationDiv" class="hidden w-full grid gap-4 grid-col-1">
-                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Recommendation: </span><span id="recommendation"></span></h2>
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Recommendation: </span><span class="dark:text-white" id="recommendation"></span></h2>
                 </div>
                
             </div> 
@@ -1209,7 +1209,15 @@ const options = {
 const drawer = new Drawer($targetEl, options);
 drawer.show();
 var show = true;
+
+var screenWidth = window.screen.width;   // Screen width in pixels
+var screenHeight = window.screen.height; // Screen height in pixels
+
+console.log("Screen width: " + screenWidth);
+console.log("Screen height: " + screenHeight);
 var sidebar=0;
+    
+
 function shows(){
     if(show){
         drawer.hide();
@@ -1246,7 +1254,15 @@ function shows(){
 }
 
 
+if (screenWidth <= 1132){
+    shows();
 
+}
+else{
+drawer.show();
+// sidebar=0;/
+    
+}
 
 
 // // Code for tabs
@@ -1276,7 +1292,7 @@ const tabElements= [
 // options with default values
 const taboptions = {
     defaultTabId: 'headApproval1',
-    activeClasses: 'text-white hover:text-amber-400 dark:text-blue-500 dark:hover:text-blue-400 border-blue-600 dark:border-blue-500',
+    activeClasses: 'text-amber-400 hover:text-amber-400 dark:text-amber-400 dark:hover:text-amber-400 border-amber-600 dark:border-amber-500',
     inactiveClasses: 'text-gray-300 hover:text-amber-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300',
     onShow: () => {
         console.log('tab is shown');
@@ -1697,7 +1713,8 @@ function rateq(id){
     }
 }
 
-$("#sidehome").addClass("bg-gray-200");
+
+$("#sidehome").addClass("text-white bg-gradient-to-br from-green-400 to-blue-600 dark:bg-gradient-to-br from-green-400 to-blue-600");
 $("#sidehistory").removeClass("bg-gray-200");
 $("#sidepms").removeClass("bg-gray-200");
 
