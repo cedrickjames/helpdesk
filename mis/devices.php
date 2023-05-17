@@ -952,6 +952,7 @@ if(isset($_POST['rateJo'])){
 
     </div>
     <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="adminApproval" role="tabpanel" aria-labelledby="dashboard-tab">
+    <button data-modal-target="addDeviceModalComputer" data-modal-toggle="addDeviceModalComputer" type="button" class="w-full mt-5 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Add Device</button>
 
     <?php include 'workingStation.php';?>   
     <form class="mt-10" method="POST" action="./getData.php" id="myForm">
@@ -1118,6 +1119,117 @@ if(isset($_POST['rateJo'])){
         </div>
     </div>
 </div>
+
+
+<div id="addDeviceModalComputer" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+ <div class="relative w-full max-w-7xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Add Computer
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="addDeviceModalComputer">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-6 space-y-6">
+            <form method="post">
+                <input type="number" value="1" name="counterComputer" id="counterComputer" class="hidden">
+                <input type="text" id="strUserComputer" value="1" name="strnowUserComputer" class="hidden"> 
+                <div id="inputContainerComputer" class="overflow-auto max-h-96 items-center justify-items-center text-center">
+                <div id="devicelabelComputer" class="overflow-auto max-h-96 items-center justify-items-center text-center">
+                    <div class="grid gap-1  md:grid-cols-11 " >
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Tag</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Tag</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Name</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mac Address</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Email</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">OS</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">+-</label>
+
+                            </div>
+                    </div>
+                    <div class="grid gap-1  md:grid-cols-11 " id="div1">
+                    <div class='w-full'>
+                        <input name='pcTag1' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert PC Tag' >
+                    </div>
+                            <div class='w-full'>
+                                <input name='assetTag1' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='FFFE-123' >
+                            </div>
+                            <div class='w-full'>
+                                <input name='pcname1' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='PC Name' >
+                            </div>
+                            <div class='w-full'>
+                                <input name='type1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Type' >
+                            </div>
+                            <div class='w-full'>
+                                <input name='user1' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Full Name' >
+                            </div>
+                            <div class='w-full'>
+                                <select  name='ipaddress1' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                                   
+                                     <option value='Dynamic'>Dynamic</option>
+                                     
+                                     <?php
+                                     
+                                        $sql="SELECT ip.ipaddress,CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE ip.ipaddress != '' AND CONCAT_WS(',', d.id, c.id, p.id) = '';";
+                                        $result = mysqli_query($con,$sql);
+                                        $options = array();
+                                        while($row=mysqli_fetch_assoc($result)){
+                                            $ip = $row['ipaddress'];
+                                            echo "<option value='$ip'>$ip</option>";
+                                            ?>
+                                            
+                                            <?php
+                                            
+
+                                        }?>  
+                                    </select>
+                                    </div>
+                                    <div class='w-full'>
+                                        <input name='department1'  type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Department' >
+                                    </div>
+                                    <div class='w-full'>
+                                        <input name='macAddress1'  type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Mac Address' >
+                                    </div>
+                                    <div class='w-full'>
+                                        <input name='email1'  type='text'   class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Email' >
+                                    </div>
+                                    <div class='w-full'>
+                                        <input name='os1'  type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='OS' >
+                                    </div>
+         
+                   
+                    <div class="w-full">
+                        
+                             <button type="button" onclick="addSetComputer()" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">+</button>
+                    </div>
+
+                    </div>
+                   
+
+                    
+                    
+                </div>
+           
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button type="submit" name="addRemovableDevice" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
+                <button data-modal-toggle="addDeviceModalComputer" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 <div id="editDeviceModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
  <div class="relative w-full max-w-12xl max-h-full">
@@ -1654,6 +1766,58 @@ if(isset($_POST['rateJo'])){
 
     document.getElementById("strUser").value = divIdArrayUser;
  }
+
+ 
+ const inputContainerComputer = document.getElementById("inputContainerComputer");
+ const divIdArrayUserComputer = [1];
+ function addSetComputer(){
+    document.getElementById("counterComputer").stepUp(1);
+
+    const div =document.createElement("div");
+    div.classList.add("grid");
+    div.classList.add("gap-1");
+    div.classList.add("md:grid-cols-11");
+
+    var inputCount = document.getElementById("counter").value
+    div.id = "divComp"+inputCount+"";
+
+    var set = "<div class='w-full'>    <input name='pcTag1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert PC Tag'></div><div class='w-full'><input name='assetTag1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='FFFE-123'></div><div class='w-full'><input name='pcname1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='PC Name'></div><div class='w-full'><input name='type1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Type'></div><div class='w-full'><input name='user1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Full Name'></div><div class='w-full'><select name='ipaddress1' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option value='Dynamic'>Dynamic</option><?php $sql='SELECT ip.ipaddress,CONCAT_WS(",", d.id, c.id, p.id) AS all_ids, CONCAT_WS(",", d.type, c.type, p.type) AS all_type, CONCAT_WS(",", d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(",", CASE WHEN d.id IS NOT NULL THEN "devices" END, CASE WHEN c.id IS NOT NULL THEN "cctv" END, CASE WHEN p.id IS NOT NULL THEN "printer" END) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE ip.ipaddress != "" AND CONCAT_WS(",", d.id, c.id, p.id) = "";';$result=mysqli_query($con,$sql);$options=array();while($row=mysqli_fetch_assoc($result)){$ip=$row['ipaddress'];echo "<option value='$ip'>$ip</option>";}?></select></div><div class='w-full'><input name='department1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Department'></div><div class='w-full'><input name='macAddress1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Mac Address'></div><div class='w-full'><input name='email1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Email'></div><div class='w-full'><input name='os1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='OS'></div><div class='w-full'><button type='button' onclick='removeSetComputer("+inputCount+")' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4  focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>-</button></div>";
+    div.innerHTML=set;
+    inputContainerComputer.appendChild(div);
+    $('.js-example-basic-single').select2();
+
+    divIdArrayUserComputer.push(parseInt(inputCount));
+
+    console.log(divIdArrayUserComputer);
+
+    document.getElementById("strUserComputer").value = divIdArrayUserComputer;
+ }
+
+ function removeSetComputer(id){
+
+// Retrieve the element by its id
+var element = document.getElementById('divComp'+id);
+
+// Check if the element exists
+if (element) {
+// Retrieve the parent element
+var parentElement = element.parentNode;
+
+// Remove the element from its parent
+parentElement.removeChild(element);
+}
+
+const indexToRemove = divIdArrayUserComputer.indexOf(id);
+if (indexToRemove !== -1) {
+    divIdArrayUserComputer.splice(indexToRemove, 1);
+}
+
+console.log(divIdArrayUserComputer);
+// divIdArrayUser.splice(divIdArrayUser.indexOf(id+1), 1);
+document.getElementById("strUserComputer").value = divIdArrayUserComputer;
+
+
+}
 function removeSet(id){
 
     // Retrieve the element by its id
