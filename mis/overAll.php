@@ -17,6 +17,7 @@ $username=$_SESSION['username'];
                 <th>Details</th>
                 <th>Date Filed</th>
                 <th>Category</th>
+                <th>PC</th>
                 <th>Assigned to</th>
                 <th>Assigned Section</th>
                 <th>Rate</th>
@@ -95,6 +96,9 @@ $username=$_SESSION['username'];
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['request_category'];?> 
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['computerName'];?> 
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap truncate" style="max-width: 10px;">
 

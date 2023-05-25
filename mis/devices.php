@@ -206,7 +206,7 @@ while($row=mysqli_fetch_assoc($resultOldData))
     
     if ($row['deactivated'] !== $status) {
         $fromdeactivated = $row['deactivated'];
-        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','deactivated','$fromdeactivated','$deactivated', '$modifier', '$date')";
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','deactivated','$fromdeactivated','$status', '$modifier', '$date')";
         $results = mysqli_query($con,$sql);
     }
     // foreach ($changedFields as $field) {
@@ -485,6 +485,63 @@ if(isset($_POST['submitProof'])){
 
 
 }
+
+if(isset($_POST['addComputer'])){
+    $arrayOfInput =  $_POST['strnowUserComputer'] ;  
+    $arrayOfInput = explode(',', $arrayOfInput);
+    $numberOfElements = count($arrayOfInput);
+ //    echo $numberOfElements;
+ 
+ $strnowUser = $_POST['strnowUserComputer'];
+ $success = false;
+ foreach ($arrayOfInput as $element) {
+   $pcTag =  $_POST['pcTag'.$element];
+   $assetTag =  $_POST['assetTag'.$element];
+   $pcname =  $_POST['pcname'.$element];
+   $user =  $_POST['user'.$element];
+   $type =  $_POST['type'.$element];
+   $ipaddress =  $_POST['ipaddress'.$element];
+   $department =  $_POST['department'.$element];
+   $macAddress =  $_POST['macAddress'.$element];
+   $email =  $_POST['email'.$element];
+   $os =  $_POST['os'.$element];
+ 
+   $select="select * from `devices` WHERE `computerName` = '$pcname' ";
+     $resultSelect = mysqli_query($con,$select);
+     $numrows = mysqli_num_rows($resultSelect);
+     if($numrows >=1){
+ 
+         echo "<script>alert('This device is already added. Please check the computer name or host name') </script>";
+     }
+     else{
+         
+         $sql = "INSERT INTO `devices`(`department`, `type`, `user`, `os`, `computerName`, `macAddress`, `ipAddress`, `edr`, `email`, `pctag`, `assetTag`, `deactivated`) VALUES ('$department','$type','$user','$os','$pcname','$macAddress','$ipaddress','1','$email','$pcTag','$assetTag','0')";
+         $results = mysqli_query($con,$sql);
+         if($results){
+           $success= true;
+         }
+         else{
+           $success= false;
+
+         }
+     }
+ 
+ 
+ }
+ if($success){
+    echo "<script>alert('Device Added') </script>";
+
+  }
+  else{
+    echo "<script>alert('There is something wrong. ') </script>";
+
+
+  }
+
+ 
+ }
+
+
 if(isset($_POST['addRemovableDevice'])){
    $arrayOfInput =  $_POST['strnowUser'] ;  
    $arrayOfInput = explode(',', $arrayOfInput);
@@ -1122,7 +1179,7 @@ if(isset($_POST['rateJo'])){
 
 
 <div id="addDeviceModalComputer" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
- <div class="relative w-full max-w-7xl max-h-full">
+ <div class="relative w-full max-w-10xl max-h-full">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->
@@ -1158,7 +1215,20 @@ if(isset($_POST['rateJo'])){
                     </div>
                     <div class="grid gap-1  md:grid-cols-11 " id="div1">
                     <div class='w-full'>
-                        <input name='pcTag1' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert PC Tag' >
+                        <input name='pcTag1' value="<?php
+                            $date = new DateTime(); 
+                            $year = $date->format('y');
+                            $month = $date->format('m');
+
+
+                            $sql="SELECT COUNT(*) AS count FROM devices WHERE pctag LIKE '%C$year%'";
+                            $result = mysqli_query($con,$sql);
+                            $options = array();
+                            while($row=mysqli_fetch_assoc($result)){
+                                $count = $row['count'];
+                                $count=$count+1;
+                                $formattedNum = str_pad($count, 3, '0', STR_PAD_LEFT);
+                                echo 'C'.$year.$month.'-'.$formattedNum; }?>" type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert PC Tag' >
                     </div>
                             <div class='w-full'>
                                 <input name='assetTag1' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='FFFE-123' >
@@ -1167,7 +1237,17 @@ if(isset($_POST['rateJo'])){
                                 <input name='pcname1' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='PC Name' >
                             </div>
                             <div class='w-full'>
-                                <input name='type1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Type' >
+                                <!-- <input name='type1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Type' > -->
+                                <select name='type1' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                      <?php  
+
+                                            $sql="SELECT DISTINCT `type` FROM `devices`";
+                                            $result = mysqli_query($con,$sql);
+
+                                            while($row=mysqli_fetch_assoc($result)){
+                                            ?> <option  value="<?php echo $row['type']; ?>"><?php echo $row['type']; ?></option> <?php
+                                            }  ?>
+                                            </select>
                             </div>
                             <div class='w-full'>
                                 <input name='user1' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Full Name' >
@@ -1194,7 +1274,17 @@ if(isset($_POST['rateJo'])){
                                     </select>
                                     </div>
                                     <div class='w-full'>
-                                        <input name='department1'  type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Department' >
+                                    <select name='department1' class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                      <?php  
+
+                                            $sql="SELECT DISTINCT department FROM user";
+                                            $result = mysqli_query($con,$sql);
+
+                                            while($row=mysqli_fetch_assoc($result)){
+                                            ?> <option  value="<?php echo $row['department']; ?>"><?php echo $row['department']; ?></option> <?php
+                                            }  ?>
+                                            </select>
+                                        <!-- <input name='department1'  type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Department' > -->
                                     </div>
                                     <div class='w-full'>
                                         <input name='macAddress1'  type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Mac Address' >
@@ -1203,7 +1293,17 @@ if(isset($_POST['rateJo'])){
                                         <input name='email1'  type='text'   class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Email' >
                                     </div>
                                     <div class='w-full'>
-                                        <input name='os1'  type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='OS' >
+                                        <!-- <input name='os1'  type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='OS' > -->
+                                        <select name='os1'  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                      <?php  
+
+                                            $sql="SELECT DISTINCT `os` FROM `devices`";
+                                            $result = mysqli_query($con,$sql);
+
+                                            while($row=mysqli_fetch_assoc($result)){
+                                            ?> <option  value="<?php echo $row['os']; ?>"><?php echo $row['os']; ?></option> <?php
+                                            }  ?>
+                                            </select>
                                     </div>
          
                    
@@ -1222,7 +1322,7 @@ if(isset($_POST['rateJo'])){
             </div>
             <!-- Modal footer -->
             <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button type="submit" name="addRemovableDevice" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
+                <button type="submit" name="addComputer" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
                 <button data-modal-toggle="addDeviceModalComputer" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
             </div>
             </form>
@@ -1770,7 +1870,20 @@ if(isset($_POST['rateJo'])){
  
  const inputContainerComputer = document.getElementById("inputContainerComputer");
  const divIdArrayUserComputer = [1];
+ var numbersOfPC = "<?php
+                           
+                           $sql="SELECT COUNT(*) AS count FROM devices WHERE pctag LIKE '%C$year%'";
+                           $result = mysqli_query($con,$sql);
+                           $options = array();
+                           while($row=mysqli_fetch_assoc($result)){
+                               $count = $row['count'];
+                               $count=$count+1;
+                               echo $count; }?>" 
  function addSetComputer(){
+    numbersOfPC++;
+
+var formattedNum = numbersOfPC.toString().padStart(3, '0');
+// console.log(formattedNum)
     document.getElementById("counterComputer").stepUp(1);
 
     const div =document.createElement("div");
@@ -1778,10 +1891,39 @@ if(isset($_POST['rateJo'])){
     div.classList.add("gap-1");
     div.classList.add("md:grid-cols-11");
 
-    var inputCount = document.getElementById("counter").value
+    var inputCount = document.getElementById("counterComputer").value
     div.id = "divComp"+inputCount+"";
 
-    var set = "<div class='w-full'>    <input name='pcTag1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert PC Tag'></div><div class='w-full'><input name='assetTag1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='FFFE-123'></div><div class='w-full'><input name='pcname1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='PC Name'></div><div class='w-full'><input name='type1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Type'></div><div class='w-full'><input name='user1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Full Name'></div><div class='w-full'><select name='ipaddress1' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option value='Dynamic'>Dynamic</option><?php $sql='SELECT ip.ipaddress,CONCAT_WS(",", d.id, c.id, p.id) AS all_ids, CONCAT_WS(",", d.type, c.type, p.type) AS all_type, CONCAT_WS(",", d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(",", CASE WHEN d.id IS NOT NULL THEN "devices" END, CASE WHEN c.id IS NOT NULL THEN "cctv" END, CASE WHEN p.id IS NOT NULL THEN "printer" END) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE ip.ipaddress != "" AND CONCAT_WS(",", d.id, c.id, p.id) = "";';$result=mysqli_query($con,$sql);$options=array();while($row=mysqli_fetch_assoc($result)){$ip=$row['ipaddress'];echo "<option value='$ip'>$ip</option>";}?></select></div><div class='w-full'><input name='department1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Department'></div><div class='w-full'><input name='macAddress1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Mac Address'></div><div class='w-full'><input name='email1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Email'></div><div class='w-full'><input name='os1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='OS'></div><div class='w-full'><button type='button' onclick='removeSetComputer("+inputCount+")' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4  focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>-</button></div>";
+    var set = "<div class='w-full'>    <input name='pcTag"+inputCount+"' type='text' value='<?php
+                            $date = new DateTime(); 
+                            $year = $date->format('y');
+                            $month = $date->format('m');
+
+
+                            $sql="SELECT COUNT(*) AS count FROM devices WHERE pctag LIKE '%C$year%'";
+                            $result = mysqli_query($con,$sql);
+                            $options = array();
+                            while($row=mysqli_fetch_assoc($result)){
+                                $count = $row['count'];
+                                $count=$count+1;
+                                $formattedNum = str_pad($count, 3, '0', STR_PAD_LEFT);
+                                echo 'C'.$year.$month.'-'; }?>"+formattedNum+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert PC Tag'></div><div class='w-full'><input name='assetTag"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='FFFE-123'></div><div class='w-full'><input name='pcname"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='PC Name'></div><div class='w-full'><select name='type"+inputCount+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php  
+
+                                      $sql="SELECT DISTINCT `type` FROM `devices`";
+                                      $result = mysqli_query($con,$sql);
+
+                                      while($row=mysqli_fetch_assoc($result)){
+                                      ?> <option  value='<?php echo $row['type']; ?>'><?php echo $row['type']; ?></option> <?php
+                                      }  ?>
+                                      </select></div><div class='w-full'><input name='user"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Full Name'></div><div class='w-full'><select name='ipaddress"+inputCount+"' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option value='Dynamic'>Dynamic</option><?php $sql='SELECT ip.ipaddress,CONCAT_WS(",", d.id, c.id, p.id) AS all_ids, CONCAT_WS(",", d.type, c.type, p.type) AS all_type, CONCAT_WS(",", d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(",", CASE WHEN d.id IS NOT NULL THEN "devices" END, CASE WHEN c.id IS NOT NULL THEN "cctv" END, CASE WHEN p.id IS NOT NULL THEN "printer" END) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE ip.ipaddress != "" AND CONCAT_WS(",", d.id, c.id, p.id) = "";';$result=mysqli_query($con,$sql);$options=array();while($row=mysqli_fetch_assoc($result)){$ip=$row['ipaddress'];echo "<option value='$ip'>$ip</option>";}?></select></div><div class='w-full'><select name='department"+inputCount+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php   $sql="SELECT DISTINCT department FROM user";  $result = mysqli_query($con,$sql); while ($row=mysqli_fetch_assoc($result)){  ?><option  value='<?php echo $row['department']; ?>'><?php echo $row['department']; ?></option><?php   }  ?></select></div><div class='w-full'><input name='macAddress"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Mac Address'></div><div class='w-full'><input name='email"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Email'></div><div class='w-full'><select name='os"+inputCount+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php  
+
+                                            $sql="SELECT DISTINCT `os` FROM `devices`";
+                                            $result = mysqli_query($con,$sql);
+
+                                            while($row=mysqli_fetch_assoc($result)){
+                                            ?> <option  value='<?php echo $row['os']; ?>''><?php echo $row['os']; ?></option> <?php
+                                            }  ?>
+                                            </select></div><div class='w-full'><button type='button' onclick='removeSetComputer("+inputCount+")' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4  focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>-</button></div>";
     div.innerHTML=set;
     inputContainerComputer.appendChild(div);
     $('.js-example-basic-single').select2();

@@ -144,7 +144,7 @@ else
             $telephone = $_POST['telephone'];
             // $bldg=$_POST['building'];
             
-
+            $request = str_replace("'", "&apos;", $request);
           
             $terms=$_POST['terms'];
   
@@ -342,7 +342,9 @@ else
             <option value="Quotation" data-val="mis">Quotation</option>
             <option value="CCTV" data-val="mis">CCTV-Attach approve letter from Admin head</option>
             
-            <option value="Non-Technical" data-val="mis">Non Technical Related</option>
+            <option value="Others" data-val="mis">Others</option>
+            <option value="Others" data-val="fem">Others</option>
+
             
             </select>      
         </div>

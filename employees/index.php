@@ -208,7 +208,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
           }    
 
         $subject ='Job Order Rating';
-        $message = 'Hi '.$perseonnelName.',<br> <br> Mr./Ms. '.$requestor.' rated your Job Order with '.$rateScore.'. Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+        $message = 'Hi '.$perseonnelName.',<br> <br> Mr./Ms. '.$requestor.' rated your Job Order with '.$final_rating.'. Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
         
 
          require '../vendor/autoload.php';
