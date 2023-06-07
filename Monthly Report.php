@@ -7,7 +7,7 @@ include ("includes/connect.php");
 
     $month = $_SESSION['month'];
     $year = $_SESSION['year'];
-
+    $wholename=$_SESSION['name'];
     $section = $_SESSION['level'];
 
     if($section == "admin"){
@@ -17,15 +17,19 @@ include ("includes/connect.php");
     $lastDateOfMonth = date('d', strtotime("last day of $year-$month"));
   
     $monthNumber = date('m', strtotime("$month"));
-  
-    $sql="SELECT ROUND((select (SELECT COUNT(`id`) as totalDone from `request` WHERE `request_to` = '$section' and (`status2` = 'Done' or `status2` = 'rated') AND `admin_approved_date` BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')/(SELECT COUNT(`id`) as totalDone from `request` WHERE `request_to` = '$section' AND `admin_approved_date` BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth') as dividend) *100 , 2) as percentage;";
+    $sql = "SELECT ROUND (((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) / ((SELECT ((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) + (SELECT COUNT('id') FROM request WHERE request_to = '$section' AND status2 = 'inprogress' AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' AND reqfinish_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth'))) * 100, 2) AS percentage;";
+    // $sql="SELECT ROUND (((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) / ((SELECT ((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) + (SELECT COUNT('id') FROM request WHERE request_to = '$section' AND status2 = 'inprogress' AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' AND reqfinish_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth'))) * 100, 2) AS percentage;";
     $result = mysqli_query($con,$sql);
-
-
+    // $sql = "SELECT ROUND (((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) / ((SELECT ((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) + (SELECT COUNT('id') FROM request WHERE request_to = '$section' AND status2 = 'inprogress' AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' AND reqfinish_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth'))) * 100, 2) AS percentage;";
     $resultPercentage="";
   while($row=mysqli_fetch_assoc($result)){
     $resultPercentage = $row['percentage'];
   }
+
+  $dateNow = new DateTime();
+ $dateNow = $dateNow->format('F d, Y');
+
+
     $html ='<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -108,7 +112,7 @@ include ("includes/connect.php");
         <table>
         <tr>
                 <td class="first"><span class="label">Date</span><span style="align-text: right">:</span></td>
-                <td class="second"> <span class="child">April 20, 2023</span></td>
+                <td class="second"> <span class="child">'.$dateNow.'</span></td>
                
            
 
@@ -188,6 +192,8 @@ include ("includes/connect.php");
                <td>Details</td>
                <td>Personnel</td>
                <td>Date Started</td>
+               <td>Spected Finished Date</td>
+
 
             </tr>
 
@@ -195,7 +201,7 @@ include ("includes/connect.php");
             ';
         $a=1;
 
-        $sql="select * from `request` WHERE `request_to` = '$section' and `status2` = 'inprogress'  AND `admin_approved_date` BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' order by id asc  ";
+        $sql="select * from `request` WHERE `request_to` = '$section' and `status2` = 'inprogress'  AND `admin_approved_date` BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' AND `reqfinish_date` BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' order by id asc  ";
         $result = mysqli_query($con,$sql);
 
       while($row=mysqli_fetch_assoc($result)){
@@ -205,6 +211,9 @@ include ("includes/connect.php");
          
         $dateApproved = new DateTime($row['admin_approved_date']);
         $dateApproved = $dateApproved->format('F d, Y');
+        
+        $expectedDate = new DateTime($row['reqfinish_date']);
+        $expectedDate = $expectedDate->format('F d, Y');
 
           $html.='  <tr>
            <td>'.$a.'</td>
@@ -213,6 +222,8 @@ include ("includes/connect.php");
            <td>'.$row['request_details'].'</td>
            <td>'.$row['assignedPersonnelName'].'</td>
            <td>'.$dateApproved.'</td>
+           <td>'.$expectedDate.'</td>
+
             </tr>';
 
             $a++;
@@ -221,14 +232,35 @@ include ("includes/connect.php");
             
         
        $html.=' </table>';
-        $html.='<table style="bottom: 35px; position: absolute;">
-<tr>
-<td class="first"><span class="label">Prepared by: </span></td>
-<td class="second"> <span class="child">Cedrick James Orozo</span></td>
-<td class="third"><span class="label">Checked by: </span></td>
-<td><span class="child">Jonathan Nemedez</span></td>
-</tr>
-</table>
+       $html.='<table style="bottom: 75px; position: absolute;">
+       <tr>
+       <td class="first" style="text-align: center"><span class="label">Prepared by: </span></td>
+       <td class="second"> <span class="child"></span></td>
+       <td class="third" style="text-align: center"><span class="label">Checked by: </span></td>
+       
+       </tr>
+       <tr style="margin-bottom: 50px">
+       <td> </td>
+       <td> </td>
+       <td> </td>
+       <td> </td>
+       <td> </td>
+       <td> </td>
+       
+       </tr>
+       <br>
+       <br>
+       
+       
+       <tr>
+       <td class="first" style="text-align: center"><span class="label">'.$_SESSION['name'].'</span></td>
+       <td class="second"> <span class="child"></span></td>
+       <td class="third" style="text-align: center"><span class="label">Jonathan Nemedez</span></td>
+       
+       
+       </tr>
+       </table>
+       
 
         
     </body>

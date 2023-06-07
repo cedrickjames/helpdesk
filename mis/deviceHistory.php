@@ -43,8 +43,16 @@ $username=$_SESSION['username'];
                   ELSE devices.computerName
                 END AS computerName,
                 devicehistory.field,
-                devicehistory.fromThis,
-                devicehistory.toThis
+                CASE
+        WHEN devicehistory.fromThis = '0' THEN 'active'
+        WHEN devicehistory.fromThis = '1' THEN 'deactivated'
+        ELSE devicehistory.fromThis
+    END AS fromStatus,
+    CASE
+        WHEN devicehistory.toThis = '0' THEN 'active'
+        WHEN devicehistory.toThis = '1'  THEN 'deactivated'
+        ELSE devicehistory.toThis
+    END AS fromStatus2
               FROM
                 devicehistory
               LEFT JOIN
@@ -77,11 +85,11 @@ $username=$_SESSION['username'];
 
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              <?php echo $row['fromThis'];?> 
+              <?php echo $row['fromStatus'];?> 
               
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              <?php echo $row['toThis'];?> 
+              <?php echo $row['fromStatus2'];?> 
               </td>
             
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">

@@ -83,22 +83,24 @@ padding-top: 0px;
       
         <table>
         <tr>
-                <td class="first"><span class="label">MIS Preventice Maintenance Schedule</span><span style="align-text: right">:</span></td>
+                <td class="first"><span class="label">MIS Preventive Maintenance Service</span><span style="align-text: right"></span></td>
+                <td class="first" style="text-align: right"><span class="label">Date: '.$date.'</span><span style="align-text: right"></span></td>
           
                
            
 
             </tr>
             <tr>
-                <td class="first"><span class="label">For the month of '.$_SESSION['selectedMonth'].' '.$_SESSION['selectedYear'].' </span><span style="align-text: right">:</span></td>
+                <td class="first"><span class="label">For the month of '.$_SESSION['selectedMonth'].' '.$_SESSION['selectedYear'].' </span><span style="align-text: right"> </span></td>
                 
 
             </tr>
+            
 
         </table>
         <table id="finishedTable" >
         
-        <tr>
+        <tr style="font-weight: bold;">
                <td>No.</td>
                <td>PC Name</td>
                <td>Status</td>
@@ -107,7 +109,7 @@ padding-top: 0px;
                <td>Type</td>
                <td>PMS Date</td>
                <td>Activity</td>
-               <td>Performed by</td>
+               <td >&nbsp; &nbsp; &nbsp;Performed by</td>
                <td>Remarks</td>
                <td>Approved By</td>
 
@@ -135,7 +137,7 @@ padding-top: 0px;
               LEFT JOIN pmsaction
                   ON devices.computerName = pmsaction.deviceName AND pmsaction.year = '$year'
               WHERE devices.department = '$DepartmentOnly'
-                  AND devices.type != 'Tablet'
+                  AND devices.type != 'Tablet' AND devices.deactivated = 0
                   AND (pmsaction.year = '$year' OR pmsaction.year IS NULL)
                   AND (pmsaction.month = '$month' OR pmsaction.month IS NULL);";
               $result = mysqli_query($con,$sql);
@@ -144,7 +146,7 @@ padding-top: 0px;
               $department1 = $departments[0];
               $department2 = $departments[1];
 
-              $sql="SELECT  devices.*, pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments, pmsaction.approvedBy FROM devices LEFT JOIN pmsaction ON devices.computerName = pmsaction.deviceName AND pmsaction.year = '$year' WHERE (devices.department = '$department1' OR devices.department = '$department2') AND devices.type != 'Tablet'AND (pmsaction.year = '$year' OR pmsaction.year IS NULL)
+              $sql="SELECT  devices.*, pmsaction.deviceName, pmsaction.action, pmsaction.performedBy, pmsaction.Date, pmsaction.month, pmsaction.year, pmsaction.comments, pmsaction.approvedBy FROM devices LEFT JOIN pmsaction ON devices.computerName = pmsaction.deviceName AND pmsaction.year = '$year' WHERE (devices.department = '$department1' OR devices.department = '$department2') AND devices.type != 'Tablet' AND devices.deactivated = 0 AND (pmsaction.year = '$year' OR pmsaction.year IS NULL)
               AND (pmsaction.month = '$month' OR pmsaction.month IS NULL);";
               $result = mysqli_query($con,$sql);
 
@@ -181,8 +183,8 @@ padding-top: 0px;
            <td>'.$user.'</td>
            <td>'.$type.'</td>
            <td>'.$Date.'</td>
-           <td>'.$action.'</td>
-           <td>'.$perfomedBy.'</td>
+           <td style="max-width: 100px; margin-right: 20px;">'.$action.'</td>
+           <td>&nbsp; &nbsp; &nbsp;'.$perfomedBy.'</td>
            <td>'.$comments.'</td>
            <td>'.$approval.'</td>
 
@@ -196,12 +198,32 @@ padding-top: 0px;
       
         
        $html.=' </table>';
-        $html.='<table style="bottom: 35px; position: absolute;">
+        $html.='<table style="bottom: 75px; position: absolute;">
 <tr>
-<td class="first"><span class="label">Prepared by: </span></td>
-<td class="second"> <span class="child">'.$_SESSION['name'].'</span></td>
-<td class="third"><span class="label">Checked by: </span></td>
-<td><span class="child">Jonathan Nemedez</span></td>
+<td class="first" style="text-align: center"><span class="label">Prepared by: </span></td>
+<td class="second"> <span class="child"></span></td>
+<td class="third" style="text-align: center"><span class="label">Checked by: </span></td>
+
+</tr>
+<tr style="margin-bottom: 50px">
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+<td> </td>
+
+</tr>
+<br>
+<br>
+
+
+<tr>
+<td class="first" style="text-align: center"><span class="label">'.$_SESSION['name'].'</span></td>
+<td class="second"> <span class="child"></span></td>
+<td class="third" style="text-align: center"><span class="label">Jonathan Nemedez</span></td>
+
+
 </tr>
 </table>
 

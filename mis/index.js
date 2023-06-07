@@ -163,6 +163,8 @@ $(document).ready(function () {
                         // const divIdArrayUser = [1];
                         // divIdArrayUser.push(parseInt(inputCount));
                         document.getElementById("arrayOfSelected").value = selectedPcIds;
+                        document.getElementById("arrayOfSelectedDel").value = selectedPcIds;
+
                       });
 
                     
@@ -240,6 +242,8 @@ $(document).ready(function () {
                         // const divIdArrayUser = [1];
                         // divIdArrayUser.push(parseInt(inputCount));
                         document.getElementById("arrayOfSelectedcctv").value = selectedPcIdscctv;
+                        document.getElementById("arrayOfSelectedDelcctv").value = selectedPcIdscctv;
+
                       })
 
                     
@@ -317,6 +321,8 @@ $(document).ready(function () {
                         // const divIdArrayUser = [1];
                         // divIdArrayUser.push(parseInt(inputCount));
                         document.getElementById("arrayOfSelectedprinter").value = selectedPcIdsprinter;
+                        document.getElementById("arrayOfSelectedDelPrinter").value = selectedPcIdsprinter;
+
                       })
 
                     

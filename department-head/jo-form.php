@@ -151,7 +151,7 @@ else
             $category = $_POST['category'];
 
             $computerName = $_POST['computerName'];
-          
+            $computerName = implode(', ', $computerName);
             $start= $_POST['start'];
             $end = $_POST['finish'];
             $request= convertToSentenceCase($_POST['request']);
@@ -273,6 +273,8 @@ else
     <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Responsive-2.3.0/css/responsive.dataTables.min.css"/>
 
     <link rel="stylesheet" href="index.css">
+    <link href="../node_modules/select2/dist/css/select2.min.css" rel="stylesheet" />
+
      <!-- tailwind play cdn -->
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <script src="../cdn_tailwindcss.js"></script>
@@ -417,8 +419,21 @@ else
         <div id="computerdiv" class="hidden">
         <label for="schedule" class="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300">Computer Name</label>
          
-        <input type="text" name="computerName" id="computerName" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-           
+        <!-- <input type="text" name="computerName" id="computerName" class="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> -->
+        <select name="computerName[]" id="computerName" multiple="multiple" class="form-control js-example-tags bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+             <!-- <option selected disabled value=" " data-val="">Choose PC Tag:</option> -->
+                <?php  
+
+$sqlpc="SELECT DISTINCT pctag FROM devices WHERE department = '$user_dept' and pctag != ''";
+$resultpc = mysqli_query($con,$sqlpc);
+
+while($row=mysqli_fetch_assoc($resultpc)){
+  ?> <option  value="<?php echo $row['pctag']; ?>" ><?php echo $row['pctag']; ?></option> <?php
+}
+
+?>
+                        
+            </select>  
              </div>
         </div>
         <div class="mb-2">
@@ -536,6 +551,45 @@ else
 </div>
  
 
+<div id="pctagRules" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
+    <div class="relative w-full h-full max-w-2xl md:h-auto">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Rules for "Computer" Job Order (PLEASE READ)
+                </h3>
+                <button type="button"  onclick="modalHidePc()"  class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-6 space-y-6">
+                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+               Read the following
+                </p>
+                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                1. Make sure you indicate your "PC TAG". (It is located somewhere on your physical computer)
+                </p>
+                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                2. If your PC Tag is not included on the list, just manually type it.
+                </p>
+                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                3. Do not include any other information like asset tag, username or etc in PC Tag text box.
+                </p>
+             
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+              
+                <button  onclick="modalHidePc()" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!-- end of main -->
     
@@ -546,14 +600,25 @@ else
 
 <script src="../node_modules/flowbite/dist/flowbite.js"></script>
 <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-
+<script src="../node_modules/select2/dist/js/select2.min.js"></script>
 <script type="text/javascript" src="../node_modules/DataTables/datatables.min.js"></script>
 
     <script type="text/javascript" src="../node_modules/DataTables/Responsive-2.3.0/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="index.js"></script>
 
 <script>
-  
+  $(".js-example-tags").select2({
+  tags: true
+});
+$('.js-example-tags').on('change', function() {
+    var selectedValues = $(this).val();
+    console.log(selectedValues);
+    document.getElementById("computerName").value
+  });
+    $('.js-example-basic-single').select2();
+    
+    const $targetElModalPc = document.getElementById('pctagRules');
+
   const $targetElModal = document.getElementById('emailrules');
 
 // options with default values
@@ -576,6 +641,35 @@ const optionsModal = {
   }
 };
 const modal = new Modal($targetElModal, optionsModal);
+const optionsModalPc = {
+  placement: 'center-center',
+  backdrop: 'dynamic',
+  backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
+  closable: true,
+  onHide: () => {
+      console.log('modal is hidden');
+  },
+  onShow: () => {
+      console.log('modal is shown');
+
+    //   console.log(section);
+  },
+  onToggle: () => {
+      console.log('modal has been toggled');
+
+  }
+};
+const modalPc = new Modal($targetElModalPc, optionsModalPc);
+function modalShowPc(element){
+
+
+modalPc.toggle();
+}
+
+function modalHidePc(){
+modalPc.toggle();
+
+}
 
 
 
@@ -605,6 +699,7 @@ function modalHide(){
 
     $('#type').change(function () {
         if (this.value == 'Computer'){
+            modalShowPc();
         $("#gridtochange").removeClass("grid-col-1").addClass("grid-cols-2");
         $("#computerdiv").removeClass("hidden");
         $("#computerName").prop("required", true);

@@ -26,6 +26,19 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+.select2 {
+    width: 100% !important;
+    height: 80% !important;
+}
+.selection{
+    width: 100% !important;
+    height: 80% !important;
+    display: block;
+}
+.select2-selection{
+    width: 100% !important;
+    height: 90% !important;
+}
 
 select[name="workingStationTable_length"] {
     width: 73px;

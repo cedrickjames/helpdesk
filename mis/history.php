@@ -538,8 +538,13 @@ if(isset($_POST['rateJo'])){
     
          
                 </div>
-            <div id="assignedPersonnelDiv"class=" w-full">
+            <!-- <div id="assignedPersonnelDiv"class=" w-full">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Assigned Personnel : </span><span id="assignedPersonnel"></span></h2>
+    
+         
+                </div> -->
+                <div id="requestorDiv"class=" w-full">
+                     <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Requestor: </span><span id="requestorMain"></span></h2>
     
          
                 </div>
@@ -833,7 +838,8 @@ function modalShow(element){
     document.getElementById("actionDetails").value =element.getAttribute("data-action");
     document.getElementById("misPersonnel").value =element.getAttribute("data-personnel");
     document.getElementById("requestor").value =element.getAttribute("data-requestor");
-    document.getElementById("assignedPersonnel").innerHTML =element.getAttribute("data-assignedpersonnel");
+    // document.getElementById("assignedPersonnel").innerHTML =element.getAttribute("data-assignedpersonnel");
+    document.getElementById("requestorMain").innerHTML =element.getAttribute("data-requestor");
     document.getElementById("cancelledBy").innerHTML =element.getAttribute("data-cancelledby");
     document.getElementById("reasonCancel").innerHTML =element.getAttribute("data-reason");
     document.getElementById("actualDateFinished").innerHTML =element.getAttribute("data-actualdatefinished");

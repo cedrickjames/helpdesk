@@ -261,7 +261,7 @@ if(isset($_POST['editDeviceCctv'])){
     {
         if ($row['dvrNo'] !== $dvrNo) {
             $fromdvrNo = $row['dvrNo'];
-            $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','DVR No','$fromdvrNo','$department', '$modifier', '$date', 'cctv')";
+            $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','DVR No','$fromdvrNo','$dvrNo', '$modifier', '$date', 'cctv')";
             $results = mysqli_query($con,$sql);
             
         }
@@ -286,7 +286,7 @@ if(isset($_POST['editDeviceCctv'])){
         
         if ($row['bldgAssigned'] !== $bldgAssigned) {
             $frombldgAssigned = $row['bldgAssigned'];
-            $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','bldgAssigned','$frombldgAssigned','$pcname', '$modifier', '$date', 'cctv')";
+            $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`, `type`) VALUES ('$deviceId','bldgAssigned','$frombldgAssigned','$bldgAssigned', '$modifier', '$date', 'cctv')";
             $results = mysqli_query($con,$sql);
         }
         
@@ -541,6 +541,188 @@ if(isset($_POST['addComputer'])){
  
  }
 
+ if(isset($_POST['addCctv'])){
+    $arrayOfInput =  $_POST['strnowUserCctv'] ;  
+    $arrayOfInput = explode(',', $arrayOfInput);
+    $numberOfElements = count($arrayOfInput);
+ //    echo $numberOfElements;
+ 
+ $strnowUser = $_POST['strnowUserCctv'];
+ $success = false;
+ foreach ($arrayOfInput as $element) {
+   $dvrNo =  $_POST['dvrNo'.$element];
+   $cameraNo =  $_POST['cameraNo'.$element];
+   $location =  $_POST['location'.$element];
+   $type =  $_POST['type'.$element];
+   $bldg =  $_POST['bldg'.$element];
+   $ipaddress =  $_POST['ipaddress'.$element];
+
+
+         
+         $sql = "INSERT INTO `cctv`(`dvrNo`, `cameraNo`, `location`, `type`, `bldgAssigned`, `ipAddress`) VALUES ('$dvrNo','$cameraNo','$location','$type','$bldg','$ipaddress')";
+         $results = mysqli_query($con,$sql);
+         if($results){
+           $success= true;
+         }
+         else{
+           $success= false;
+
+         }
+ 
+ 
+ 
+ }
+ if($success){
+    echo "<script>alert('Device Added') </script>";
+
+  }
+  else{
+    echo "<script>alert('There is something wrong. ') </script>";
+
+
+  }
+
+ 
+ }
+ if(isset($_POST['addPrinter'])){
+    $arrayOfInput =  $_POST['strnowUserPrinter'] ;  
+    $arrayOfInput = explode(',', $arrayOfInput);
+    $numberOfElements = count($arrayOfInput);
+ //    echo $numberOfElements;
+ 
+ $strnowUser = $_POST['strnowUserPrinter'];
+ $success = false;
+ foreach ($arrayOfInput as $element) {
+   $type =  $_POST['type'.$element];
+   $model =  $_POST['model'.$element];
+   $location =  $_POST['location'.$element];
+   $serialNo =  $_POST['serialNo'.$element];
+   $ipaddress =  $_POST['ipaddress'.$element];
+
+
+         
+         $sql = "INSERT INTO `printer`(`type`, `model`, `location`, `serialNo`, `ipAddress`) VALUES ('$type','$model','$location','$serialNo','$ipaddress')";
+         $results = mysqli_query($con,$sql);
+         if($results){
+           $success= true;
+         }
+         else{
+           $success= false;
+
+         }
+ 
+ 
+ 
+ }
+ if($success){
+    echo "<script>alert('Device Added') </script>";
+
+  }
+  else{
+    echo "<script>alert('There is something wrong. ') </script>";
+
+
+  }
+
+ 
+ }
+
+ if(isset($_POST['deleteComputer'])){
+    $arrayOfInput =  $_POST['arrayOfSelectedDel'] ;  
+    $arrayOfInput = explode(',', $arrayOfInput);
+    $numberOfElements = count($arrayOfInput);
+ //    echo $numberOfElements;
+ 
+ $success = false;
+ foreach ($arrayOfInput as $element) {
+
+   $sql = "DELETE FROM `devices` WHERE `id` = '$element'";
+   $results = mysqli_query($con,$sql);
+   if($results){
+    $success= true;
+  }
+  else{
+    $success= false;
+
+  }
+ }
+ if($success){
+    echo "<script>alert('Device deleted') </script>";
+
+  }
+  else{
+    echo "<script>alert('There is something wrong. ') </script>";
+
+
+  }
+
+ 
+ }
+
+ if(isset($_POST['deleteCctv'])){
+    $arrayOfInput =  $_POST['arrayOfSelectedDelcctv'] ;  
+    $arrayOfInput = explode(',', $arrayOfInput);
+    $numberOfElements = count($arrayOfInput);
+ //    echo $numberOfElements;
+ 
+ $success = false;
+ foreach ($arrayOfInput as $element) {
+
+   $sql = "DELETE FROM `cctv` WHERE `id` = '$element'";
+   $results = mysqli_query($con,$sql);
+   if($results){
+    $success= true;
+  }
+  else{
+    $success= false;
+
+  }
+ }
+ if($success){
+    echo "<script>alert('Device deleted') </script>";
+
+  }
+  else{
+    echo "<script>alert('There is something wrong. ') </script>";
+
+
+  }
+
+ 
+ }
+
+ 
+ if(isset($_POST['deletePrinter'])){
+    $arrayOfInput =  $_POST['arrayOfSelectedDelPrinter'] ;  
+    $arrayOfInput = explode(',', $arrayOfInput);
+    $numberOfElements = count($arrayOfInput);
+ //    echo $numberOfElements;
+ 
+ $success = false;
+ foreach ($arrayOfInput as $element) {
+
+   $sql = "DELETE FROM `printer` WHERE `id` = '$element'";
+   $results = mysqli_query($con,$sql);
+   if($results){
+    $success= true;
+  }
+  else{
+    $success= false;
+
+  }
+ }
+ if($success){
+    echo "<script>alert('Device deleted') </script>";
+
+  }
+  else{
+    echo "<script>alert('There is something wrong. ') </script>";
+
+
+  }
+
+ 
+ }
 
 if(isset($_POST['addRemovableDevice'])){
    $arrayOfInput =  $_POST['strnowUser'] ;  
@@ -1016,25 +1198,95 @@ if(isset($_POST['rateJo'])){
         <input type="text" name="arrayOfSelected" id="arrayOfSelected" class="hidden">
         <button  type="submit" name="updateSelected" id="updateSelected" class="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Edit</button>
     </form>
+    <form  method="POST" id="myFormDelete">
+        <input type="text" name="arrayOfSelectedDel" id="arrayOfSelectedDel" class="hidden">
+        <button data-modal-target="deleteDevices" data-modal-toggle="deleteDevices" type="button" class="w-full text-white bg-gradient-to-br from-red-600 to-red-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete</button>
+
+        <div id="deleteDevices" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="deleteDevices">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-6 text-center">
+                <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product?</h3>
+                <button type="submit" name="deleteComputer" id="deleteComputer"  type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                    Yes, I'm sure
+                </button>
+                <button data-modal-toggle="deleteDevices" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+    </form>
           
 </div>
 <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="cctv" role="tabpanel" aria-labelledby="dashboard-tab">
+<button data-modal-target="addDeviceCctvModal" data-modal-toggle="addDeviceCctvModal" type="button" class="w-full mt-5 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Add Device</button>
 
 <?php include 'cctv.php';?>   
 <form class="mt-10" method="POST" action="./getDataCctv.php" id="myFormcctv">
     <input type="text" name="arrayOfSelectedcctv" id="arrayOfSelectedcctv" class="hidden">
     <button  type="submit" name="updateSelectedcctv" id="updateSelectedcctv" class="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Edit</button>
 </form>
-      
+<form  method="POST" id="myFormDeleteCctv">
+        <input type="text" name="arrayOfSelectedDelcctv" id="arrayOfSelectedDelcctv" class="hidden">
+        <button data-modal-target="deleteCctvModal" data-modal-toggle="deleteCctvModal" type="button" class="w-full text-white bg-gradient-to-br from-red-600 to-red-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete</button>
+
+        <div id="deleteCctvModal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="deleteCctvModal">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-6 text-center">
+                <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product?</h3>
+                <button type="submit" name="deleteCctv" id="deleteCctv"  type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                    Yes, I'm sure
+                </button>
+                <button data-modal-toggle="deleteCctvModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+    </form> 
 </div>
 <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="printer" role="tabpanel" aria-labelledby="dashboard-tab">
+<button data-modal-target="addDevicePrinterModal" data-modal-toggle="addDevicePrinterModal" type="button" class="w-full mt-5 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Add Device</button>
 
-<?php include 'printer.php';?>   
+<?php include 'printer.php';?>  
+
 <form class="mt-10" method="POST" action="./getDataPrinter.php" id="myFormprinter">
     <input type="text" name="arrayOfSelectedprinter" id="arrayOfSelectedprinter" class="hidden">
     <button  type="submit" name="updateSelectedprinter" id="updateSelectedprinter" class="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Edit</button>
 </form>
-      
+<form  method="POST" id="myFormDeletePrinter">
+        <input type="text" name="arrayOfSelectedDelPrinter" id="arrayOfSelectedDelPrinter" class="hidden">
+        <button data-modal-target="deletePrinterModal" data-modal-toggle="deletePrinterModal" type="button" class="w-full text-white bg-gradient-to-br from-red-600 to-red-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete</button>
+
+        <div id="deletePrinterModal" tabindex="-1" class="fixed top-0 left-0 right-0 z-50 hidden p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="deletePrinterModal">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-6 text-center">
+                <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product?</h3>
+                <button type="submit" name="deletePrinter" id="deletePrinter"  type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
+                    Yes, I'm sure
+                </button>
+                <button data-modal-toggle="deletePrinterModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+    </form> 
 </div>
 <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="deviceHistory" role="tabpanel" aria-labelledby="dashboard-tab">
     <?php include 'deviceHistory.php';?>   
@@ -1178,6 +1430,214 @@ if(isset($_POST['rateJo'])){
 </div>
 
 
+<div id="addDeviceCctvModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+ <div class="relative w-full max-w-7xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Add CCTV    
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="addDeviceCctvModal">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                </button>
+            </div>
+            <form method="post">
+
+          
+            <!-- Modal body -->
+            <div class="p-6 space-y-6">
+                <input type="number" value="1" name="counterCctv" id="counterCctv" class="hidden">
+                <input type="text" id="strUserCctv" value="1" name="strnowUserCctv" class="hidden"> 
+                <div id="inputContainerCctv" class="overflow-auto max-h-96 items-center justify-items-center text-center">
+                <div id="devicelabelComputer" class="overflow-auto max-h-96 items-center justify-items-center text-center">
+                    <div class="grid gap-1  md:grid-cols-7 " >
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DVR No.</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Camera No.</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Building</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">+-</label>
+
+                            </div>
+                    </div>
+                    <div class="grid gap-1  md:grid-cols-7 " id="divCctv1">
+                    <div class="w-full">
+                       
+                        <input name="dvrNo1" type="text" id="first_name"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div class="w-full">
+                        <input name="cameraNo1" type="text" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div class="w-full">
+                        <input name="location1" type="text" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div class="w-full">
+                        <input name="type1" type="text" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div class="w-full">
+                    
+                            <select name="bldg1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option disabled >Choose Bldg</option>
+                            <option  value="GPI-1">GPI-1</option>
+                            <option  value="GPI-2">GPI-2</option>
+                            <option  value="GPI-3">GPI-3</option>
+                            <option  value="GPI-4">GPI-4</option>
+                            <option  value="GPI-5">GPI-5</option>
+                            <option  value="GPI-6">GPI-6</option>
+                            <option  value="GPI-7">GPI-7</option>
+                            <option  value="GPI-8">GPI-8</option>
+                            <option  value="GPI-9">GPI-9</option>
+                            <option  value="GPI-10">GPI-10</option>
+                            </select>
+                        </div>
+                        <div class='w-full'>
+
+                                <select  name='ipaddress1' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                                   
+                                     <option value='Dynamic'>Dynamic</option>
+                                     
+                                     <?php
+                                     
+                                        $sql="SELECT d.deactivated, ip.ipaddress,CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1;";
+                                        $result = mysqli_query($con,$sql);
+                                        $options = array();
+                                        while($row=mysqli_fetch_assoc($result)){
+                                            $ip = $row['ipaddress'];
+                                            echo "<option value='$ip'>$ip</option>";
+                                            ?>
+                                            
+                                            <?php
+                                            
+
+                                        }?>  
+                                    </select>
+                                    </div>
+                                                <div class="w-full">
+                       
+                             <button type="button" onclick="addSetCctv()" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">+</button>
+                    </div>
+                    </div>
+                   </div>
+                </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button type="submit" name="addCctv" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
+                <button data-modal-toggle="addDeviceCctvModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="addDevicePrinterModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+ <div class="relative w-full max-w-7xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Add Printer    
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="addDevicePrinterModal">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                </button>
+            </div>
+            <form method="post">
+
+          
+            <!-- Modal body -->
+            <div class="p-6 space-y-6">
+                <input type="number" value="1" name="counterPrinter" id="counterPrinter" class="hidden">
+                <input type="text" id="strUserPrinter" value="1" name="strnowUserPrinter" class="hidden"> 
+                <div id="inputContainerPrinter" class="overflow-auto max-h-96 items-center justify-items-center text-center">
+                <div id="devicelabelComputer" class="overflow-auto max-h-96 items-center justify-items-center text-center">
+                    <div class="grid gap-1  md:grid-cols-6 " >
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Model</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Serial No.</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">+-</label>
+
+                            </div>
+                    </div>
+                    <div class="grid gap-1  md:grid-cols-6 " id="divPrinter1">
+                    <div class="w-full">
+                    
+                    <select name="type1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option  value="Fujifilm">Fujifilm</option>
+                    <option  value="Ricoh">Ricoh</option>
+                    <option  value="Others">Others</option>
+                    </select>
+                </div>
+                    <div class="w-full">
+                        <input name="model1" type="text" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div class="w-full">
+                        <input name="location1" type="text" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+                    <div class="w-full">
+                        <input name="serialNo1" type="text" 
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="" required>
+                    </div>
+             
+                        <div class='w-full'>
+
+                                <select  name='ipaddress1' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                                   
+                                     <option value='Dynamic'>Dynamic</option>
+                                     
+                                     <?php
+                                     
+                                        $sql="SELECT d.deactivated, ip.ipaddress,CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1;";
+                                        $result = mysqli_query($con,$sql);
+                                        $options = array();
+                                        while($row=mysqli_fetch_assoc($result)){
+                                            $ip = $row['ipaddress'];
+                                            echo "<option value='$ip'>$ip</option>";
+                                            ?>
+                                            
+                                            <?php
+                                            
+
+                                        }?>  
+                                    </select>
+                                    </div>
+                                                <div class="w-full">
+                       
+                             <button type="button" onclick="addSetPrinter()" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">+</button>
+                    </div>
+                    </div>
+                   </div>
+                </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button type="submit" name="addPrinter" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Proceed</button>
+                <button data-modal-toggle="addDevicePrinterModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <div id="addDeviceModalComputer" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
  <div class="relative w-full max-w-10xl max-h-full">
         <!-- Modal content -->
@@ -1259,7 +1719,7 @@ if(isset($_POST['rateJo'])){
                                      
                                      <?php
                                      
-                                        $sql="SELECT ip.ipaddress,CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE ip.ipaddress != '' AND CONCAT_WS(',', d.id, c.id, p.id) = '';";
+                                        $sql="SELECT d.deactivated, ip.ipaddress,CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1;";
                                         $result = mysqli_query($con,$sql);
                                         $options = array();
                                         while($row=mysqli_fetch_assoc($result)){
@@ -1338,7 +1798,7 @@ if(isset($_POST['rateJo'])){
             <!-- Modal header -->
             <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Add device
+                    Edit device
                 </h3>
                 <button type="button" onclick="devicemodalHide()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
@@ -1411,7 +1871,7 @@ if(isset($_POST['rateJo'])){
             <!-- Modal header -->
             <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Add device
+                    Edit device
                 </h3>
                 <button type="button" onclick="devicemodalHideCctv()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
@@ -1803,6 +2263,7 @@ if(isset($_POST['rateJo'])){
     $('.js-example-basic-single').select2();
 
 
+
 // var rowsList = <?php echo json_encode($rowsList); ?>; // Assign the JSON-encoded data to a JavaScript variable
 // $('#updateSelected').click(function () {
 //                         console.log("Asd");
@@ -1843,6 +2304,67 @@ if(isset($_POST['rateJo'])){
     </script>
 <script>
 
+const inputContainerPrinter = document.getElementById("inputContainerPrinter");
+ const divIdArrayUserPrinter = [1];
+function addSetPrinter(){
+    document.getElementById("counterPrinter").stepUp(1);
+
+    const div =document.createElement("div");
+    div.classList.add("grid");
+    div.classList.add("gap-1");
+    div.classList.add("md:grid-cols-6");
+
+    var inputCount = document.getElementById("counterPrinter").value
+    div.id = "divPrinter"+inputCount+"";
+
+ 
+  
+var set ="<div class='w-full'><select name='type"+inputCount+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option value='Fujifilm'>Fujifilm</option><option value='Ricoh'>Ricoh</option><option value='Others'>Others</option></select></div><div class='w-full'><input name='model"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='' required></div><div class='w-full'><input name='location"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='' required></div><div class='w-full'><input name='serialNo"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='' required></div><div class='w-full'><select name='ipaddress"+inputCount+"' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option value='Dynamic'>Dynamic</option><?php
+ $sql="SELECT d.deactivated, ip.ipaddress,CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1;"; $result = mysqli_query($con, $sql); $options = array(); while ($row = mysqli_fetch_assoc($result)) { $ip = $row['ipaddress']; echo "<option value='$ip'>$ip</option>"; } 
+ ?></select></div><div class='w-full'><button type='button' onclick='removeSetPrinter("+inputCount+")' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4  focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>-</button></div>";
+    div.innerHTML=set;
+    inputContainerPrinter.appendChild(div);
+    $('.js-example-basic-single').select2();
+    divIdArrayUserPrinter.push(parseInt(inputCount));
+
+    console.log(divIdArrayUserPrinter);
+
+    document.getElementById("strUserPrinter").value = divIdArrayUserPrinter;
+ }
+ 
+
+const inputContainerCctv = document.getElementById("inputContainerCctv");
+ const divIdArrayUserCctv = [1];
+function addSetCctv(){
+    document.getElementById("counterCctv").stepUp(1);
+
+    const div =document.createElement("div");
+    div.classList.add("grid");
+    div.classList.add("gap-1");
+    div.classList.add("md:grid-cols-7");
+
+    var inputCount = document.getElementById("counterCctv").value
+    div.id = "divCctv"+inputCount+"";
+
+   var set = "<div class='w-full'> <input name='dvrNo"+inputCount+"' type='text' id='first_name'class='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='' required> </div> <div class='w-full'> <input name='cameraNo"+inputCount+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='' required> </div><div class='w-full'><input name='location"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'placeholder='' required></div> <div class='w-full'> <input name='type"+inputCount+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='' required> </div> <div class='w-full'> <select name='bldg"+inputCount+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'> <option disabled>Choose Bldg</option> <option value='GPI-1'>GPI-1</option> <option value='GPI-2'>GPI-2</option> <option value='GPI-3'>GPI-3</option> <option value='GPI-4'>GPI-4</option> <option value='GPI-5'>GPI-5</option> <option value='GPI-6'>GPI-6</option> <option value='GPI-7'>GPI-7</option> <option value='GPI-8'>GPI-8</option> <option value='GPI-9'>GPI-9</option> <option value='GPI-10'>GPI-10</option> </select> </div> <div class='w-full'> <select name='ipaddress"+inputCount+"' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'> <option value='Dynamic'>Dynamic</option><?php
+            $sql = "SELECT d.deactivated, ip.ipaddress, CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1;";
+            $result = mysqli_query($con, $sql);
+            $options = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                $ip = $row['ipaddress'];
+                echo "<option value='$ip'>$ip</option>";
+            }
+        ?> </select></div><div class='w-full'><button type='button' onclick='removeSetCctv("+inputCount+")' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4  focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>-</button></div>";
+   
+    div.innerHTML=set;
+    inputContainerCctv.appendChild(div);
+    $('.js-example-basic-single').select2();
+    divIdArrayUserCctv.push(parseInt(inputCount));
+
+    console.log(divIdArrayUserCctv);
+
+    document.getElementById("strUserCctv").value = divIdArrayUserCctv;
+ }
  const inputContainer = document.getElementById("inputContainer");
  const divIdArrayUser = [1];
  function addSet(){
@@ -1915,7 +2437,7 @@ var formattedNum = numbersOfPC.toString().padStart(3, '0');
                                       while($row=mysqli_fetch_assoc($result)){
                                       ?> <option  value='<?php echo $row['type']; ?>'><?php echo $row['type']; ?></option> <?php
                                       }  ?>
-                                      </select></div><div class='w-full'><input name='user"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Full Name'></div><div class='w-full'><select name='ipaddress"+inputCount+"' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option value='Dynamic'>Dynamic</option><?php $sql='SELECT ip.ipaddress,CONCAT_WS(",", d.id, c.id, p.id) AS all_ids, CONCAT_WS(",", d.type, c.type, p.type) AS all_type, CONCAT_WS(",", d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(",", CASE WHEN d.id IS NOT NULL THEN "devices" END, CASE WHEN c.id IS NOT NULL THEN "cctv" END, CASE WHEN p.id IS NOT NULL THEN "printer" END) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE ip.ipaddress != "" AND CONCAT_WS(",", d.id, c.id, p.id) = "";';$result=mysqli_query($con,$sql);$options=array();while($row=mysqli_fetch_assoc($result)){$ip=$row['ipaddress'];echo "<option value='$ip'>$ip</option>";}?></select></div><div class='w-full'><select name='department"+inputCount+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php   $sql="SELECT DISTINCT department FROM user";  $result = mysqli_query($con,$sql); while ($row=mysqli_fetch_assoc($result)){  ?><option  value='<?php echo $row['department']; ?>'><?php echo $row['department']; ?></option><?php   }  ?></select></div><div class='w-full'><input name='macAddress"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Mac Address'></div><div class='w-full'><input name='email"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Email'></div><div class='w-full'><select name='os"+inputCount+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php  
+                                      </select></div><div class='w-full'><input name='user"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Full Name'></div><div class='w-full'><select name='ipaddress"+inputCount+"' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option value='Dynamic'>Dynamic</option><?php $sql='SELECT d.deactivated, ip.ipaddress,CONCAT_WS(",", d.id, c.id, p.id) AS all_ids, CONCAT_WS(",", d.type, c.type, p.type) AS all_type, CONCAT_WS(",", d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(",", CASE WHEN d.id IS NOT NULL THEN "devices" END, CASE WHEN c.id IS NOT NULL THEN "cctv" END, CASE WHEN p.id IS NOT NULL THEN "printer" END) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE ip.ipaddress != "" AND CONCAT_WS(",", d.id, c.id, p.id) = "" OR d.deactivated = 1;';$result=mysqli_query($con,$sql);$options=array();while($row=mysqli_fetch_assoc($result)){$ip=$row['ipaddress'];echo "<option value='$ip'>$ip</option>";}?></select></div><div class='w-full'><select name='department"+inputCount+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php   $sql="SELECT DISTINCT department FROM user";  $result = mysqli_query($con,$sql); while ($row=mysqli_fetch_assoc($result)){  ?><option  value='<?php echo $row['department']; ?>'><?php echo $row['department']; ?></option><?php   }  ?></select></div><div class='w-full'><input name='macAddress"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Mac Address'></div><div class='w-full'><input name='email"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Email'></div><div class='w-full'><select name='os"+inputCount+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php  
 
                                             $sql="SELECT DISTINCT `os` FROM `devices`";
                                             $result = mysqli_query($con,$sql);
@@ -1934,6 +2456,57 @@ var formattedNum = numbersOfPC.toString().padStart(3, '0');
 
     document.getElementById("strUserComputer").value = divIdArrayUserComputer;
  }
+
+ function removeSetPrinter(id){
+
+// Retrieve the element by its id
+var element = document.getElementById('divPrinter'+id);
+
+// Check if the element exists
+if (element) {
+// Retrieve the parent element
+var parentElement = element.parentNode;
+
+// Remove the element from its parent
+parentElement.removeChild(element);
+}
+
+const indexToRemove = divIdArrayUserPrinter.indexOf(id);
+if (indexToRemove !== -1) {
+    divIdArrayUserPrinter.splice(indexToRemove, 1);
+}
+
+console.log(divIdArrayUserPrinter);
+// divIdArrayUser.splice(divIdArrayUser.indexOf(id+1), 1);
+document.getElementById("strUserPrinter").value = divIdArrayUserPrinter;
+
+
+}
+ function removeSetCctv(id){
+
+// Retrieve the element by its id
+var element = document.getElementById('divCctv'+id);
+
+// Check if the element exists
+if (element) {
+// Retrieve the parent element
+var parentElement = element.parentNode;
+
+// Remove the element from its parent
+parentElement.removeChild(element);
+}
+
+const indexToRemove = divIdArrayUserCctv.indexOf(id);
+if (indexToRemove !== -1) {
+    divIdArrayUserCctv.splice(indexToRemove, 1);
+}
+
+console.log(divIdArrayUserCctv);
+// divIdArrayUser.splice(divIdArrayUser.indexOf(id+1), 1);
+document.getElementById("strUserCctv").value = divIdArrayUserCctv;
+
+
+}
 
  function removeSetComputer(id){
 
@@ -2659,6 +3232,70 @@ const currentTransform = myElement.style.transform = 'translateX(50px) translate
 
 // transform: translateX(55px) translateY(2px) rotate(135deg);
 }
+function goToJo(){
+    const myElement = document.querySelector('#diamondHistory');
+
+// Get the current transform value
+const currentTransform = myElement.style.transform = 'translateX(50px) translateY(2px) rotate(135deg)';
+}
+
+function goToEdit(){
+    const myElement = document.querySelector('#diamondHistory');
+
+// Get the current transform value
+const currentTransform = myElement.style.transform = 'translateX(283px) translateY(2px) rotate(135deg)';
+}
+
+
+function goToPms(){
+    const myElement = document.querySelector('#diamondHistory');
+
+// Get the current transform value
+const currentTransform = myElement.style.transform = 'translateX(160px) translateY(2px) rotate(135deg)';
+}
+
+// // Code for tabs
+const tabElementsHistory= [
+    {
+        id: 'jobOrderTab',
+        triggerEl: document.querySelector('#jobOrderTab'),
+        targetEl: document.querySelector('#johistory')
+    },
+    {
+        id: 'editTab',
+        triggerEl: document.querySelector('#editTab'),
+        targetEl: document.querySelector('#edithistory')
+    },   
+     {
+        id: 'pmsTab',
+        triggerEl: document.querySelector('#pmsTab'),
+        targetEl: document.querySelector('#pmshistory')
+    }
+    
+];
+
+// options with default values
+const taboptionsHistory = {
+    defaultTabId: 'jobOrderTab',
+    activeClasses: 'text-white hover:text-amber-400 dark:text-blue-500 dark:hover:text-blue-400 border-blue-600 dark:border-blue-500',
+    inactiveClasses: 'text-gray-300 hover:text-amber-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300',
+    onShow: () => {
+        console.log('tab is shown');
+    }
+};
+
+/*
+* tabElements: array of tab objects
+* options: optional
+*/
+const tabsHistory = new Tabs(tabElementsHistory, taboptionsHistory);
+
+// open tab item based on id
+tabsHistory.show('jobOrderTab');
+
+
+
+
 function cancellation(){
     document.getElementById("reasonCancel").required = true;
 }

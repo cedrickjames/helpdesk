@@ -12,6 +12,19 @@
     font-size: 30px;
     justify-content: center;
 }
+.select2 {
+    width: 100% !important;
+    height: 80% !important;
+}
+.selection{
+    width: 100% !important;
+    height: 80% !important;
+    display: block;
+}
+.select2-selection{
+    width: 100% !important;
+    height: 90% !important;
+}
 select[name="workingStationTable_length"] {
     width: 73px;
   }
