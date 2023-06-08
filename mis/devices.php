@@ -2258,7 +2258,199 @@ if(isset($_POST['rateJo'])){
     <script type="text/javascript" src="../node_modules/DataTables/Responsive-2.3.0/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="index.js"></script>
     <script>
+    const $targetElModalHistory = document.getElementById('deviceHistoryModal');
 
+// options with default values
+const optionsModalHistory = {
+  placement: 'center-center',
+  backdrop: 'dynamic',
+  backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
+  closable: true,
+  onHide: () => {
+      console.log('modal is hidden');
+  },
+  onShow: () => {
+      console.log('modal is shown');
+
+    //   console.log(section);
+  },
+  onToggle: () => {
+      console.log('modal has been toggled');
+
+  }
+};
+const modalHistory = new Modal($targetElModalHistory, optionsModalHistory);
+const divContainerForHistory = document.getElementById("divContainerForHistory");
+const divContainerForHistoryPms = document.getElementById("divContainerForHistoryPms");
+const divContainerForHistoryEdit = document.getElementById("divContainerForHistoryEdit");
+
+function modalShowHistory(element){
+    // divContainerForHistory.removeChild();
+    while (divContainerForHistory.firstChild) {
+        divContainerForHistory.removeChild(divContainerForHistory.firstChild);
+}
+while (divContainerForHistoryPms.firstChild) {
+    divContainerForHistoryPms.removeChild(divContainerForHistoryPms.firstChild);
+}
+while (divContainerForHistoryEdit.firstChild) {
+    divContainerForHistoryEdit.removeChild(divContainerForHistoryEdit.firstChild);
+}
+
+    var pcTag = element.getAttribute("data-pctag");
+    var pchost = element.getAttribute("data-pchost");
+    var pcid = element.getAttribute("data-id");
+
+console.log(pchost)
+
+    const div =document.createElement("div");
+    const divPms =document.createElement("div");
+    const divEdit =document.createElement("div");
+
+
+
+    var historyHTML = "";
+    var historyHTMLPms = "";
+    var historyHTMLEdit= "";
+
+var xhr1History = new XMLHttpRequest();
+xhr1History.open("GET", "getPcHistory.php?pcTag=" + encodeURIComponent(pcTag)+ "&type=joborder", true);
+xhr1History.onreadystatechange = function() {
+    if (xhr1History.readyState === XMLHttpRequest.DONE) {
+        if (xhr1History.status === 200) {
+            var options = JSON.parse(xhr1History.responseText);
+console.log(options);
+            // Create a string variable to store the HTML
+
+            // Iterate over the options and create <option> elements
+            if(options.length == 0){
+                historyHTML = "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><p class='mt-0 text-gray-500 dark:text-gray-400'>No Job Order History Recorded</p></div>"
+    }
+            if(pcTag ==""){
+                historyHTML = "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><p class='mt-0 text-gray-500 dark:text-gray-400'>Please Add PC Tag</p></div>"
+    }
+    else{
+        options.forEach(function(option) {
+                historyHTML += "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Request ID: " + option.id + "</h4></div><div class='text-right'><h4>Date: " + option.admin_approved_date + "</h4></div></div><p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>Problem:  </span>" + option.request_details + "</p><div class='mt-2'><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Action</h4></div><div class='text-right'><h4>Date: " + option.actual_finish_date + "</h4></div></div><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>" + option.action1 + "</p><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>" + option.action2 + "</p><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>" + option.action3 + "</p><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>" + option.action + "</p></div> <p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>MIS:  </span>" + option.assignedPersonnelName + "</p><p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>Requestor:  </span>" + option.requestor + "</p></div>";
+            });
+    }
+
+            // selectHTML += "</select>";
+
+            // You can now use the 'selectHTML' variable as needed
+            // console.log(historyHTML);
+            div.innerHTML=historyHTML;
+    divContainerForHistory.appendChild(div);
+
+        } else {
+            console.log("Error: " + xhr1History.status);
+        }
+    }
+};
+
+xhr1History.send();
+
+
+var xhr1Pms = new XMLHttpRequest();
+xhr1Pms.open("GET", "getPcHistory.php?pcTag=" + encodeURIComponent(pcTag)+ "&type=pms&pchost="+ encodeURIComponent(pchost), true);
+xhr1Pms.onreadystatechange = function() {
+    if (xhr1Pms.readyState === XMLHttpRequest.DONE) {
+        if (xhr1Pms.status === 200) {
+            var options2 = JSON.parse(xhr1Pms.responseText);
+console.log(options2);
+            // Create a string variable to store the HTML
+
+            // Iterate over the options2 and create <option> elements
+            if(options2.length == 0){
+                historyHTMLPms = "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><p class='mt-0 text-gray-500 dark:text-gray-400'>No PMS Recorded</p></div>"
+    }
+            if(pchost =="" && pcTag =="" ){
+                historyHTMLPms = "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><p class='mt-0 text-gray-500 dark:text-gray-400'>Please Add PC Tag or Hostname</p></div>"
+    }
+    else{
+        options2.forEach(function(option) {
+                historyHTMLPms += "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Date: " + option.Date + "</h4></div></div><div class='mt-2'><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Action</h4></div></div><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>" + option.action + "</p></div> <p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>MIS:  </span>" + option.performedBy + "</p></div>";
+            });
+    }
+
+            // selectHTML += "</select>";
+
+            // You can now use the 'selectHTML' variable as needed
+            // console.log(historyHTMLPms);
+            divPms.innerHTML=historyHTMLPms;
+            divContainerForHistoryPms.appendChild(divPms);
+
+        } else {
+            console.log("Error: " + xhr1Pms.status);
+        }
+    }
+};
+
+xhr1Pms.send();
+
+
+
+var xhr1Edit = new XMLHttpRequest();
+xhr1Edit.open("GET", "getPcHistory.php?pcTag=" + encodeURIComponent(pcTag)+ "&type=edit&pchost="+ encodeURIComponent(pchost)+ "&deviceid="+encodeURIComponent(pcid), true);
+xhr1Edit.onreadystatechange = function() {
+    if (xhr1Edit.readyState === XMLHttpRequest.DONE) {
+        if (xhr1Edit.status === 200) {
+            var options3 = JSON.parse(xhr1Edit.responseText);
+console.log(options3);
+            // Create a string variable to store the HTML
+
+            // Iterate over the options3 and create <option> elements
+            if(options3.length == 0){
+                historyHTMLEdit = "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><p class='mt-0 text-gray-500 dark:text-gray-400'>No Edit History Recorded</p></div>"
+    }
+
+    else{
+        options3.forEach(function(option) {
+            if(option.field == "deactivated"){
+                option.field = 'Status'
+     
+            }
+            if(option.fromThis == 0){
+                    option.fromThis = "Active"
+            }
+            if( option.toThis == 1){
+                option.toThis = "Deactivated"
+
+            }
+            if(option.fromThis == 1){
+                    option.fromThis = "Deactivated"
+            }
+            if( option.toThis == 0){
+                option.toThis = "Active"
+            }
+          
+                historyHTMLEdit += "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Field Changed: " + option.field + "</h4></div><div class='text-right'><h4>Date: " + option.date + "</h4></div><p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>From:  </span>" + option.fromThis + "</p><p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>To:  </span>" + option.toThis + "</p></div><div class='mt-2'><div class='grid grid-cols-2 gap-4 place-content-between '> <p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>Modifier:  </span>" + option.modifier + "</p></div></div></div>";
+            });
+    }
+
+            // selectHTML += "</select>";
+
+            // You can now use the 'selectHTML' variable as needed
+            // console.log(historyHTMLEdit);
+            divEdit.innerHTML=historyHTMLEdit;
+            divContainerForHistoryEdit.appendChild(divEdit);
+
+        } else {
+            console.log("Error: " + xhr1Edit.status);
+        }
+    }
+};
+
+xhr1Edit.send();
+// console.log(historyHTML);
+    // var set = "<div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Request</h4></div><div class='text-right'><h4>Request ID: 2304-002</h4></div></div><p class='mt-0 text-gray-500 dark:text-gray-400'>The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union.</p><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Requestor: Kimberly Bautista</h4></div><div class='text-right'><h4>Date: May 01, 2023</h4></div></div><div class='mt-2'><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Action</h4></div><div class='text-right'><h4>Date: May 05, 2023</h4></div></div><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>The European Union’s General Data Protection Regulation (G.D.P.R.).</p><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>The European Union’s General Data Protection Regulation (G.D.P.R.).</p><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>The European Union’s General Data Protection Regulation (G.D.P.R.).</p><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply</p></div>";
+    // div.innerHTML=historyHTML;
+    // divContainerForHistory.appendChild(div);
+
+    modalHistory.toggle();
+}
+function modalCloseHistory(){
+    modalHistory.toggle();
+}
 
     $('.js-example-basic-single').select2();
 

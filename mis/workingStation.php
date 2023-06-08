@@ -76,7 +76,7 @@ $username=$_SESSION['username'];
                     echo "Active";
                 } else{ echo "Inactive"; }?> 
               </td>
-              <td> <button data-modal-target="staticModal" data-modal-toggle="staticModal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+              <td> <button type="button" onclick="modalShowHistory(this)" data-pctag="<?php echo $row['pctag'] ?>" data-id="<?php echo $row['id'] ?>"  data-pchost="<?php echo $row['computerName'] ?>"  class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
   History
 </button>
               </td>
@@ -97,21 +97,21 @@ $username=$_SESSION['username'];
 </section>
 
 
-<div id="staticModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<div id="deviceHistoryModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-w-2xl max-h-full">
         <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div class="relative bg-white rounded-sm shadow dark:bg-gray-700">
             <!-- Modal header -->
             <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                     Device Activity   
                 </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="staticModal">
+                <button type="button" onclick="modalCloseHistory()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                 </button>
             </div>
             <!-- Modal body -->
-            <div class="m-2 justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
+            <div class="m-2 justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-lg ">
 <div class="text-center py-2 m-auto lg:text-center w-full">
      
 <div class="FrD3PA">
@@ -197,31 +197,59 @@ $username=$_SESSION['username'];
 
     <div id="myTabContentHistory" >
     <div class="hidden p-4 rounded-lg " id="johistory" role="tabpanel" aria-labelledby="jo-tab">
-    <div class="overflow-auto h-96 relative bg-gray-50 dark:bg-gray-800 w-full p-6 space-y-6" >
-    <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
-               
+    <div id="divContainerForHistory" class="overflow-auto h-96 relative w-full  " >
+        <!-- <div class=" mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 ">
+            <div class="grid grid-cols-2 gap-4 place-content-between ">
+                <div>
+                    <h4>Request</h4>
+                </div>
+                <div class="text-right">
+                <h4>Request ID: 2304-002</h4>
+                </div>
             </div>
+            <p class="mt-0 text-gray-500 dark:text-gray-400">
+                The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is
+                meant to ensure a common set of data rights in the European Union.
+            </p>
+            <div class="grid grid-cols-2 gap-4 place-content-between ">
+                <div>
+                    <h4>Requestor: Kimberly Bautista</h4>
+                </div>
+                <div class="text-right">
+                <h4>Date: May 01, 2023</h4>
+
+                </div>
+            </div>
+            <div class="mt-2">
+            <div class="grid grid-cols-2 gap-4 place-content-between ">
+                <div>
+                    <h4>Action</h4>
+                </div>
+                <div class="text-right">
+                    <h4>Date: May 05, 2023</h4>
+                </div>
+            </div>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                The European Union’s General Data Protection Regulation (G.D.P.R.).
+            </p>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                The European Union’s General Data Protection Regulation (G.D.P.R.).
+            </p>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                The European Union’s General Data Protection Regulation (G.D.P.R.).
+            </p>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+            With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply
+            </p>
+            </div>
+            
+        </div> -->
+       
         </div>
+    </div>
         <div class="hidden p-4 rounded-lg " id="pmshistory" role="tabpanel" aria-labelledby="pms-tab">
-    <div class="overflow-auto h-96 relative w-full p-6 space-y-6" >
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+    <div id="divContainerForHistoryPms"  class="overflow-auto h-96 relative w-full" >
+                <!-- <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                     The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
                 </p>
                 <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
@@ -236,37 +264,20 @@ $username=$_SESSION['username'];
                 <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                     With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
                 </p>
-                
+                 -->
             </div>
         </div>
         <div class="hidden p-4 rounded-lg " id="edithistory" role="tabpanel" aria-labelledby="edit-tab">
-    <div class="overflow-auto h-96 relative w-full p-6 space-y-6" >
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With sas than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
+    <div  id="divContainerForHistoryEdit" class="overflow-auto h-96 relative w-full p-6 " >
+                
             </div>
         </div>
         </div>
            
             <!-- Modal footer -->
             <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <!-- <button data-modal-toggle="staticModal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
-                <button data-modal-toggle="staticModal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
+                <!-- <button  type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button> -->
+                <button  type="button" onclick="modalCloseHistory()"class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Close</button>
             </div>
         </div>
     </div>

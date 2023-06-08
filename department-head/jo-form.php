@@ -149,9 +149,16 @@ else
 
             $requestto = $_POST['femmis'];
             $category = $_POST['category'];
-
-            $computerName = $_POST['computerName'];
-            $computerName = implode(', ', $computerName);
+            $computerName = "";
+            if($category =="Computer"){
+                $computerName = $_POST['computerName'];
+            
+                if($computerName!=""){
+                  
+                $computerName = implode(', ', $computerName);
+                }
+            }
+           
             $start= $_POST['start'];
             $end = $_POST['finish'];
             $request= convertToSentenceCase($_POST['request']);

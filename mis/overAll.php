@@ -14,6 +14,7 @@ $username=$_SESSION['username'];
             <tr>
                 <th>JO Number</th>
                 <th>Action</th>
+                <th>Requestor</th>
                 <th>Details</th>
                 <th>Date Filed</th>
                 <th>Category</th>
@@ -84,7 +85,9 @@ $username=$_SESSION['username'];
               <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
-
+              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+              <?php echo $row['requestor'];?> 
+              </td>
 
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
