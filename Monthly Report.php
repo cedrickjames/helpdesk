@@ -102,9 +102,6 @@ include ("includes/connect.php");
     </head>
     <body style="margin: 0px; padding: 0px; ">
         <div style="text-align: center">
-            <p style="font-size: 11px; margin: 0">Glory (Philippines) Inc.</p>
-            <p style="font-size: 11px; margin: 0">Administration Department</p>
-            <p style="font-size: 10px; margin: 0">http://glory-helpdesk.com</p>
             <p style="font-size: 11px; margin: 0; font-weight: bold">Job Order Monthly Report</p>
         </div>
 
@@ -146,6 +143,7 @@ include ("includes/connect.php");
                <td>JO Number</td>
                <td>Requestor</td>
                <td>Details</td>
+               <td>Personnel</td>
                <td>Date Started</td>
                <td>Date Finished</td>
             </tr>
@@ -172,6 +170,7 @@ include ("includes/connect.php");
            <td>'.$date.'-'.$row['id'].'</td>
            <td>'.$row['requestor'].'</td>
            <td>'.$row['request_details'].'</td>
+           <td>'.$row['assignedPersonnelName'].'</td>
            <td>'.$dateApproved.'</td>
            <td>'.$dateFinished.'</td>
             </tr>';

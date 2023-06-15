@@ -420,6 +420,7 @@ if(isset($_POST['addPMSAction'])){
                 <th>Department</th>
                 <th>Type</th>
                 <th>Activity</th>
+                <th>Date</th>
                 <th>Performed By</th>
                 <th>Approved By</th>
 
@@ -484,7 +485,7 @@ if(isset($_POST['addPMSAction'])){
                     data-deviceid="<?php echo $row['computerName'];?>" 
                     data-email="<?php echo $row['email'];?>" 
                     data-user="<?php echo $row['user'];?>" 
-
+                    <?php if($row['action']!="") {echo "disabled" ;}?>
                     class="inline-block px-6 py-2.5 <?php if($row['action']!="") {echo "text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed" ;} else{echo "bg-blue-600 text-white";}?> font-medium text-xs leading-tight uppercase rounded shadow-md <?php if($row['action']!="") {echo "" ;} else{echo "hover:bg-blue-700 hover:shadow-lg";}?> focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
                   Add Action
                     </button>
@@ -500,6 +501,16 @@ if(isset($_POST['addPMSAction'])){
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['action'];?> 
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php 
+              if($row['Date'] !=""){
+                $date = new DateTime($row['Date']);
+                $date = $date->format('F d, Y');
+                echo $date;
+              }
+              ?> 
+              
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['performedBy'];?> 

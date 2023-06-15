@@ -1643,6 +1643,8 @@ function goToHead(){
     document.getElementById("message").disabled = true;
     document.getElementById("computername").disabled = true;
     document.getElementById("remarks").disabled = false;
+
+    
     $("#recommendationDiv").removeClass("hidden");
 
     const myElement = document.querySelector('#diamond');

@@ -167,6 +167,9 @@
             $requestor = $_POST['requestor'];
             $requestorEmail = $_POST['requestoremail'];
             $assigned = $_POST['assigned'];
+            $start = $_POST['start'];
+            $finish = $_POST['finish'];
+
 
             
 
@@ -180,7 +183,7 @@
              
             $date = date("Y-m-d");
             $username = $_SESSION['name'];
-            $sql = "UPDATE `request` SET `status2`='inprogress',`admin_approved_date`='$date',`admin_remarks`='$remarks',`assignedPersonnel`='$assigned',`assignedPersonnelName`='$perseonnelName' WHERE `id` = '$requestID';";
+            $sql = "UPDATE `request` SET `status2`='inprogress',`reqstart_date` = '$start',`reqfinish_date` = '$finish',`admin_approved_date`='$date',`admin_remarks`='$remarks',`assignedPersonnel`='$assigned',`assignedPersonnelName`='$perseonnelName' WHERE `id` = '$requestID';";
                $results = mysqli_query($con,$sql);
 
                if($results){
@@ -1356,7 +1359,7 @@
                                             clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
-                                <input disabled id="datestart" onchange="testDate()" name="start" type="date"
+                                <input id="datestart" name="start" type="date"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input"
                                     placeholder="Request date start" required="">
                             </div>
@@ -1370,7 +1373,7 @@
                                             clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
-                                <input disabled id="datefinish" onchange="endDate()"  name="finish" type="date"
+                                <input id="datefinish"   name="finish" type="date"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input"
                                     placeholder="Request date finish" required="">
                             </div>
@@ -2089,7 +2092,8 @@ function unrequireSelect(){
 }
 function goToOverall(){
     const myElement = document.querySelector('#diamond');
-
+    document.getElementById("datestart").disabled = true;
+    document.getElementById("datefinish").disabled = true;
 
 const currentTransform = myElement.style.transform = 'translateX(55px) translateY(2px) rotate(135deg)';
 
@@ -2108,6 +2112,8 @@ function goToAdmin(){
 
     $("#ratingstar").addClass("hidden");
 $("#transferButton").addClass("hidden");
+document.getElementById("datestart").disabled = true;
+    document.getElementById("datefinish").disabled = true;
 
 }
 
@@ -2126,7 +2132,8 @@ function goToMis(){
     $("#recommendationDiv").addClass("hidden");
 
 $("#transferButton").removeClass("hidden");
-    
+document.getElementById("datestart").disabled = true;
+    document.getElementById("datefinish").disabled = true;
     const currentTransform = myElement.style.transform = 'translateX(275px) translateY(2px) rotate(135deg)';
 
 
@@ -2147,6 +2154,8 @@ $("#recommendationDiv").removeClass("hidden");
 
 document.getElementById("reasonCancel").required = false;
     document.getElementById("assigned").required = false;
+    document.getElementById("datestart").disabled = true;
+    document.getElementById("datefinish").disabled = true;
     $("#transferButton").addClass("hidden");
 
 
@@ -2162,8 +2171,12 @@ function goToHead(){
     $("#actionDetailsDiv").addClass("hidden");
     $("#ratingstar").addClass("hidden");
 const currentTransform = myElement.style.transform = 'translateX(160px) translateY(2px) rotate(135deg)';
-document.getElementById("reasonCancel").required = false;
+document.getElementById("reasonCancel").required = false;document.getElementById("telephone").disabled = true;
     document.getElementById("assigned").required = true;
+    document.getElementById("telephone").disabled = true;
+    document.getElementById("datestart").disabled = false;
+    document.getElementById("datefinish").disabled = false;
+
     $("#recommendationDiv").addClass("hidden");
     $("#transferButton").addClass("hidden");
 

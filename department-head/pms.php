@@ -335,6 +335,7 @@ if(isset($_POST['addPMSAction'])){
                 <th>Department</th>
                 <th>Type</th>
                 <th>Activity</th>
+                <th>Date</th>
                 <th>Performed By</th>
 
                 
@@ -414,6 +415,15 @@ if(isset($_POST['addPMSAction'])){
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['action'];?> 
               </td>
+
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php 
+              if($row['Date'] !=""){
+                $date = new DateTime($row['Date']);
+                $date = $date->format('F d, Y');
+                echo $date;
+              }
+              ?> 
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['performedBy'];?> 
               </td>

@@ -57,7 +57,7 @@ if(isset($_POST['registerUser'])){
   $userDepartment= $_POST['userDepartment'] ;
   $userType= $_POST['userType'] ;
 
-  $sql = "INSERT INTO `user`(`username`, `password`, `name`, `department`, `email`, `level`) VALUES ('$userEmployeeId','$userEmployeeId','$userFullName',' $userDepartment','$userEmail','$userType')";
+  $sql = "INSERT INTO `user`(`username`, `password`, `name`, `department`, `email`, `level`) VALUES ('$userEmployeeId','$userEmployeeId','$userFullName','$userDepartment','$userEmail','$userType')";
 $results = mysqli_query($con,$sql);
 }
 ?>
@@ -349,7 +349,7 @@ $results = mysqli_query($con,$sql);
               
                           <?php  
 
-                                $sql="SELECT DISTINCT department FROM user";
+                                $sql="SELECT DISTINCT TRIM(department) AS department FROM user;";
                                 $result = mysqli_query($con,$sql);
 
                                 while($row=mysqli_fetch_assoc($result)){

@@ -172,6 +172,17 @@
           }
 
         }
+
+
+        $sql1A = "Select * FROM `user` WHERE `level` = 'admin' LIMIT 1";
+        $resultA = mysqli_query($con, $sql1A);
+        while($list=mysqli_fetch_assoc($resultA))
+        {
+        $adminemail=$list["email"];
+        $adminname=$list["name"];
+
+        } 
+
         if(isset($_POST['approveRequest'])){
             $requestID = $_POST['joid2'];
             $completejoid = $_POST['completejoid'];
@@ -214,12 +225,16 @@
                   }    
 
                 $subject ='Completed Job Order';
-                $message = 'Hi '.$requestor.',<br> <br> MIS has completed one of your job order requests. Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+                $message = 'Hi '.$requestor.',<br> <br> FEM has completed one of your job order requests. Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
                 
-
+                $subjectA ='Finished JO';
+                $messageA = 'Hi '.$adminname.',<br> <br> FEM has completed the job order requests with JO Number of '.$completejoid.'  Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+                
                  require '../vendor/autoload.php';
     
-                 $mail = new PHPMailer(true);       
+                 $mail = new PHPMailer(true);      
+                 $mailA = new PHPMailer(true);       
+ 
                 //  email the admin               
                  try {
                   //Server settings
@@ -249,6 +264,32 @@
                     $mail->Body    = $message;
             
                     $mail->send();
+                    $mailA->isSMTP();                                      // Set mailer to use SMTP
+                    $mailA->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+                    $mailA->SMTPAuth = true;                               // Enable SMTP authentication
+                    $mailA->Username = $account;     // Your Email/ Server Email
+                    $mailA->Password = $accountpass;                     // Your Password
+                    $mailA->SMTPOptions = array(
+                        'ssl' => array(
+                        'verify_peer' => false,
+                        'verify_peer_name' => false,
+                        'allow_self_signed' => true
+                        )
+                                                );                         
+                    $mailA->SMTPSecure = 'none';                           
+                    $mailA->Port = 25;                                   
+            
+                    //Send Email
+                    // $mailA->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
+                    
+                    //Recipients
+                    $mailA->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
+                    $mailA->addAddress($adminemail);              
+                    $mailA->isHTML(true);                                  
+                    $mailA->Subject = $subjectA;
+                    $mailA->Body    = $messageA;
+            
+                    $mailA->send();
 
                     
                           $_SESSION['message'] = 'Message has been sent';
