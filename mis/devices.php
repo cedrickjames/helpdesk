@@ -120,6 +120,9 @@ for($i=0; $i<$numberOfSelectedDevice; $i++){
     $pcname = $_POST['pcname'.$i];
     $os = $_POST['os'.$i];
     $status = $_POST['status'.$i];
+    // $edr = $_POST['edr'.$i];
+    $edr = isset($_POST['edr'.$i]) ? $_POST['edr'.$i] : 0;
+    
 
     $changedFields = array();
     $changedDevice = array();
@@ -209,6 +212,11 @@ while($row=mysqli_fetch_assoc($resultOldData))
         $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','deactivated','$fromdeactivated','$status', '$modifier', '$date')";
         $results = mysqli_query($con,$sql);
     }
+    if ($row['edr'] !== $edr) {
+        $fromedr = $row['edr'];
+        $sql = "INSERT INTO `devicehistory`(`deviceId`, `field`, `fromThis`, `toThis`, `modifier`, `date`) VALUES ('$deviceId','edr','$fromedr','$edr', '$modifier', '$date')";
+        $results = mysqli_query($con,$sql);
+    }
     // foreach ($changedFields as $field) {
     //     echo "The field '$field' was changed.";
 
@@ -218,7 +226,7 @@ while($row=mysqli_fetch_assoc($resultOldData))
 
 
     // echo "<br> $deviceId $pcTag   $assetTag   $pcname   $type   $user   $ipaddress   $department   $macAddress   $email   $pcname   $os  $status   ";
-    $sql = "UPDATE `devices` SET `department`='$department',`type`='$type',`user`='$user',`os`='$os',`computerName`='$pcname',`macAddress`='$macAddress',`ipAddress`='$ipaddress',`email`='$email',`pctag`='$pcTag',`assetTag`='$assetTag',`deactivated`='$status' WHERE `id` = '$deviceId'";
+    $sql = "UPDATE `devices` SET `department`='$department',`type`='$type',`user`='$user',`os`='$os',`computerName`='$pcname',`macAddress`='$macAddress',`ipAddress`='$ipaddress',`email`='$email',`pctag`='$pcTag',`assetTag`='$assetTag',`deactivated`='$status', `edr` = '$edr' WHERE `id` = '$deviceId'";
     $results = mysqli_query($con,$sql);
     
 }
@@ -1076,7 +1084,7 @@ if(isset($_POST['rateJo'])){
               
                     </ul>
             </div>
-            <div class="rzHaWQ theme light" id="diamond" style="transform: translateX(55px) translateY(2px) rotate(135deg);"></div>
+            <div class="rzHaWQ theme light" id="diamond" style="transform: translateX(180px) translateY(2px) rotate(135deg);"></div>
         </div>
     </div>
 </div>
@@ -1376,25 +1384,25 @@ if(isset($_POST['rateJo'])){
                             placeholder="Insert the label here" required>
                     </div>
                     <div class="w-full">
-                        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
+                        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
                         <input name="brand1" type="text" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Kingston" required>
                     </div>
                     <div class="w-full">
-                        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Size</label>
+                        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Size</label>
                         <input name="size1" type="text" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="1GB" required>
                     </div>
                     <div class="w-full">
-                        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color</label>
+                        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Color</label>
                         <input name="color1" type="text" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Black" required>
                     </div>
                     <div class="w-full">
-                        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
                     
                             <select name="type1"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option selected value="Flashdrive">Flashdrive</option>
@@ -1406,7 +1414,7 @@ if(isset($_POST['rateJo'])){
                             </select>
                                                 </div>
                     <div class="w-full">
-                        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                              +-</label>
                              <button type="button" onclick="addSet()" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">+</button>
                     </div>
@@ -1453,13 +1461,13 @@ if(isset($_POST['rateJo'])){
                 <div id="inputContainerCctv" class="overflow-auto max-h-96 items-center justify-items-center text-center">
                 <div id="devicelabelComputer" class="overflow-auto max-h-96 items-center justify-items-center text-center">
                     <div class="grid gap-1  md:grid-cols-7 " >
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DVR No.</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Camera No.</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Building</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">+-</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DVR No.</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Camera No.</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Building</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">+-</label>
 
                             </div>
                     </div>
@@ -1564,12 +1572,12 @@ if(isset($_POST['rateJo'])){
                 <div id="inputContainerPrinter" class="overflow-auto max-h-96 items-center justify-items-center text-center">
                 <div id="devicelabelComputer" class="overflow-auto max-h-96 items-center justify-items-center text-center">
                     <div class="grid gap-1  md:grid-cols-6 " >
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Model</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Serial No.</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">+-</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Model</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Serial No.</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">+-</label>
 
                             </div>
                     </div>
@@ -1659,17 +1667,17 @@ if(isset($_POST['rateJo'])){
                 <div id="inputContainerComputer" class="overflow-auto max-h-96 items-center justify-items-center text-center">
                 <div id="devicelabelComputer" class="overflow-auto max-h-96 items-center justify-items-center text-center">
                     <div class="grid gap-1  md:grid-cols-11 " >
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Tag</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Tag</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Name</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mac Address</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Email</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">OS</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">+-</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Tag</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Tag</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Name</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mac Address</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Email</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">OS</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">+-</label>
 
                             </div>
                     </div>
@@ -1809,37 +1817,39 @@ if(isset($_POST['rateJo'])){
             <form method="post">
             <input type="number" id="numberOfSelectedDevices" name="numberOfSelectedDevice" class="hidden">
             <div id="devicelabel" class="overflow-auto max-h-96 items-center justify-items-center text-center">
-                    <div class="grid gap-1  md:grid-cols-11 " >
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Tag</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Tag</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Name</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mac Address</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Email</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">OS</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Active</label>
+                    <div class="grid gap-1  md:grid-cols-12 " >
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Tag</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Tag</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Name</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mac Address</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Email</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">OS</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Active</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">EDR - Kaspersky</label>
+
 
                             </div>
                     </div>
                 <div id="inputDevicesData" class="overflow-auto max-h-96 items-center justify-items-center text-center">
                     <div class="grid gap-1  md:grid-cols-12 " id="div1">
                     <div class="w-full">
-                        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
+                        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
                         <input name="brand1" type="text" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Kingston" required>
                     </div>
                     <div class="w-full">
-                        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
+                        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
                         <input name="brand1" type="text" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Kingston" required>
                     </div>
                     <div class="w-full">
-                        <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
+                        <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
                         <input name="brand1" type="text" 
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="Kingston" required>
@@ -1883,12 +1893,12 @@ if(isset($_POST['rateJo'])){
             <input type="number" id="numberOfSelectedDevicesCctv" name="numberOfSelectedDevicesCctv" class="hidden">
             <div id="devicelabel" class="overflow-auto max-h-96 items-center justify-items-center text-center">
                     <div class="grid gap-1  md:grid-cols-6 " >
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DVR No.</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Camera No.</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bldg. Assigned</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">DVR No.</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Camera No.</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bldg. Assigned</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
 
                             </div>
                     </div>
@@ -1926,11 +1936,11 @@ if(isset($_POST['rateJo'])){
             <input type="number" id="numberOfSelectedDevicesPrinter" name="numberOfSelectedDevicesPrinter" class="hidden">
             <div id="devicelabel" class="overflow-auto max-h-96 items-center justify-items-center text-center">
                     <div class="grid gap-1  md:grid-cols-5" >
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Model</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Serial No.</label>
-                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Model</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Location</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Serial No.</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
 
                             </div>
                     </div>
@@ -2407,9 +2417,7 @@ console.log(options3);
         options3.forEach(function(option) {
             if(option.field == "deactivated"){
                 option.field = 'Status'
-     
-            }
-            if(option.fromThis == 0){
+                if(option.fromThis == 0){
                     option.fromThis = "Active"
             }
             if( option.toThis == 1){
@@ -2422,6 +2430,24 @@ console.log(options3);
             if( option.toThis == 0){
                 option.toThis = "Active"
             }
+            }
+            if(option.field == "edr"){
+                option.field = 'EDR'
+                if(option.fromThis == 0){
+                    option.fromThis = "Not Installed"
+            }
+            if( option.toThis == 1){
+                option.toThis = "Installed"
+
+            }
+            if(option.fromThis == 1){
+                    option.fromThis = "Installed"
+            }
+            if( option.toThis == 0){
+                option.toThis = "Not Installed"
+            }
+            }
+
           
                 historyHTMLEdit += "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Field Changed: " + option.field + "</h4></div><div class='text-right'><h4>Date: " + option.date + "</h4></div><p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>From:  </span>" + option.fromThis + "</p><p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>To:  </span>" + option.toThis + "</p></div><div class='mt-2'><div class='grid grid-cols-2 gap-4 place-content-between '> <p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>Modifier:  </span>" + option.modifier + "</p></div></div></div>";
             });
@@ -3236,7 +3262,7 @@ const tabElements= [
 
 // options with default values
 const taboptions = {
-    defaultTabId: 'headApproval1',
+    defaultTabId: 'adminApproval1',
     activeClasses: 'text-white hover:text-amber-400 dark:text-blue-500 dark:hover:text-blue-400 border-blue-600 dark:border-blue-500',
     inactiveClasses: 'text-gray-300 hover:text-amber-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300',
     onShow: () => {
@@ -3251,7 +3277,7 @@ const taboptions = {
 const tabs = new Tabs(tabElements, taboptions);
 
 // open tab item based on id
-tabs.show('headApproval1');
+tabs.show('adminApproval1');
 
 
 // // get the tab object based on ID
