@@ -299,7 +299,8 @@
                 $requestor = $_POST['requestor'];
                 $completejoid = $_POST['completejoid'];
                 $username = $_SESSION['name'];
-                $sql = "UPDATE `request` SET `status2`='cancelled',`cancelledBy`='$username', `reasonOfCancellation`='$reasonCancel' WHERE `id` = '$joid';";
+                $dateOfCancellation = date("Y-m-d");
+                $sql = "UPDATE `request` SET `status2`='cancelled',`cancelledBy`='$username', `reasonOfCancellation`='$reasonCancel', `dateOfCancellation` = '$dateOfCancellation' WHERE `id` = '$joid';";
                 $results = mysqli_query($con,$sql);
                 if($results){
                     $sql2 = "Select * FROM `sender`";

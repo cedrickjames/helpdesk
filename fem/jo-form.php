@@ -335,6 +335,8 @@ else
             <option value="Relayout" data-val="fem">Relayout</option>
             <option value="Quotation" data-val="fem">Quotation</option>
             <option value="Computer" data-val="mis">Computer</option>
+            <option value="Printer" data-val="mis">Printer</option>
+
             <option value="Network" data-val="mis">Network</option>
             <option value="Telephone" data-val="mis">Telephone</option>
             <option value="Email" data-val="mis">Email</option>

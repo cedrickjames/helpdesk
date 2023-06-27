@@ -15,6 +15,7 @@ $user_level=$_SESSION['level'];
                 <th>Details</th>
                 <th>Requestor</th>
                 <th>Date Filed</th>
+                <th>Date Cancelled</th>
                 <th>Category</th>
                 <th>Assigned to</th>
             </tr>
@@ -51,6 +52,10 @@ $user_level=$_SESSION['level'];
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['date_filled'];?> 
+              
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['dateOfCancellation'];?> 
               
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">

@@ -12,6 +12,9 @@
     font-size: 30px;
     justify-content: center;
 }
+.md\:grid-cols-13 {
+    grid-template-columns: repeat(13, minmax(0, 1fr));
+}
 .select2 {
     width: 100% !important;
     height: 100% !important;

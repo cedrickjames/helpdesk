@@ -154,7 +154,8 @@ else
             // $bldg=$_POST['building'];
             
             $request = str_replace("'", "&apos;", $request);
-          
+            $request = str_replace('"', '&quot;', $request);
+
             $terms=$_POST['terms'];
   
             if (!empty($requestto && $category ))
@@ -217,7 +218,8 @@ else
                         // header("location: form.php");
                     } catch (Exception $e) {
                         $_SESSION['message'] = 'Message could not be sent. Mailer Error: '.$mail->ErrorInfo;
-                    echo "<script>alert('Message could not be sent. Mailer Error.') </script>";
+                        $error = $_SESSION['message'];
+                    echo "<script>alert('Message could not be sent. Mailer Error. $error') </script>";
 
                     }
 
@@ -346,11 +348,13 @@ else
             <option value="Quotation" data-val="fem">Quotation</option>
             <option value="Computer" data-val="mis">Computer</option>
             <option value="Network" data-val="mis">Network</option>
+            <option value="Printer" data-val="mis">Printer</option>
             <option value="Telephone" data-val="mis">Telephone</option>
             <option value="Email" data-val="mis">Email</option>
             <option value="Relayout" data-val="mis">Relayout</option>
             <option value="Quotation" data-val="mis">Quotation</option>
             <option value="CCTV" data-val="mis">CCTV-Attach approve letter from Admin head</option>
+
             
             <option value="Others" data-val="mis">Others</option>
             <option value="Others" data-val="fem">Others</option>

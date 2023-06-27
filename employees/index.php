@@ -264,11 +264,12 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
 
     if(isset($_POST['cancelJO'])){
         $joid = $_POST['joid2'];
+        $dateOfCancellation = date("Y-m-d");
         $reasonCancel = $_POST['reasonCancel'];
-        $sql = "UPDATE `request` SET `status2`='cancelled', `reasonOfCancellation`='$reasonCancel' WHERE `id` = '$joid';";
+        $sql = "UPDATE `request` SET `status2`='cancelled', `reasonOfCancellation`='$reasonCancel', `dateOfCancellation` = '$dateOfCancellation'  WHERE `id` = '$joid';";
         $results = mysqli_query($con,$sql);
         
-        
+              
         }
 ?>
 

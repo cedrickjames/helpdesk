@@ -330,7 +330,10 @@
                 $requestorEmail = $_POST['requestoremail'];
                 $requestor = $_POST['requestor'];
                 $completejoid = $_POST['completejoid'];
-                $sql = "UPDATE `request` SET `status2`='cancelled', `reasonOfCancellation`='$reasonCancel' WHERE `id` = '$joid';";
+
+                $dateOfCancellation = date("Y-m-d");
+
+                $sql = "UPDATE `request` SET `status2`='cancelled', `reasonOfCancellation`='$reasonCancel', `dateOfCancellation` = '$dateOfCancellation' WHERE `id` = '$joid';";
                 $results = mysqli_query($con,$sql);
                 if($results){
                     $sql2 = "Select * FROM `sender`";

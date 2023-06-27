@@ -12,14 +12,17 @@ $username=$_SESSION['username'];
 <table id="overAllFinished" class="display" style="width:100%">
         <thead>
             <tr>
+            <th>No.</th>
                 <th>JO Number</th>
                 <th>Action</th>
                 <th>Details</th>
+                <th>Requestor</th>
                 <th>Date Filed</th>
+                <th>Date finished</th>
                 <th>Category</th>
                 <th>Assigned to</th>
-                <th>Assigned Section</th>
                 <th>Rate</th>
+
 
             </tr>
         </thead>
@@ -28,13 +31,16 @@ $username=$_SESSION['username'];
                 $a=1;
 
                  
-                $sql="select * from `request` WHERE  `status2` = 'rated' and `request_to` = 'fem' order by id asc  ";
+                $sql="select * from `request` WHERE  `status2` = 'rated' and `request_to` = 'fem' order by actual_finish_date desc  ";
                 $result = mysqli_query($con,$sql);
 
 
                 while($row=mysqli_fetch_assoc($result)){
                   ?>
               <tr class="">
+              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+              <?php echo $a;?> 
+              </td>
               <td class="">
               <?php 
               $date = new DateTime($row['date_filled']);
@@ -79,11 +85,12 @@ $username=$_SESSION['username'];
                     View more
                     </button>
                 </td>
-
-              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+                <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
-
+              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+              <?php echo $row['requestor'];?> 
+              </td>
 
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -92,6 +99,9 @@ $username=$_SESSION['username'];
               $date = $date->format('F d, Y');
               echo $date;?> 
               
+              </td>
+              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+              <?php echo $row['actual_finish_date'];?> 
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['request_category'];?> 
@@ -102,15 +112,6 @@ $username=$_SESSION['username'];
 ?> 
 </td>
 
-<td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-
-<?php if($row['request_to'] == "fem"){
-echo "FEM";}
-else if($row['request_to'] == "mis"){
-echo "MIS";
-}
-?> 
-</td>
   <td class=" text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
     <h2>
     <span class="flex justify-center items-center">
@@ -160,7 +161,7 @@ echo "MIS";
 
                 </tr>
                   <?php
-
+                    $a++;
             }
                ?>
           </tbody>
