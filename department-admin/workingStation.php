@@ -13,18 +13,19 @@ $username=$_SESSION['username'];
         <thead>
             <tr>
                 <th>Number</th>
-             
                 <th>PC Tag</th>
                 <th>Host Name</th>
-
                 <th>Asset Tag</th>
                 <th>Type</th>
                 <th>User</th>
                 <th>Ip Address</th>
                 <th>Department</th>
-                <th>Statoos</th>
+                <th>Status</th>
                 <th>EDR</th>
-                <th>Action</th>
+                <th>History</th>
+                <th>Ip Config</th>
+                <th>Applications</th>
+
 
 
             </tr>
@@ -87,13 +88,45 @@ $username=$_SESSION['username'];
                 <?php
               }?> 
               </td>
-              <td> <button type="button" onclick="modalShowHistory(this)" data-pctag="<?php echo $row['pctag'] ?>" data-id="<?php echo $row['id'] ?>"  data-pchost="<?php echo $row['computerName'] ?>"  class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+              <td> 
+                <button type="button" onclick="modalShowHistory(this)" data-pctag="<?php echo $row['pctag'] ?>" data-id="<?php echo $row['id'] ?>"  data-pchost="<?php echo $row['computerName'] ?>"  class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
   History
 </button>
+
+<!-- <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal<?php echo $row['id'];?>" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button"> 
+  <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg>
+  <?php echo $row['id'];?>
+</button>
+<div id="dropdownDotsHorizontal<?php echo $row['id'];?>" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
+      <li>
+         <button type="button" onclick="modalShowHistory(this)" data-pctag="<?php echo $row['pctag'] ?>" data-id="<?php echo $row['id'] ?>"  data-pchost="<?php echo $row['computerName'] ?>"  class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+  History
+</button> -->
+        <!-- <a href="#" onclick="modalShowHistory(this)" data-pctag="<?php echo $row['pctag']; ?>" data-id="<?php echo $row['id'];?>"  data-pchost="<?php echo $row['computerName']; ?>" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">History</a> -->
+      <!-- </li>
+      <li>
+        <a href="#" onclick="modalShowProofIp(this)" data-deviceidip="<?php echo $row['id'];?>" data-proof="<?php echo $row['proofIp'];?>" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">IP Config</a>
+      </li>
+      <li>
+        <a href="#" onclick="modalShowProofApps(this)" data-deviceidapps="<?php echo $row['id'];?>" data-proof="<?php echo $row['proofInstalled'];?>" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Applications</a>
+      </li>
+    </ul> -->
+    <!-- <div class="py-2">
+      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Separated link</a>
+    </div> -->
+<!-- </div> -->
               </td>
-              
-
-
+              <td> 
+                <button type="button" onclick="modalShowProofIp(this)" data-deviceidip="<?php echo $row['id'];?>" data-proof="<?php echo $row['proofIp'];?>"   class="<?php if($row['proofIp'] == null) { echo "bg-blue-600";} else{echo "bg-green-600";}?>  block text-white  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+  Ip Con
+</button>
+            </td>
+            <td> 
+                <button type="button" onclick="modalShowProofApps(this)" data-deviceidapps="<?php echo $row['id'];?>" data-proof="<?php echo $row['proofInstalled'];?>"  class="block text-white <?php if($row['proofInstalled'] == null) { echo "bg-blue-600";} else{echo "bg-green-600";}?>  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+ Apps
+</button>
+            </td>
 
 
                 </tr>

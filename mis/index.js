@@ -474,6 +474,8 @@ xhr1.send();
                 var status;
                 var edr;
                 var kas;
+                var itnavi;
+
 
 
                 var isinactive = response[i].deactivated;
@@ -487,6 +489,8 @@ xhr1.send();
                 }
                 var edrstat = response[i].edr;
                 var kasstat = response[i].kaspersky;
+                var itnavistat = response[i].itnavi;
+
 
                 console.log("hays" + edrstat)
                 if(edrstat=="1"){
@@ -506,8 +510,17 @@ xhr1.send();
                       kas = "";
     
                     }
+                    
+                  if(itnavistat=="1"){
+                    itnavi = "checked";
+    
+                    }
+                    else{
+                      itnavi = "";
+    
+                    }
 
-                var set = "<div class='w-full'><input name='deviceId"+i+"' value='"+response[i].id+"' class='hidden' type='text'> <input name='pcTag"+i+"' value='"+response[i].pctag+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert PC Tag' ></div><div class='w-full'><input name='assetTag"+i+"' value='"+response[i].assetTag+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='FFFE-123' ></div><div class='w-full'><input name='pcname"+i+"' value='"+response[i].computerName+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='PC Name' ></div><div class='w-full'><input name='pcpassword"+i+"' value='"+response[i].password+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='PC Name' ></div><div class='w-full'><input name='type"+i+"' value='"+response[i].type+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Type' ></div><div class='w-full'><input name='user"+i+"' value='"+response[i].user+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Full Name' ></div><div class='w-full'><select  name='ipaddress"+i+"' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option selected value='"+response[i].ipAddress+"'>"+response[i].ipAddress+"</option> <option value='Dynamic'>Dynamic</option> "+selectHTML+" </select></div><div class='w-full'><input name='department"+i+"' value='"+response[i].department+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Department' ></div><div class='w-full'><input name='macAddress"+i+"' value='"+response[i].macAddress+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Mac Address' ></div><div class='w-full'><input name='email"+i+"'  type='text' value='"+response[i].email+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Email' ></div><div class='w-full'><input name='os"+i+"' value='"+response[i].os+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='OS' ></div><div class='w-full'> <select name='status"+i+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'> "+status+" </select></div><div class='w-full'> <input  "+edr+" type='checkbox' value='1' name='edr"+i+"'  class='mr-4 w-10 h-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'><input "+kas+" type='checkbox' value='1' name='kas"+i+"'  class='w-10 h-10 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'> </div>";
+                var set = "<div class='w-full'><input name='deviceId"+i+"' value='"+response[i].id+"' class='hidden' type='text'> <input name='pcTag"+i+"' value='"+response[i].pctag+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert PC Tag' ></div><div class='w-full'><input name='assetTag"+i+"' value='"+response[i].assetTag+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='FFFE-123' ></div><div class='w-full'><input name='pcname"+i+"' value='"+response[i].computerName+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='PC Name' ></div><div class='w-full'><input name='pcpassword"+i+"' value='"+response[i].password+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='PC Name' ></div><div class='w-full'><input name='type"+i+"' value='"+response[i].type+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Type' ></div><div class='w-full'><input name='user"+i+"' value='"+response[i].user+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Full Name' ></div><div class='w-full'><select  name='ipaddress"+i+"' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option selected value='"+response[i].ipAddress+"'>"+response[i].ipAddress+"</option> <option value='Dynamic'>Dynamic</option> "+selectHTML+" </select></div><div class='w-full'><input name='department"+i+"' value='"+response[i].department+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Department' ></div><div class='w-full'><input name='macAddress"+i+"' value='"+response[i].macAddress+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Mac Address' ></div><div class='w-full'><input name='email"+i+"'  type='text' value='"+response[i].email+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Email' ></div><div class='w-full'><input name='os"+i+"' value='"+response[i].os+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='OS' ></div><div class='w-full'> <select name='status"+i+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'> "+status+" </select></div><div class='w-full col-span-2'> <input  "+edr+" type='checkbox' value='1' name='edr"+i+"'  class='mr-4 w-10 h-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'><input "+kas+" type='checkbox' value='1' name='kas"+i+"'  class=' mr-4 w-10 h-10 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'> <input "+itnavi+" type='checkbox' value='1' name='itnavi"+i+"'  class=' mr-4 w-10 h-10 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'> </div>";
 
                 //
                 
@@ -617,6 +630,11 @@ xhrdevices.onreadystatechange = function() {
            column7 = 'IP Address';
            column8 = 'MAC Address';
            column9 = 'Department';
+           column10 = 'EDR';
+           column11 = 'Kaspersky';
+           column12 = 'IT Navi';
+
+
 
 
            
@@ -631,6 +649,11 @@ xhrdevices.onreadystatechange = function() {
                    column7,
                    column8,
                    column9,
+                   column10,
+                   column11,
+                   column12,
+
+
 
 
 
@@ -649,6 +672,11 @@ xhrdevices.onreadystatechange = function() {
            column7 = response[i].ipAddress;
            column8 = response[i].macAddress;
            column9 = response[i].department;
+           column10 = response[i].edr;
+           column11 = response[i].kaspersky;
+           column12 = response[i].itnavi;
+
+
 
 
            
@@ -663,6 +691,10 @@ xhrdevices.onreadystatechange = function() {
                    column7,
                    column8,
                    column9,
+                   column10,
+                   column11,
+                   column12,
+
            
                ]
            );
