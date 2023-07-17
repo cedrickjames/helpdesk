@@ -26,6 +26,8 @@
   
 
      session_start();
+
+    //  echo  $_SESSION['leaderof'];
     include ("../includes/connect.php");
      if(isset( $_SESSION['connected'])){
 
@@ -411,7 +413,7 @@
   
 </div>
 <div id="mainContent" class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
-<div id="dialParent" class="fixed right-6 bottom-6 group">
+<!-- <div id="dialParent" class="fixed right-6 bottom-6 group">
     <div id="dialContent" class="flex flex-col items-center hidden mb-4 space-y-2">
     <a href="devicesReport.php" target="_blank" type="button" class="felx w-[56px] h-[56px] text-gray-500 bg-white rounded-full border border-gray-200 dark:border-gray-600 hover:text-gray-900 shadow-sm dark:hover:text-white dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-700 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-300 focus:outline-none dark:focus:ring-gray-400">
             <svg aria-hidden="true" class="w-6 h-6 mx-auto mt-px" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"></path></svg>
@@ -454,7 +456,7 @@
         <svg aria-hidden="true" class="w-8 h-8 transition-transform group-hover:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
         <span class="sr-only">Open actions menu</span>
     </button>
-</div>
+</div> -->
     <div
         class="justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
         <div class="text-center py-2 m-auto lg:text-center w-full">
@@ -1616,36 +1618,36 @@
 <script>
 
 // parent element wrapping the speed dial
-const $parentEld = document.getElementById('dialParent')
+// const $parentEld = document.getElementById('dialParent')
 
 // the trigger element that can be clicked or hovered
-const $triggerEld = document.getElementById('dialButton');
+// const $triggerEld = document.getElementById('dialButton');
 
 // the content wrapping element of menu items or buttons
-const $targetEld = document.getElementById('dialContent');
+// const $targetEld = document.getElementById('dialContent');
 
 // options with default values
-const optionsd = {
-  triggerType: 'click',
-  onHide: () => {
-      console.log('speed dial is shown');
-  },
-  onShow: () => {
-      console.log('speed dial is hidden');
-  },
-  onToggle: () => {
-    console.log('speed dial is toggled')
-  }
-};
-const dial = new Dial($parentEld, $triggerEld, $targetEld, optionsd);
-// show the speed dial
-dial.show();
+// const optionsd = {
+//   triggerType: 'click',
+//   onHide: () => {
+//       console.log('speed dial is shown');
+//   },
+//   onShow: () => {
+//       console.log('speed dial is hidden');
+//   },
+//   onToggle: () => {
+//     console.log('speed dial is toggled')
+//   }
+// };
+// const dial = new Dial($parentEld, $triggerEld, $targetEld, optionsd);
+// // show the speed dial
+// dial.show();
 
-// hide the speed dial
-dial.hide();
+// // hide the speed dial
+// dial.hide();
 
-// toggle the visibility of the speed dial
-dial.toggle();
+// // toggle the visibility of the speed dial
+// dial.toggle();
 
 
 function cancellation(){

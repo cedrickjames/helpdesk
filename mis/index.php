@@ -422,13 +422,14 @@
     <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Responsive-2.3.0/css/responsive.dataTables.min.css"/>
 
     <link rel="stylesheet" href="index.css">
-
+    <link href="../node_modules/select2/dist/css/select2.min.css" rel="stylesheet" />
     <script src="../cdn_tailwindcss.js"></script>
 
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
    
 </head>
     <body   class="static  bg-white dark:bg-gray-700"  >
+        
     <?php require_once 'nav.php';?>
     <div id="loading-message">
     <div role="status" class="self-center flex">
@@ -1110,7 +1111,6 @@
 
 
 
-
 <!-- Main modal -->
 <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] md:h-full">
     <div class="relative w-full h-full max-w-2xl md:h-auto">
@@ -1159,6 +1159,22 @@
   <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
   <span class="label-edit ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Enable Edit</span>
 </label> -->
+<button type="button" onclick="Edit()" id="editPcTag" name="editPcTag" class="t-0  text-gray-900 bg-gradient-to-br from-lime-200 via-lime-400 to-lime-500  hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 ">
+  <!-- <svg class="w-4 h-4 mr-2 -ml-1 " fill="none"  focusable="false"  stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"> -->
+  <svg  class="w-4 h-4 mr-2 -ml-1 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+    <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
+    <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
+  </svg>
+  Edit
+</button>
+<button type="button" onclick="Update()" id="updatePcTag" name="updatePcTag" class=" hidden  text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 ">
+  <!-- <svg class="w-4 h-4 mr-2 -ml-1 " fill="none"  focusable="false"  stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"> -->
+  <svg  class="w-4 h-4 mr-2 -ml-1 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+    <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
+    <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
+  </svg> 
+  Update
+</button>
                 <button type="submit" onclick="printreport()" name="print" class="  text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 ">
   <svg class="w-4 h-4 mr-2 -ml-1 " fill="none"  focusable="false"  stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
   <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5zm-3 0h.008v.008H15V10.5z"></path>
@@ -1180,6 +1196,15 @@
            
             <input type="text" name="joid2" id="joid2" class="hidden col-span-2 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
+            <div id="targetElement" class="hidden flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+  <svg class="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+  </svg>
+  <span class="sr-only">Info</span>
+  <div>
+    <span class="font-medium">Update success!</span> 
+  </div>
+</div>
 
             <div class="w-full grid gap-4 grid-cols-2">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Requestor : </span><span class="dark:text-white" id="requestor"></span></h2>
@@ -1197,7 +1222,21 @@
                 <div class="w-full grid gap-4 grid-cols-2">
                 <div id="categoryDivParent" class="grid gap-4 grid-cols-2">
                 <h2 class="float-left font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Computer Name: </span></h2>
-                <input disabled type="text" name="computername" id="computername"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <select disabled name="computerName[]" id="computername" multiple="multiple" class="form-control js-example-tags bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+             <!-- <option selected disabled value=" " data-val="">Choose PC Tag:</option> -->
+                <?php  
+
+$sqlpc="SELECT DISTINCT pctag FROM devices WHERE department = '$user_dept' and pctag != ''";
+$resultpc = mysqli_query($con,$sqlpc);
+
+while($row=mysqli_fetch_assoc($resultpc)){
+  ?> <option  value="<?php echo $row['pctag']; ?>" ><?php echo $row['pctag']; ?></option> <?php
+}
+
+?>
+                        
+            </select>   
+                <!-- <input disabled type="text" name="computername" id="computername"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> -->
                     
                 </div>
                      <div class="grid gap-4 grid-cols-2">
@@ -1403,6 +1442,7 @@
 
 <script src="../node_modules/flowbite/dist/flowbite.js"></script>
 <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<script src="../node_modules/select2/dist/js/select2.min.js"></script>
 <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
 <script type="text/javascript" src="../node_modules/DataTables/datatables.min.js"></script>
     <script type="text/javascript" src="../node_modules/DataTables/Responsive-2.3.0/js/dataTables.responsive.min.js"></script>
@@ -1410,6 +1450,68 @@
     <script type="text/javascript" src="index.js"></script>
 
 <script>
+
+    function Edit(){
+        $("#editPcTag").addClass("hidden");
+        $("#updatePcTag").removeClass("hidden");
+    document.getElementById("computername").disabled = false;
+
+
+    }
+    function Update(){
+    computername = document.getElementById('computername').value;
+    joidnumber = document.getElementById("joid2").value;
+    console.log(joidnumber);
+
+    var selectedValues = $('#computername').val();
+
+var separator = ", ";
+
+var result = selectedValues.join(separator);
+
+    console.log(computername);
+
+        $("#updatePcTag").addClass("hidden");
+        $("#editPcTag").removeClass("hidden");
+        document.getElementById("computername").disabled = true;
+
+        var updatePcTag = new XMLHttpRequest();
+updatePcTag.open("POST", "updatepctag.php", true);
+updatePcTag.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+updatePcTag.onreadystatechange = function() {
+    if (updatePcTag.readyState === XMLHttpRequest.DONE) {
+        if (updatePcTag.status === 200) {
+            // Update was successful
+            console.log(updatePcTag);
+
+            $("#targetElement").removeClass("hidden");
+            $("#targetElement").fadeIn(1000, "easeOut");
+        } else {
+            console.log("Error: " + updatePcTag.status);
+        }
+    }
+};
+
+// Construct the data to be updated
+var data = "joOrder=" + encodeURIComponent(joidnumber);
+data += "&computername="+ encodeURIComponent(result);
+
+// Add any other parameters needed for the update
+
+updatePcTag.send(data);
+
+    }
+    $(".js-example-tags").select2({
+  tags: true
+});
+$('.js-example-tags').on('change', function() {
+    var selectedValues = $(this).val();
+    console.log(selectedValues);
+    document.getElementById("computername").value
+  });
+    $('.js-example-basic-single').select2();
+    
+ 
 // $('.enable-edit').change(function() {
 // jobirdernumberid = document.getElementById('joid2').value;
 
@@ -1506,7 +1608,7 @@ const optionsModal = {
 };
 const modal = new Modal($targetElModal, optionsModal);
 
-
+var istoggle = false;
 
 function modalShow(element){
 
@@ -1656,7 +1758,31 @@ else if(action3 != ""){
     document.getElementById("datefiled").innerHTML =element.getAttribute("data-datefiled");
     document.getElementById("sectionmodal").innerHTML =element.getAttribute("data-section");
     document.getElementById("category").innerHTML =element.getAttribute("data-category");
-    document.getElementById("computername").value =element.getAttribute("data-comname");
+    // document.getElementById("computername").value =element.getAttribute("data-comname");
+
+    var selectElement = document.getElementById("computername");
+var valueToAdd = element.getAttribute("data-comname");
+
+// Split the valueToAdd into an array using comma as the separator
+var valuesArray = valueToAdd.split(',');
+
+// Loop through the values and create an <option> element for each value
+console.log(istoggle)
+
+if(istoggle === false){
+    valuesArray.forEach(function(value) {
+  var option = document.createElement("option");
+  option.text = value;
+  option.value = value;
+  option.selected = true; // Set the selected property to true
+  selectElement.add(option);
+});
+    istoggle = true;
+
+    console.log(istoggle)
+}
+
+
     document.getElementById("datestart").value =element.getAttribute("data-start");
     document.getElementById("datefinish").value =element.getAttribute("data-end");
     document.getElementById("message").value =element.getAttribute("data-details");
@@ -1824,6 +1950,8 @@ var  DivProdContainerqual = document.getElementById("stardivqual");
         // $("#categoryDivParent").removeClass("grid-cols-2").addClass("grid-col-1");
         $("#categoryDivParent").addClass("hidden");
         $("#telephoneh2").removeClass("pl-10");
+        $("#editPcTag").addClass("hidden");
+        $("#updatePcTag").addClass("hidden");
 
     }
     else{

@@ -1818,7 +1818,17 @@ if(isset($_POST['rateJo'])){
                                      
                                      <?php
                                      
-                                        $sql="SELECT d.deactivated, ip.ipaddress,CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1;";
+                                        $sql="SELECT d.deactivated, ip.ipaddress, CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables
+FROM ipaddress ip
+LEFT JOIN devices d ON ip.ipaddress = d.ipAddress
+LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress
+LEFT JOIN printer p ON ip.ipaddress = p.ipAddress
+WHERE (CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1)
+AND ip.ipaddress NOT IN (
+    SELECT ipaddress
+    FROM devices
+    WHERE deactivated = 0
+)";
                                         $result = mysqli_query($con,$sql);
                                         $options = array();
                                         while($row=mysqli_fetch_assoc($result)){
@@ -1915,7 +1925,17 @@ if(isset($_POST['rateJo'])){
                                      
                                      <?php
                                      
-                                        $sql="SELECT d.deactivated, ip.ipaddress,CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1;";
+                                        $sql="SELECT d.deactivated, ip.ipaddress, CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables
+FROM ipaddress ip
+LEFT JOIN devices d ON ip.ipaddress = d.ipAddress
+LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress
+LEFT JOIN printer p ON ip.ipaddress = p.ipAddress
+WHERE (CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1)
+AND ip.ipaddress NOT IN (
+    SELECT ipaddress
+    FROM devices
+    WHERE deactivated = 0
+)";
                                         $result = mysqli_query($con,$sql);
                                         $options = array();
                                         while($row=mysqli_fetch_assoc($result)){
@@ -2028,7 +2048,17 @@ if(isset($_POST['rateJo'])){
                                      
                                      <?php
                                      
-                                        $sql="SELECT d.deactivated, ip.ipaddress,CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1;";
+                                        $sql="SELECT d.deactivated, ip.ipaddress, CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables
+FROM ipaddress ip
+LEFT JOIN devices d ON ip.ipaddress = d.ipAddress
+LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress
+LEFT JOIN printer p ON ip.ipaddress = p.ipAddress
+WHERE (CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1)
+AND ip.ipaddress NOT IN (
+    SELECT ipaddress
+    FROM devices
+    WHERE deactivated = 0
+)";
                                         $result = mysqli_query($con,$sql);
                                         $options = array();
                                         while($row=mysqli_fetch_assoc($result)){
@@ -2928,7 +2958,17 @@ function addSetPrinter(){
  
   
 var set ="<div class='w-full'><select name='type"+inputCount+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option value='Fujifilm'>Fujifilm</option><option value='Ricoh'>Ricoh</option><option value='Others'>Others</option></select></div><div class='w-full'><input name='model"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='' required></div><div class='w-full'><input name='location"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='' required></div><div class='w-full'><input name='serialNo"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='' required></div><div class='w-full'><select name='ipaddress"+inputCount+"' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option value='Dynamic'>Dynamic</option><?php
- $sql="SELECT d.deactivated, ip.ipaddress,CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1;"; $result = mysqli_query($con, $sql); $options = array(); while ($row = mysqli_fetch_assoc($result)) { $ip = $row['ipaddress']; echo "<option value='$ip'>$ip</option>"; } 
+ $sql="SELECT d.deactivated, ip.ipaddress, CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables
+FROM ipaddress ip
+LEFT JOIN devices d ON ip.ipaddress = d.ipAddress
+LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress
+LEFT JOIN printer p ON ip.ipaddress = p.ipAddress
+WHERE (CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1)
+AND ip.ipaddress NOT IN (
+    SELECT ipaddress
+    FROM devices
+    WHERE deactivated = 0
+)"; $result = mysqli_query($con, $sql); $options = array(); while ($row = mysqli_fetch_assoc($result)) { $ip = $row['ipaddress']; echo "<option value='$ip'>$ip</option>"; } 
  ?></select></div><div class='w-full'><button type='button' onclick='removeSetPrinter("+inputCount+")' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4  focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>-</button></div>";
     div.innerHTML=set;
     inputContainerPrinter.appendChild(div);

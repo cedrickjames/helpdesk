@@ -727,41 +727,6 @@ xhrdevices.send();
 
 
 
-
-// console.log("nyek"); 
-
-// event.preventDefault();
-
-// // Make an AJAX request to getData.php
-// var xhrdevices = new XMLHttpRequest();
-
-// xhrdevices.open("POST", "./getDevices.php", true);
-// xhrdevices.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-// xhrdevices.onreadystatechange = function() {
-//   console.log("nyek");
-//   console.log(xhrdevices.readyState)
-//     if (xhrdevices.readyState === 4 && xhrdevices.status === 200) {
-//         // Parse the JSON response.
-//   console.log("nyeks");
-
-//         var response = JSON.parse(xhrdevices.responseText);
-        
-//         console.log(response); 
-
-
-
-
-
-       
-      
-        
-//     }
-// };
-// xhrdevices.send();
-
-
-// });
-
 }
 
 

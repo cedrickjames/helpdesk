@@ -104,7 +104,7 @@ else
                         $newFileName = $jono .'.'. $fileName . '.' . $fileExtension;
                     
                         // check if file has one of the following extensions
-                        $allowedfileExtensions = array('jpg', 'gif', 'png', 'zip', 'txt', 'xls', 'doc' , 'pdf','csv','xlsx');
+                        $allowedfileExtensions = array('jpg', 'gif', 'png', 'zip', 'txt', 'xls', 'doc' , 'pdf','csv','xlsx', 'docx');
                     
                         if (in_array($fileExtension, $allowedfileExtensions))
                         {
