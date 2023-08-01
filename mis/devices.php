@@ -1124,7 +1124,7 @@ if(isset($_POST['rateJo'])){
 
 
 
-<div id="mainContent" class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
+<div id="mainContent" class="  ml-72 flex mt-10 sm:mt-16  left-10 right-5  flex-col  px-0 sm:px-8  pt-6 pb-14 z-50 ">
 <div class="justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
 <div class="text-center py-2 m-auto lg:text-center w-full">
         <!-- <h6 class="text-sm  tracking-tight text-gray-200 sm:text-lg">Good Day</h6> -->
@@ -1181,9 +1181,9 @@ if(isset($_POST['rateJo'])){
 </div>  -->
 <div class="FrD3PA">
     <div class="QnQnDA" tabindex="-1">
-        <div  role="tablist" class="_6TVppg sJ9N9w">
-            <div class="uGmi4w">
-            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" id="tabExample" role="tablist">
+        <div  role="tablist" class="_6TVppg sJ9N9w" style="overflow-x: auto;">
+            <div class="uGmi4w" >
+            <ul class="flex flex-nowrap  -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" id="tabExample" role="tablist" style="white-space: nowrap;">
                 <li  role="presentation">
                 <div class="p__uwg" style="width: 106px; margin-right: 0px;">
                     <button id="headApprovalTab"  onclick="goToFinished()" type="button" role="tab" aria-controls="headApproval"  class="_1QoxDw o4TrkA CA2Rbg Di_DSA cwOZMg zQlusQ uRvRjQ POMxOg _lWDfA"  aria-selected="false">
@@ -2147,7 +2147,7 @@ AND ip.ipaddress NOT IN (
             <div class="p-6 space-y-6">
             <form method="post">
             <input type="number" id="numberOfSelectedDevices" name="numberOfSelectedDevice" class="hidden">
-            <div id="devicelabel" class="overflow-auto max-h-96 items-center justify-items-center text-center">
+            <div id="devicelabel" class="hidden sm:block overflow-auto max-h-96 items-center justify-items-center text-center">
                     <div class="grid gap-1  md:grid-cols-13 " >
                     <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Tag</label>
                     <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Tag</label>
@@ -2167,6 +2167,56 @@ AND ip.ipaddress NOT IN (
 
                             </div>
                     </div>
+                    <!-- <div id="inputDevicesDatasamp" class="overflow-auto max-h-96 items-center justify-items-center text-center">
+                    <div class="grid gap-1  grid-cols-1 md:grid-cols-13 " id="div112">
+                    <div class='w-full'><input name='deviceId"+i+"' value='"+response[i].id+"' class='hidden'
+                            type='text'> <input name='pcTag"+i+"' value='"+response[i].pctag+"' type='text'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Insert PC Tag'></div>
+                    <div class='w-full'><input name='assetTag"+i+"' value='"+response[i].assetTag+"' type='text'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='FFFE-123'></div>
+                    <div class='w-full'><input name='pcname"+i+"' value='"+response[i].computerName+"' type='text'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='PC Name'></div>
+                    <div class='w-full'><input name='pcpassword"+i+"' value='"+response[i].password+"' type='text'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Password'></div>
+                    <div class='w-full'><input name='type"+i+"' value='"+response[i].type+"' type='text'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Type'></div>
+                    <div class='w-full'><input name='user"+i+"' value='"+response[i].user+"' type='text'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Full Name'></div>
+                    <div class='w-full'><select name='ipaddress"+i+"'
+                            class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                            <option selected value='"+response[i].ipAddress+"'>"+response[i].ipAddress+"</option>
+                            <option value='Dynamic'>Dynamic</option> "+selectHTML+"
+                        </select></div>
+                    <div class='w-full'><input name='department"+i+"' value='"+response[i].department+"' type='text'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Department'></div>
+                    <div class='w-full'><input name='macAddress"+i+"' value='"+response[i].macAddress+"' type='text'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Mac Address'></div>
+                    <div class='w-full'><input name='email"+i+"' type='text' value='"+response[i].email+"'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='Email'></div>
+                    <div class='w-full'><input name='os"+i+"' value='"+response[i].os+"' type='text'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                            placeholder='OS'></div>
+                    <div class='w-full'> <select name='status"+i+"'
+                            class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'>
+                            "+status+" </select></div>
+                    <div class='w-full col-span-2'> <input  type='checkbox' value='1' name='edr"+i+"'
+                            class='mr-4 w-10 h-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'><input "+kas+"
+                            type='checkbox' value='1' name='kas"+i+"'
+                            class=' mr-4 w-10 h-10 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'>
+                        <input type='checkbox' value='1' name='itnavi"+i+"'
+                            class=' mr-4 w-10 h-10 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'>
+                    </div>
+                    </div>
+                                        </div> -->
                 <div id="inputDevicesData" class="overflow-auto max-h-96 items-center justify-items-center text-center">
                     <div class="grid gap-1  md:grid-cols-12 " id="div1">
                     <div class="w-full">
@@ -3265,13 +3315,22 @@ function modalShowProof(element){
     const submitProof = document.getElementById('submitProof');
     
     var proof = element.getAttribute("data-proof");
+    var proofremarks = element.getAttribute("data-remarks");
+
     const uploadedImage = document.getElementById('uploadedImage');
     const placeholder = document.getElementById('placeholder');
-
-    if(proof !=""){
-        uploadedImage.src = proof;
-        uploadedImage.classList.remove('hidden');
+    if(proofremarks !=""){
+        if(proof != ""){
+            uploadedImage.src = proof
+            uploadedImage.classList.remove('hidden');
         placeholder.classList.add('hidden');
+        }
+        else{
+        uploadedImage.src = "";
+        uploadedImage.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+        }
+
         uploadButton.classList.add('hidden');
         submitProof.classList.add('hidden');
     }
@@ -4272,8 +4331,12 @@ function rate(id){
 $("#sidehome").removeClass("bg-gray-200");
 $("#sidehistory").removeClass("bg-gray-200");
 $("#sidepms").removeClass("bg-gray-200");
-$("#sidedevice").addClass("bg-gray-200");
+$("#sidedevice").addClass("text-white bg-gradient-to-r from-blue-900 to-teal-500");
 
+$("#sidehome1").removeClass("bg-gray-200");
+$("#sidehistory1").removeClass("bg-gray-200");
+$("#sidepms1").removeClass("bg-gray-200");
+$("#sidedevice1").addClass("text-white bg-gradient-to-r from-blue-900 to-teal-500");
 
 </script>
 

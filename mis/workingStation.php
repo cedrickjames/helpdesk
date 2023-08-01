@@ -14,8 +14,8 @@ $username=$_SESSION['username'];
             <tr>
                 <th>Number</th>
              
-                <th>PC Tag</th>
-                <th>Host Name</th>
+                <th data-priority="1">PC Tag</th>
+                <th data-priority="4">Host Name</th>
 
                 <th>Asset Tag</th>
                 <th>Type</th>
@@ -25,8 +25,8 @@ $username=$_SESSION['username'];
                 <th>Statoos</th>
                 <th>EDR</th>
                 <th>History</th>
-                <th>Ip Config</th>
-                <th>Applications</th>
+                <th data-priority="2">Ip Config</th>
+                <th data-priority="3">Applications</th>
 
 
 

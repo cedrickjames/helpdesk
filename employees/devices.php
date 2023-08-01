@@ -1136,6 +1136,8 @@ const optionsModalProof = {
 const modalProof = new Modal($targetElModalProof, optionsModalProof);
 
 
+
+
 function modalShowProof(element){
     document.getElementById("controlNumber").value =element.getAttribute("data-deviceid");
     document.getElementById("scanRemarks").value =element.getAttribute("data-remarks");
@@ -1145,13 +1147,22 @@ function modalShowProof(element){
     const submitProof = document.getElementById('submitProof');
     
     var proof = element.getAttribute("data-proof");
+    var proofremarks = element.getAttribute("data-remarks");
+
     const uploadedImage = document.getElementById('uploadedImage');
     const placeholder = document.getElementById('placeholder');
-
-    if(proof !=""){
-        uploadedImage.src = proof;
-        uploadedImage.classList.remove('hidden');
+    if(proofremarks !=""){
+        if(proof != ""){
+            uploadedImage.src = proof
+            uploadedImage.classList.remove('hidden');
         placeholder.classList.add('hidden');
+        }
+        else{
+        uploadedImage.src = "";
+        uploadedImage.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+        }
+
         uploadButton.classList.add('hidden');
         submitProof.classList.add('hidden');
     }

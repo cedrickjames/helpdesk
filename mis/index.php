@@ -442,12 +442,12 @@
 </div>
   
 </div>
-<div id="mainContent"class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
+<div id="mainContent"class=" ml-72 flex mt-10 sm:mt-16  left-10 right-5  flex-col  px-0 sm:px-8  pt-6 pb-14 z-50 ">
     <div
         class="justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
         <div class="text-center py-2 m-auto lg:text-center w-full">
 
-            <div class="m-auto flex flex-col w-2/4  h-12">
+            <div class="w-full m-auto flex flex-col   h-12">
                 <h2 class="text-xl font-bold tracking-tight text-gray-100 sm:text-xl">Total numbers of pending Job Order
                 </h2>
 
@@ -566,10 +566,10 @@
             </div>
             <div class="FrD3PA">
                 <div class="QnQnDA" tabindex="-1">
-                    <div role="tablist" style="overflow:inherit" class="_6TVppg sJ9N9w">
+                    <div role="tablist" style="overflow:inherit" class="_6TVppg sJ9N9w" style="overflow-x: auto;">
                         <div class="uGmi4w">
-                            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400"
-                                id="tabExample" role="tablist">
+                            <ul class="flex flex-nowrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400"
+                                id="tabExample" role="tablist" style="white-space: nowrap;">
                                 <li role="presentation">
                                     <div class="p__uwg" style="width: 106px; margin-right: 0px;">
                                         <button id="headApprovalTab" onclick="goToHead()" type="button" role="tab"
@@ -733,13 +733,13 @@
                 <table id="employeeTable" class="display" style="width:100%">
                     <thead>
                         <tr>
-                            <th>JO Number</th>
-                            <th>Action</th>
-                            <th>Details</th>
-                            <th>Requestor</th>
-                            <th>Date Approved</th>
-                            <th>Category</th>
-                            <th>Assigned to</th>
+                            <th data-priority="3">JO Number</th>
+                            <th data-priority="4">Action</th>
+                            <th data-priority="1">Details</th>
+                            <th data-priority="2">Requestor</th>
+                            <th data-priority="5">Date Approved</th>
+                            <th data-priority="6">Category</th>
+                            <!-- <th>Assigned to</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -794,7 +794,7 @@
                     </button>
                 </td>
 
-              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+              <td class="text-sm  text-[#c00000] font-semibold font-sans px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
 
@@ -813,7 +813,7 @@
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['request_category'];?> 
               </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <!-- <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 
               <?php if($row['request_to'] == "fem"){
                 echo "FEM";}
@@ -821,7 +821,7 @@
                 echo "MIS";
                 }
                 ?> 
-              </td>
+              </td> -->
 
 
 
@@ -846,13 +846,13 @@
                 <table id="overAllTable" class="display" style="width:100%">
                     <thead>
                         <tr>
-                            <th>JO Number</th>
-                            <th>Action</th>
-                            <th>Details</th>
-                            <th>Requestor</th>
-                            <th>Date Approved</th>
-                            <th>Category</th>
-                            <th>Assigned to</th>
+                            <th data-priority="4">JO Number</th>
+                            <th data-priority="3">Action</th>
+                            <th data-priority="1">Details</th>
+                            <th data-priority="2">Requestor</th>
+                            <th data-priority="5">Date Approved</th>
+                            <th data-priority="6">Category</th>
+                            <th data-priority="7">Assigned to</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -905,7 +905,7 @@
                     </button>
                 </td>
 
-              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+              <td class="text-sm text-[#c00000] font-semibold font-sans px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -952,13 +952,13 @@
                 <table id="forRatingTable" class="display" style="width:100%">
                     <thead>
                         <tr>
-                            <th>JO Number</th>
-                            <th>Action</th>
-                            <th>Details</th>
-                            <th>Requestor</th>
-                            <th>Date Finished</th>
-                            <th>Comments</th>
-                            <th>Ratings</th>
+                            <th data-priority="5">JO Number</th>
+                            <th data-priority="4">Action</th>
+                            <th data-priority="1">Details</th>
+                            <th data-priority="3">Requestor</th>
+                            <th data-priority="6">Date Finished</th>
+                            <th data-priority="7">Comments</th>
+                            <th data-priority="2">Ratings</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1026,7 +1026,7 @@
                     </button>
                 </td>
 
-              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+              <td class="text-sm text-[#c00000] font-semibold font-sans px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap truncate " style="max-width: 40px;">
@@ -2192,10 +2192,15 @@ function endDate() {
 
 
 
-$("#sidehome").addClass("bg-gray-200 dark:bg-gradient-to-br from-green-400 to-blue-600");
+$("#sidehome").addClass("text-white bg-gradient-to-r from-blue-900 to-teal-500");
 $("#sidehistory").removeClass("bg-gray-200");
 $("#sideMyRequest").removeClass("bg-gray-200");
 $("#sidepms").removeClass("bg-gray-200");
+
+$("#sidehome1").addClass("text-white bg-gradient-to-r from-blue-900 to-teal-500");
+$("#sidehistory1").removeClass("bg-gray-200");
+$("#sideMyRequest1").removeClass("bg-gray-200");
+$("#sidepms1").removeClass("bg-gray-200");
 // dark:bg-gradient-to-br from-green-400 to-blue-600
 // dark:bg-gradient-to-br from-green-400 to-blue-600
 // dark:bg-gradient-to-br from-green-400 to-blue-600

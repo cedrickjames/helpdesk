@@ -135,14 +135,14 @@ if(isset($_POST['submit'])){
 <section class="h-screen">
   <div class="m-auto container px-6 py-4 h-full">
     <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-      <div class="p-28 md:w-8/12 lg:w-6/12 mb-12 md:mb-0">
+      <div class="sm:p-28 w-1/2 md:w-8/12 lg:w-6/12 sm:mb-12 md:mb-0">
         <img
           src="resources/img/heldesk 3d.png"
           class="w-full"
           alt="Login image"
         />
       </div>
-      <div class="p-28 md:w-8/12 lg:w-6/12 mb-12 md:mb-0">
+      <div class="sm:p-28 w-full md:w-8/12 lg:w-6/12 mb-12 md:mb-0">
 
 
         <form  method="post" action="login.php">
@@ -224,7 +224,7 @@ if(isset($_POST['submit'])){
       <footer class="w-full bg-white dark:bg-gray-900 m-4">
 
 <!-- <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" /> -->
-<span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">  <a href="https://flowbite.com/" class="hover:underline">Designed By</a> Cedrick James - MIS Section</span>
+<span class="block text-sm text-gray-500 text-center dark:text-gray-400">  <a href="https://flowbite.com/" class="hover:underline">Designed By</a> Cedrick James - MIS Section</span>
 </div>
 </footer>
     </div>

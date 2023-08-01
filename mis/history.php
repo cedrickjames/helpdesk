@@ -1549,9 +1549,15 @@ function rate(id){
 }
 
 $("#sidehome").removeClass("bg-gray-200");
-$("#sidehistory").addClass("bg-gray-200");
+$("#sidehistory").addClass("text-white bg-gradient-to-r from-blue-900 to-teal-500");
 $("#sideMyRequest").removeClass("bg-gray-200");
 $("#sidepms").removeClass("bg-gray-200");
+
+
+$("#sidehome1").removeClass("bg-gray-200");
+$("#sidehistory1").addClass("text-white bg-gradient-to-r from-blue-900 to-teal-500");
+$("#sideMyRequest1").removeClass("bg-gray-200");
+$("#sidepms1").removeClass("bg-gray-200");
 
 </script>
 

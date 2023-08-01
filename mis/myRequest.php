@@ -1434,9 +1434,18 @@ function rateq(id){
 
 $("#sidehome").removeClass("bg-gray-200");
 $("#sidehistory").removeClass("bg-gray-200");
-$("#sideMyRequest").addClass("bg-gray-200");
+$("#sideMyRequest").addClass("text-white bg-gradient-to-r from-blue-900 to-teal-500");
 
 $("#sidepms").removeClass("bg-gray-200");
+
+
+
+$("#sidehome1").removeClass("bg-gray-200");
+$("#sidehistory1").removeClass("bg-gray-200");
+$("#sideMyRequest1").addClass("text-white bg-gradient-to-r from-blue-900 to-teal-500");
+
+$("#sidepms1").removeClass("bg-gray-200");
+
 
 
 </script>

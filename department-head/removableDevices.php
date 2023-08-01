@@ -28,13 +28,24 @@ $username=$_SESSION['username'];
                           $year = $_SESSION['selectedYear'];
                 $a=1;
 
-                $sql="SELECT removabledevices.department,removabledevices.brand, removabledevices.size, removabledevices.color, removabledevices.type, removabledevices.controlNumber ,scan.action, scan.performedBy, scan.Date, scan.month, scan.year, scan.proof
-                FROM removabledevices
-                LEFT JOIN scan
-                    ON removabledevices.controlNumber = scan.controlNumber AND scan.year = '$year'
-                WHERE removabledevices.department = '$user_dept'
-                    AND (scan.year = '$year' OR scan.year IS NULL)
-                    AND (scan.month = '$month' OR scan.month IS NULL);";
+                $sql="SELECT 
+                removabledevices.department,
+                removabledevices.brand,
+                removabledevices.size,
+                removabledevices.color,
+                removabledevices.type,
+                removabledevices.controlNumber,
+                scan.action,
+                scan.performedBy,
+                scan.Date,
+                scan.month,
+                scan.year,
+                scan.proof
+            FROM removabledevices
+            LEFT JOIN scan
+                ON removabledevices.controlNumber = scan.controlNumber AND scan.year = '$year' AND scan.month = '$month'
+            WHERE removabledevices.department = '$user_dept';
+            ";
                 $result = mysqli_query($con,$sql);
 
                 while($row=mysqli_fetch_assoc($result)){
@@ -47,8 +58,8 @@ $username=$_SESSION['username'];
               <td >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
                     <button  type="button" id="edit" onclick="modalShowProof(this)" 
-                    data-deviceid="<?php echo $row['controlNumber'];?>" data-proof="<?php echo $row['proof'];?>" data-remarks="<?php echo $row['action'];?>"  class="inline-block px-6 py-2.5 <?php if($row['proof'] == null) { echo "bg-blue-600";} else{echo "bg-green-600";}?>  text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
-                    <?php if($row['proof'] == null) { echo "Edit";} else{echo "View";}?> 
+                    data-deviceid="<?php echo $row['controlNumber'];?>" data-proof="<?php echo $row['proof'];?>" data-remarks="<?php echo $row['action'];?>"  class="inline-block px-6 py-2.5 <?php if($row['action'] == null) { echo "bg-blue-600";} else{echo "bg-green-600";}?>  text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
+                    <?php if($row['action'] == null) { echo "Add Proof";} else{echo "View";}?> 
                     </button>
                 </td>
 

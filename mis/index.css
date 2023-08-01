@@ -15,6 +15,12 @@
 .md\:grid-cols-13 {
     grid-template-columns: repeat(14, minmax(0, 1fr));
 }
+@media screen and (max-width: 768px) {
+    /* When the screen is smaller than 768px, change to a one-column grid */
+    .md\:grid-cols-13 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}
 .select2 {
     width: 100% !important;
     height: 100% !important;
