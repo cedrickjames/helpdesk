@@ -1224,16 +1224,7 @@
                 <h2 class="float-left font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Computer Name: </span></h2>
                 <select disabled name="computerName[]" id="computername" multiple="multiple" class="form-control js-example-tags bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
              <!-- <option selected disabled value=" " data-val="">Choose PC Tag:</option> -->
-                <?php  
 
-$sqlpc="SELECT DISTINCT pctag FROM devices WHERE department = '$user_dept' and pctag != ''";
-$resultpc = mysqli_query($con,$sqlpc);
-
-while($row=mysqli_fetch_assoc($resultpc)){
-  ?> <option  value="<?php echo $row['pctag']; ?>" ><?php echo $row['pctag']; ?></option> <?php
-}
-
-?>
                         
             </select>   
                 <!-- <input disabled type="text" name="computername" id="computername"class="col-span-1 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"> -->
@@ -1638,8 +1629,7 @@ function modalShow(element){
         $("#remarkshr").removeClass("hidden");
     }
    
-    
-    
+
 
     document.getElementById("joid2").value =element.getAttribute("data-joid");
     document.getElementById("jonumber").innerHTML =element.getAttribute("data-joidprint");
@@ -1669,6 +1659,29 @@ document.getElementById("pstatus").value = element.getAttribute("data-status");
 document.getElementById("prequestor").value = element.getAttribute("data-requestor");
 document.getElementById("pdepartment").value = element.getAttribute("data-department");
 document.getElementById("pdateFiled").value = element.getAttribute("data-datefiled");
+
+
+var department = element.getAttribute("data-department"); // Replace with the actual value
+console.log(department)
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'get_options.php?department=' + department, true);
+xhr.onreadystatechange = function() {
+  if (xhr.readyState === 4 && xhr.status === 200) {
+    var options = JSON.parse(xhr.responseText);
+    var select = document.getElementById("computername");
+    
+    options.forEach(function(optionText) {
+      var option = document.createElement("option");
+      option.text = optionText;
+      option.value = optionText;
+      select.appendChild(option);
+    });
+  }
+};
+xhr.send();
+    
+
+
 
 const dateStart = new Date(element.getAttribute("data-start")); // Get the current date
 const optionsStart = { year: 'numeric', month: 'long', day: 'numeric' }; // Specify the format options
