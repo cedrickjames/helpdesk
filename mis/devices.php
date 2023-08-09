@@ -683,6 +683,7 @@ if(isset($_POST['addComputer'])){
    $pcTag =  $_POST['pcTag'.$element];
    $assetTag =  $_POST['assetTag'.$element];
    $pcname =  $_POST['pcname'.$element];
+   $pcpassword = $_POST['pcpassword'.$element];
    $user =  $_POST['user'.$element];
    $type =  $_POST['type'.$element];
    $ipaddress =  $_POST['ipaddress'.$element];
@@ -690,7 +691,11 @@ if(isset($_POST['addComputer'])){
    $macAddress =  $_POST['macAddress'.$element];
    $email =  $_POST['email'.$element];
    $os =  $_POST['os'.$element];
- 
+   $edr = isset($_POST['edr'.$element]) ? $_POST['edr'.$element] : "0";
+   $kas = isset($_POST['kas'.$element]) ? $_POST['kas'.$element] : "0";
+   $itnavi = isset($_POST['itnavi'.$element]) ? $_POST['itnavi'.$element] : "0";
+
+// echo $pcpassword, $edr, $kas, $itnavi;
    $select="select * from `devices` WHERE `computerName` = '$pcname' ";
      $resultSelect = mysqli_query($con,$select);
      $numrows = mysqli_num_rows($resultSelect);
@@ -699,9 +704,10 @@ if(isset($_POST['addComputer'])){
          echo "<script>alert('This device is already added. Please check the computer name or host name') </script>";
      }
      else{
-         
-         $sql = "INSERT INTO `devices`(`department`, `type`, `user`, `os`, `computerName`, `macAddress`, `ipAddress`, `edr`, `email`, `pctag`, `assetTag`, `deactivated`) VALUES ('$department','$type','$user','$os','$pcname','$macAddress','$ipaddress','1','$email','$pcTag','$assetTag','0')";
+       
+         $sql = "INSERT INTO `devices`(`department`, `type`, `user`, `os`, `computerName`,`password`, `macAddress`, `ipAddress`, `edr`, `kaspersky`, `itnavi`, `email`, `pctag`, `assetTag`, `deactivated`) VALUES ('$department','$type','$user','$os','$pcname','$pcpassword','$macAddress','$ipaddress','$edr','$kas','$itnavi','$email','$pcTag','$assetTag','0')";
          $results = mysqli_query($con,$sql);
+        //  echo $results;
          if($results){
            $success= true;
          }
@@ -718,7 +724,7 @@ if(isset($_POST['addComputer'])){
 
   }
   else{
-    echo "<script>alert('There is something wrong. ') </script>";
+    echo "<script>alert('There is something wrong. $results') </script>";
 
 
   }
@@ -1425,7 +1431,7 @@ if(isset($_POST['rateJo'])){
             </button>
             <div class="p-6 text-center">
                 <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product?</h3>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this device?</h3>
                 <button type="submit" name="deleteComputer" id="deleteComputer"  type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                     Yes, I'm sure
                 </button>
@@ -1458,7 +1464,7 @@ if(isset($_POST['rateJo'])){
             </button>
             <div class="p-6 text-center">
                 <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product?</h3>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this device?</h3>
                 <button type="submit" name="deleteCctv" id="deleteCctv"  type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                     Yes, I'm sure
                 </button>
@@ -1491,7 +1497,7 @@ if(isset($_POST['rateJo'])){
             </button>
             <div class="p-6 text-center">
                 <svg aria-hidden="true" class="mx-auto mb-4 text-gray-400 w-14 h-14 dark:text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this product?</h3>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Are you sure you want to delete this device?</h3>
                 <button type="submit" name="deletePrinter" id="deletePrinter"  type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2">
                     Yes, I'm sure
                 </button>
@@ -1987,10 +1993,12 @@ AND ip.ipaddress NOT IN (
                 <input type="text" id="strUserComputer" value="1" name="strnowUserComputer" class="hidden"> 
                 <div id="inputContainerComputer" class="overflow-auto max-h-96 items-center justify-items-center text-center">
                 <div id="devicelabelComputer" class="overflow-auto max-h-96 items-center justify-items-center text-center">
-                    <div class="grid gap-1  md:grid-cols-11 " >
+                <div class="grid gap-1  md:grid-cols-13 " >
                     <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Tag</label>
                     <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Asset Tag</label>
                     <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PC Name</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+
                     <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Type</label>
                     <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User</label>
                     <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ip Address</label>
@@ -1998,11 +2006,14 @@ AND ip.ipaddress NOT IN (
                     <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mac Address</label>
                     <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">User Email</label>
                     <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">OS</label>
+                    <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white col-span-2">EDR - Kaspersky - ITNavi</label>
                     <label  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">+-</label>
+
+                       
 
                             </div>
                     </div>
-                    <div class="grid gap-1  md:grid-cols-11 " id="div1">
+                    <div class="grid gap-1  md:grid-cols-13 " id="div1">
                     <div class='w-full'>
                         <input name='pcTag1' value="<?php
                             $date = new DateTime(); 
@@ -2024,6 +2035,9 @@ AND ip.ipaddress NOT IN (
                             </div>
                             <div class='w-full'>
                                 <input name='pcname1' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='PC Name' >
+                            </div>
+                            <div class='w-full'>
+                                <input name='pcpassword1' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Password' >
                             </div>
                             <div class='w-full'>
                                 <!-- <input name='type1' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Type' > -->
@@ -2049,16 +2063,16 @@ AND ip.ipaddress NOT IN (
                                      <?php
                                      
                                         $sql="SELECT d.deactivated, ip.ipaddress, CONCAT_WS(',', d.id, c.id, p.id) AS all_ids, CONCAT_WS(',', d.type, c.type, p.type) AS all_type, CONCAT_WS(',', d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(',', CASE WHEN d.id IS NOT NULL THEN 'devices' END, CASE WHEN c.id IS NOT NULL THEN 'cctv' END, CASE WHEN p.id IS NOT NULL THEN 'printer' END ) AS tables
-FROM ipaddress ip
-LEFT JOIN devices d ON ip.ipaddress = d.ipAddress
-LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress
-LEFT JOIN printer p ON ip.ipaddress = p.ipAddress
-WHERE (CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1)
-AND ip.ipaddress NOT IN (
-    SELECT ipaddress
-    FROM devices
-    WHERE deactivated = 0
-)";
+                                        FROM ipaddress ip
+                                        LEFT JOIN devices d ON ip.ipaddress = d.ipAddress
+                                        LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress
+                                        LEFT JOIN printer p ON ip.ipaddress = p.ipAddress
+                                        WHERE (CONCAT_WS(',', d.id, c.id, p.id) = '' OR d.deactivated = 1)
+                                        AND ip.ipaddress NOT IN (
+                                            SELECT ipaddress
+                                            FROM devices
+                                            WHERE deactivated = 0
+                                        )";
                                         $result = mysqli_query($con,$sql);
                                         $options = array();
                                         while($row=mysqli_fetch_assoc($result)){
@@ -2105,8 +2119,11 @@ AND ip.ipaddress NOT IN (
                                             </select>
                                     </div>
          
-                   
-                    <div class="w-full">
+                                    <div class='w-full col-span-2 flex justify-center'> <input  type='checkbox' value='1'name='edr1' class='mr-4 w-10 h-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'>
+                                    <input  type='checkbox' value='1' name='kas1' class=' mr-4 w-10 h-10 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'>
+                        <input type='checkbox' value='1' name='itnavi1'class=' mr-4 w-10 h-10 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'>
+                    </div>
+                    <div class="w-full flex justify-center">
                         
                              <button type="button" onclick="addSetComputer()" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">+</button>
                     </div>
@@ -2613,7 +2630,9 @@ AND ip.ipaddress NOT IN (
             <div class=" items-center p-4 ">
             <button type="submit" name="rateJo" class="shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Submit</button>
             <br>
-                
+            
+
+           
                 <br>
                 <br>
                 <br>
@@ -3109,7 +3128,7 @@ var formattedNum = numbersOfPC.toString().padStart(3, '0');
     const div =document.createElement("div");
     div.classList.add("grid");
     div.classList.add("gap-1");
-    div.classList.add("md:grid-cols-11");
+    div.classList.add("md:grid-cols-13");
 
     var inputCount = document.getElementById("counterComputer").value
     div.id = "divComp"+inputCount+"";
@@ -3127,23 +3146,22 @@ var formattedNum = numbersOfPC.toString().padStart(3, '0');
                                 $count = $row['count'];
                                 $count=$count+1;
                                 $formattedNum = str_pad($count, 3, '0', STR_PAD_LEFT);
-                                echo 'C'.$year.$month.'-'; }?>"+formattedNum+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert PC Tag'></div><div class='w-full'><input name='assetTag"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='FFFE-123'></div><div class='w-full'><input name='pcname"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='PC Name'></div><div class='w-full'><select name='type"+inputCount+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php  
+                                echo 'C'.$year.$month.'-'; }?>"+formattedNum+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Insert PC Tag'></div><div class='w-full'><input name='assetTag"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='FFFE-123'></div><div class='w-full'><input name='pcname"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='PC Name'></div><div class='w-full'> <input name='pcpassword"+inputCount+"' type='text'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Password' > </div><div class='w-full'><select name='type"+inputCount+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php  
 
                                       $sql="SELECT DISTINCT `type` FROM `devices`";
                                       $result = mysqli_query($con,$sql);
 
                                       while($row=mysqli_fetch_assoc($result)){
                                       ?> <option  value='<?php echo $row['type']; ?>'><?php echo $row['type']; ?></option> <?php
-                                      }  ?>
-                                      </select></div><div class='w-full'><input name='user"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Full Name'></div><div class='w-full'><select name='ipaddress"+inputCount+"' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option value='Dynamic'>Dynamic</option><?php $sql='SELECT d.deactivated, ip.ipaddress,CONCAT_WS(",", d.id, c.id, p.id) AS all_ids, CONCAT_WS(",", d.type, c.type, p.type) AS all_type, CONCAT_WS(",", d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(",", CASE WHEN d.id IS NOT NULL THEN "devices" END, CASE WHEN c.id IS NOT NULL THEN "cctv" END, CASE WHEN p.id IS NOT NULL THEN "printer" END) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE ip.ipaddress != "" AND CONCAT_WS(",", d.id, c.id, p.id) = "" OR d.deactivated = 1;';$result=mysqli_query($con,$sql);$options=array();while($row=mysqli_fetch_assoc($result)){$ip=$row['ipaddress'];echo "<option value='$ip'>$ip</option>";}?></select></div><div class='w-full'><select name='department"+inputCount+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php   $sql="SELECT DISTINCT department FROM user";  $result = mysqli_query($con,$sql); while ($row=mysqli_fetch_assoc($result)){  ?><option  value='<?php echo $row['department']; ?>'><?php echo $row['department']; ?></option><?php   }  ?></select></div><div class='w-full'><input name='macAddress"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Mac Address'></div><div class='w-full'><input name='email"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Email'></div><div class='w-full'><select name='os"+inputCount+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php  
+                                      }  ?> </select></div><div class='w-full'><input name='user"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Full Name'></div><div class='w-full'><select name='ipaddress"+inputCount+"' class='js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><option value='Dynamic'>Dynamic</option><?php $sql='SELECT d.deactivated, ip.ipaddress,CONCAT_WS(",", d.id, c.id, p.id) AS all_ids, CONCAT_WS(",", d.type, c.type, p.type) AS all_type, CONCAT_WS(",", d.computerName, c.cameraNo, p.model) AS all_name, CONCAT_WS(",", CASE WHEN d.id IS NOT NULL THEN "devices" END, CASE WHEN c.id IS NOT NULL THEN "cctv" END, CASE WHEN p.id IS NOT NULL THEN "printer" END) AS tables FROM ipaddress ip LEFT JOIN devices d ON ip.ipaddress = d.ipAddress LEFT JOIN cctv c ON ip.ipaddress = c.ipAddress LEFT JOIN printer p ON ip.ipaddress = p.ipAddress WHERE ip.ipaddress != "" AND CONCAT_WS(",", d.id, c.id, p.id) = "" OR d.deactivated = 1;';$result=mysqli_query($con,$sql);$options=array();while($row=mysqli_fetch_assoc($result)){$ip=$row['ipaddress'];echo "<option value='$ip'>$ip</option>";}?></select></div><div class='w-full'><select name='department"+inputCount+"' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php   $sql="SELECT DISTINCT department FROM user";  $result = mysqli_query($con,$sql); while ($row=mysqli_fetch_assoc($result)){  ?><option  value='<?php echo $row['department']; ?>'><?php echo $row['department']; ?></option><?php   }  ?></select></div><div class='w-full'><input name='macAddress"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Mac Address'></div><div class='w-full'><input name='email"+inputCount+"' type='text' class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' placeholder='Email'></div><div class='w-full'><select name='os"+inputCount+"'  class='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'><?php  
 
                                             $sql="SELECT DISTINCT `os` FROM `devices`";
                                             $result = mysqli_query($con,$sql);
 
                                             while($row=mysqli_fetch_assoc($result)){
-                                            ?> <option  value='<?php echo $row['os']; ?>''><?php echo $row['os']; ?></option> <?php
-                                            }  ?>
-                                            </select></div><div class='w-full'><button type='button' onclick='removeSetComputer("+inputCount+")' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4  focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>-</button></div>";
+                                            ?> <option  value='<?php echo $row['os']; ?>'><?php echo $row['os']; ?></option> <?php
+                                            }  ?></select></div> <div class='w-full col-span-2 flex justify-center'> <div><input  type='checkbox' value='1' name='edr"+inputCount+"' class='mr-4 w-10 h-10 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'></div><div> <input  type='checkbox' value='1' name='kas"+inputCount+"' class=' mr-4 w-10 h-10 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'> </div><div><input type='checkbox' value='1' name='itnavi"+inputCount+"' class=' mr-4 w-10 h-10 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'></div> </div><div class='w-full'><button type='button' onclick='removeSetComputer("+inputCount+")' class='text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4  focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'>-</button></div>";
+                                            
     div.innerHTML=set;
     inputContainerComputer.appendChild(div);
     $('.js-example-basic-single').select2();
@@ -3152,8 +3170,9 @@ var formattedNum = numbersOfPC.toString().padStart(3, '0');
 
     console.log(divIdArrayUserComputer);
 
-    document.getElementById("strUserComputer").value = divIdArrayUserComputer;
- }
+    document.getElementById("strUserComputer").value = divIdArrayUserComputer; 
+}
+
 
  function removeSetPrinter(id){
 

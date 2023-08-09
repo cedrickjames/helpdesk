@@ -85,7 +85,7 @@ else
             $email=$list["email"];
             $headname=$list["name"];
             }    
-    
+            $messageUpload ="";
     
                     $nullFile =  implode($_FILES['uploadedFile']);
 
@@ -163,13 +163,14 @@ else
           
             $terms=$_POST['terms'];
   
-            if (!empty($requestto && $category ))
+            if ($requestto != "" || $category !="")
 
             {
             $email1=$_SESSION['email'];
             $sql = "insert into request (date_filled,status2,requestorUsername,requestor,email,department,request_to, request_category,request_details,computerName,reqstart_date ,reqfinish_date, telephone,head_approval_date, approving_head,accept_termsandconddition,month,year,attachment) 
                     values('$datenow','admin','$username','$user_name','$email1','$user_dept','$requestto','$category','$request','$computerName','$start','$end','$telephone','$datenow','$headname','$terms','$month','$year','$dest_path')";
                 $results = mysqli_query($con,$sql);
+                
             if($results){
                 
                 $sql2 = "Select * FROM `sender`";
