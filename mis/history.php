@@ -216,7 +216,7 @@ if(isset($_POST['rateJo'])){
                 )
                                         );                         
             $mail->SMTPSecure = 'none';                           
-            $mail->Port = 25;                                   
+            $mail->Port = 465;                                   
     
             //Send Email
             // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
@@ -308,7 +308,7 @@ if(isset($_POST['rateJo'])){
 
 
 
-<div class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
+<div id="mainContent" class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
 <div class="justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
 <div class="text-center py-2 m-auto lg:text-center w-full">
         <!-- <h6 class="text-sm  tracking-tight text-gray-200 sm:text-lg">Good Day</h6> -->
@@ -1134,6 +1134,17 @@ const options = {
 const drawer = new Drawer($targetEl, options);
 drawer.show();
 var show = true;
+
+
+
+var screenWidth = window.screen.width;   // Screen width in pixels
+var screenHeight = window.screen.height; // Screen height in pixels
+
+console.log("Screen width: " + screenWidth);
+console.log("Screen height: " + screenHeight);
+var sidebar=0;
+    
+
 function shows(){
     if(show){
         drawer.hide();
@@ -1143,12 +1154,42 @@ function shows(){
         drawer.show();
         show = true;
     }
-
+    // var sidebar=0;
+    if(sidebar==0){
+    document.getElementById("mainContent").style.width="100%";  
+    document.getElementById("mainContent").style.marginLeft= "0px"; 
+    // document.getElementById("sidebar").style.opacity= ""; 
+    // document.getElementById("sidebar").style.transition = "all .1s";
+    
+    document.getElementById("mainContent").style.transition = "all .3s";
+    
+    
+    
+    
+    
+    
+    sidebar=1;
+    }
+    else{
+      document.getElementById("mainContent").style.width="calc(100% - 288px)";  
+    document.getElementById("mainContent").style.marginLeft= "288px";  
+    
+    sidebar=0;
+    }
+    
 
 }
 
 
+if (screenWidth <= 1132){
+    shows();
 
+}
+else{
+drawer.show();
+// sidebar=0;/
+    
+}
 
 
 // // Code for tabs

@@ -18,6 +18,7 @@ $username=$_SESSION['username'];
                 <th>Details</th>
                 <th>Requestor</th>
                 <th>Date Filed</th>
+                <th>Date Received</th>
                 <th>Date finished</th>
                 <th>Category</th>
                 <th>PC</th>
@@ -98,6 +99,13 @@ $username=$_SESSION['username'];
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php 
               $date = new DateTime($row['date_filled']);
+              $date = $date->format('F d, Y');
+              echo $date;?> 
+              
+              </td>
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php 
+              $date = new DateTime($row['admin_approved_date']);
               $date = $date->format('F d, Y');
               echo $date;?> 
               

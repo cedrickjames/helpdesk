@@ -230,7 +230,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                 )
                                         );                         
             $mail->SMTPSecure = 'none';                           
-            $mail->Port = 25;                                   
+            $mail->Port = 465;                                   
     
             //Send Email
             // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com

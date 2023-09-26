@@ -136,7 +136,7 @@
                         )
                                                 );                         
                     $mail->SMTPSecure = 'none';                           
-                    $mail->Port = 25;                                   
+                    $mail->Port = 465;                                   
             
                     //Send Email
                     // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
@@ -296,7 +296,7 @@ if(isset($_POST['print'])){
                         )
                                                 );                         
                     $mail->SMTPSecure = 'none';                           
-                    $mail->Port = 25;                                   
+                    $mail->Port = 465;                                   
             
                     //Send Email
                     // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
@@ -335,7 +335,7 @@ if(isset($_POST['print'])){
                                     )
                                                             );                         
                                 $mail4->SMTPSecure = 'none';                           
-                                $mail4->Port = 25;                                   
+                                $mail4->Port = 465;                                   
                         
                                 //Send Email
                                 // $mail4->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
@@ -372,7 +372,7 @@ if(isset($_POST['print'])){
                               )
                                                       );                         
                           $mail2->SMTPSecure = 'none';                           
-                          $mail2->Port = 25;                                   
+                          $mail2->Port = 465;                                   
                   
                           //Send Email
                           // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
@@ -456,7 +456,7 @@ if(isset($_POST['print'])){
                                   )
                                                           );                         
                               $mail->SMTPSecure = 'none';                           
-                              $mail->Port = 25;                                   
+                              $mail->Port = 465;                                   
                       
                               //Send Email
                               // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com

@@ -3,13 +3,13 @@ include ("../includes/connect.php");
 
 
 
-    $sql="SELECT * FROM `devices`;";
+    $sql="SELECT * FROM devices;";
     $result = mysqli_query($con,$sql);
     $rowsListDevices = array();
     while($row=mysqli_fetch_assoc($result)){
         $rowsListDevices[] = $row;
     }
-
+// echo $result;
 echo json_encode($rowsListDevices);
 
 

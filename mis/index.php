@@ -1,5 +1,5 @@
 
- <?php 
+<?php 
  $timeout = 3600;
 
  use PHPMailer\PHPMailer\PHPMailer;
@@ -254,7 +254,7 @@
                         )
                                                 );                         
                     $mail->SMTPSecure = 'none';                           
-                    $mail->Port = 25;                                   
+                    $mail->Port = 465;                                   
             
                     //Send Email
                     // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
@@ -282,7 +282,7 @@
                         )
                                                 );                         
                     $mailA->SMTPSecure = 'none';                           
-                    $mailA->Port = 25;                                   
+                    $mailA->Port = 465;                                   
             
                     //Send Email
                     // $mailA->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
@@ -371,7 +371,7 @@
                                   ));  
 
                               $mail->SMTPSecure = 'none';                           
-                              $mail->Port = 25;                                   
+                              $mail->Port = 465;                                   
                       
                               //Send Email
                               // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
@@ -1775,12 +1775,12 @@ else if(action3 != ""){
 
     var selectElement = document.getElementById("computername");
 var valueToAdd = element.getAttribute("data-comname");
-
+$("#computername").empty();
 // Split the valueToAdd into an array using comma as the separator
 var valuesArray = valueToAdd.split(',');
 
 // Loop through the values and create an <option> element for each value
-console.log(istoggle)
+console.log("istoggle: ",istoggle)
 
 if(istoggle === false){
     valuesArray.forEach(function(value) {
@@ -1790,7 +1790,7 @@ if(istoggle === false){
   option.selected = true; // Set the selected property to true
   selectElement.add(option);
 });
-    istoggle = true;
+    // istoggle = true;
 
     console.log(istoggle)
 }

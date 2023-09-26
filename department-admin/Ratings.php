@@ -226,7 +226,7 @@ if(isset($_POST['rateJo'])){
                 )
                                         );                         
             $mail->SMTPSecure = 'none';                           
-            $mail->Port = 25;                                   
+            $mail->Port = 465;                                   
     
             //Send Email
             // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com

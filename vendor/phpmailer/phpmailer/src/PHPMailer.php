@@ -287,7 +287,7 @@ class PHPMailer
      *
      * @var int
      */
-    public $Port = 25;
+    public $Port = 465;
 
     /**
      * The SMTP HELO/EHLO name used for the SMTP connection.
