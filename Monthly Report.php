@@ -17,7 +17,7 @@ include ("includes/connect.php");
     $lastDateOfMonth = date('d', strtotime("last day of $year-$month"));
   
     $monthNumber = date('m', strtotime("$month"));
-    $sql = "SELECT ROUND (((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) / ((SELECT ((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) + (SELECT COUNT('id') FROM request WHERE request_to = '$section' AND status2 = 'inprogress' AND reqfinish_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' ))) * 100, 2) AS percentage;";
+    $sql = "SELECT ROUND (((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated' )AND late != true AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) / ((SELECT ((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) + (SELECT COUNT('id') FROM request WHERE request_to = '$section' AND status2 = 'inprogress' AND expectedFinishDate BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' ))) * 100, 2) AS percentage;";
     // $sql="SELECT ROUND (((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) / ((SELECT ((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) + (SELECT COUNT('id') FROM request WHERE request_to = '$section' AND status2 = 'inprogress' AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' AND reqfinish_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth'))) * 100, 2) AS percentage;";
     $result = mysqli_query($con,$sql);
     // $sql = "SELECT ROUND (((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) / ((SELECT ((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) + (SELECT COUNT('id') FROM request WHERE request_to = '$section' AND status2 = 'inprogress' AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' AND reqfinish_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth'))) * 100, 2) AS percentage;";
@@ -79,6 +79,14 @@ include ("includes/connect.php");
             border-width: .5px; border-style: solid; 
            padding-left: 5px;  border-color: gray
 		}
+        #latefinishedTable td {
+            border-width: .5px; border-style: solid; 
+           padding-left: 5px;  border-color: gray
+		}
+        #pendingTable td {
+            border-width: .5px; border-style: solid; 
+           padding-left: 5px;  border-color: gray
+		}
         .first{
             width: 25%;
         }
@@ -125,7 +133,7 @@ include ("includes/connect.php");
 
             <tr>
             <td class="first"><span class="label">Target:  </span></td>
-            <td class="second"> <span class="child">100% accomplishment of Job Order Schedule.</span></td>
+            <td class="second"> <span class="child">90% on time accomplishment of Job Order Schedule.</span></td>
             <td><span class="label">Result: </span></td>
             <td class="fourth"><span class="child">'.$resultPercentage.'%</span></td>
                 
@@ -145,6 +153,7 @@ include ("includes/connect.php");
                <td>Details</td>
                <td>Personnel</td>
                <td>Date Started</td>
+               <td>Expected Finished Date </td>
                <td>Date Finished</td>
             </tr>
 
@@ -152,7 +161,7 @@ include ("includes/connect.php");
             ';
         $a=1;
       
-        $sql="select * from `request` WHERE `request_to` = '$section' and (`status2` = 'Done' or `status2` = 'rated') AND `admin_approved_date` BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' order by id asc  ";
+        $sql="select * from `request` WHERE `request_to` = '$section' and (`status2` = 'Done' or `status2` = 'rated') AND late != true AND `admin_approved_date` BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' order by id asc  ";
         $result = mysqli_query($con,$sql);
 
       while($row=mysqli_fetch_assoc($result)){
@@ -165,6 +174,9 @@ include ("includes/connect.php");
 
         $dateFinished = new DateTime($row['actual_finish_date']);
         $dateFinished = $dateFinished->format('F d, Y');
+
+        $expected = new DateTime($row['expectedFinishDate']);
+        $expected = $expected->format('F d, Y');
           $html.='  <tr>
            <td>'.$a.'</td>
            <td>'.$date.'-'.$row['id'].'</td>
@@ -172,6 +184,60 @@ include ("includes/connect.php");
            <td>'.$row['request_details'].'</td>
            <td>'.$row['assignedPersonnelName'].'</td>
            <td>'.$dateApproved.'</td>
+           <td>'.$expected.'</td>
+           <td>'.$dateFinished.'</td>
+            </tr>';
+
+            $a++;
+      }
+            
+            
+        
+       $html.=' </table>
+
+       <h5 style="margin-bottom: 0">Late Finished Job Order</h5>
+       <table id="latefinishedTable" >
+        
+        <tr>
+               <td>No.</td>
+               <td>JO Number</td>
+               <td>Requestor</td>
+               <td>Details</td>
+               <td>Personnel</td>
+               <td>Date Started</td>
+               <td>Expected Finished Date </td>
+               <td>Date Finished</td>
+            </tr>
+
+            
+            ';
+        $a=1;
+      
+        $sql="select * from `request` WHERE `request_to` = '$section' and (`status2` = 'Done' or `status2` = 'rated') AND late != false AND `admin_approved_date` BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' order by id asc  ";
+        $result = mysqli_query($con,$sql);
+
+      while($row=mysqli_fetch_assoc($result)){
+
+        $date = new DateTime($row['date_filled']);
+        $date = $date->format('ym');
+         
+        $dateApproved = new DateTime($row['admin_approved_date']);
+        $dateApproved = $dateApproved->format('F d, Y');
+
+        $dateFinished = new DateTime($row['actual_finish_date']);
+        $dateFinished = $dateFinished->format('F d, Y');
+
+        
+        $expected = new DateTime($row['expectedFinishDate']);
+        $expected = $expected->format('F d, Y');
+          $html.='  <tr>
+           <td>'.$a.'</td>
+           <td>'.$date.'-'.$row['id'].'</td>
+           <td>'.$row['requestor'].'</td>
+           <td>'.$row['request_details'].'</td>
+           <td>'.$row['assignedPersonnelName'].'</td>
+           <td>'.$dateApproved.'</td>
+           <td>'.$expected.'</td>
            <td>'.$dateFinished.'</td>
             </tr>';
 
@@ -182,7 +248,7 @@ include ("includes/connect.php");
         
        $html.=' </table>
         <h5 style="margin-bottom: 0">Pending Job Order</h5>
-        <table id="finishedTable" >
+        <table id="pendingTable" >
         
         <tr>
                <td>No.</td>
@@ -191,7 +257,7 @@ include ("includes/connect.php");
                <td>Details</td>
                <td>Personnel</td>
                <td>Date Started</td>
-               <td>Spected Finished Date</td>
+               <td>Expected Finished Date</td>
 
 
             </tr>
@@ -200,7 +266,7 @@ include ("includes/connect.php");
             ';
         $a=1;
 
-        $sql="select * from `request` WHERE `request_to` = '$section' and `status2` = 'inprogress' AND reqfinish_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' order by id asc  ";
+        $sql="select * from `request` WHERE `request_to` = '$section' and `status2` = 'inprogress' AND expectedFinishDate BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' order by id asc  ";
         $result = mysqli_query($con,$sql);
 
       while($row=mysqli_fetch_assoc($result)){
@@ -211,7 +277,7 @@ include ("includes/connect.php");
         $dateApproved = new DateTime($row['admin_approved_date']);
         $dateApproved = $dateApproved->format('F d, Y');
         
-        $expectedDate = new DateTime($row['reqfinish_date']);
+        $expectedDate = new DateTime($row['expectedFinishDate']);
         $expectedDate = $expectedDate->format('F d, Y');
 
           $html.='  <tr>

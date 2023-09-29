@@ -154,7 +154,7 @@ padding-top: 5px;
                 <td><span class="label">Date Filed: </span></td>
                 <td> <span class="child">'.$dateFiled.'</span></td>
             </tr>
-            <tr>
+            <tr style="display: none">
                 <td><span class="label">Requested Schedule: </span></td>
                 <td> <span class="child">'.$requestedSchedule .'</span></td>
 

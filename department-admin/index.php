@@ -27,6 +27,39 @@
 
      session_start();
 
+
+    //  function addWeekdays($startDate, $daysToAdd) {
+    //     $currentDate = strtotime($startDate);
+    
+    //     while ($daysToAdd > 0) {
+    //         $currentDayOfWeek = date('N', $currentDate);
+    
+    //         // Skip Saturday (6) and Sunday (7)
+    //         if ($currentDayOfWeek >= 6) {
+    //             $currentDate = strtotime('+1 day', $currentDate);
+    //             continue;
+    //         }
+    
+    //         $currentDate = strtotime('+1 day', $currentDate);
+    //         $daysToAdd--;
+    //     }
+    
+    //     return date('Y-m-d', $currentDate);
+    // }
+    
+    // $startDate = '2023-09-29'; // Replace with your start date
+    // $daysToAdd = 5; // Number of weekdays to add
+    
+    // $newDate = addWeekdays($startDate, $daysToAdd);
+    // echo "New date after adding $daysToAdd weekdays: $newDate";
+  
+    
+    
+
+    
+
+
+
     //  echo  $_SESSION['leaderof'];
     include ("../includes/connect.php");
      if(isset( $_SESSION['connected'])){
@@ -161,6 +194,24 @@
         
         
         }
+        function addWeekdays($startDate, $daysToAdd) {
+            $currentDate = strtotime($startDate);
+        
+            while ($daysToAdd > 0) {
+                $currentDayOfWeek = date('N', $currentDate);
+        
+                // Skip Saturday (6) and Sunday (7)
+                if ($currentDayOfWeek >= 6) {
+                    $currentDate = strtotime('+1 day', $currentDate);
+                    continue;
+                }
+        
+                $currentDate = strtotime('+1 day', $currentDate);
+                $daysToAdd--;
+            }
+        
+            return date('Y-m-d', $currentDate);
+        }
         if(isset($_POST['approveRequest'])){
             $requestID = $_POST['joid2'];
             $completejoid = $_POST['completejoid'];
@@ -184,8 +235,13 @@
             }
              
             $date = date("Y-m-d");
+
+            $startDate = $date; // Replace with your start date
+            $daysToAdd = 5; // Number of weekdays to add
+            
+            $newDate = addWeekdays($startDate, $daysToAdd);
             $username = $_SESSION['name'];
-            $sql = "UPDATE `request` SET `status2`='inprogress',`reqstart_date` = '$start',`reqfinish_date` = '$finish',`admin_approved_date`='$date',`admin_remarks`='$remarks',`assignedPersonnel`='$assigned',`assignedPersonnelName`='$perseonnelName' WHERE `id` = '$requestID';";
+            $sql = "UPDATE `request` SET `status2`='inprogress',`reqstart_date` = '$start',`reqfinish_date` = '$finish',`admin_approved_date`='$date',`expectedFinishDate` = '$newDate',`admin_remarks`='$remarks',`assignedPersonnel`='$assigned',`assignedPersonnelName`='$perseonnelName' WHERE `id` = '$requestID';";
                $results = mysqli_query($con,$sql);
 
                if($results){
@@ -669,18 +725,23 @@
                         <div style="overflow:inherit" class="_qiHHw Ut_ecQ kHy45A">
                         <span  class=" sr-only">Notifications</span>
                         <?php 
-                                        $date1 = new DateTime();
-                                        $dateMonth = $date1->format('M');
-                                        $dateYear = $date1->format('Y');
-                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE   (`status2` ='rated' OR `status2` = 'Done') AND `month`='$dateMonth' AND `year` = '$dateYear' ";
+
+
+
+    	            $section =$_SESSION['leaderof'];
+                            $date1 = new DateTime();
+                            $dateMonth = $date1->format('M');
+                            $dateYear = $date1->format('Y');
+
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE   (`status2` = 'Done' OR `status2`='late')  and  `request_to` = '$section' ";
                                         $result = mysqli_query($con, $sql1);
                                         while($count=mysqli_fetch_assoc($result))
                                         {
                                     
                                         if($count["pending"] > 0){
                                             ?>
-                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900"> <?php 
-                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE  (`status2` ='rated' OR `status2` = 'Done') AND `month`='$dateMonth' AND `year` = '$dateYear' ";
+                                            <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-border-white"> <?php 
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE (`status2` = 'Done' OR `status2`='late')  and  `request_to` = '$section' ";
                                                        $result = mysqli_query($con, $sql1);
                                                        while($count=mysqli_fetch_assoc($result))
                                                        {
@@ -692,6 +753,7 @@
                                       
                                         }
                             ?>
+                            
                         <img src="../resources/img/star.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 
                         </div>
@@ -1102,18 +1164,18 @@
 
                 if($_SESSION['leaderof']=="fem"){
    
-                    $sql="select * from `request` WHERE (`status2` ='rated' OR `status2` = 'Done') AND `month`='$dateMonth' AND `year` = '$dateYear' AND `request_to`='fem'  order by id asc  ";
+                    $sql="select * from `request` WHERE  `request_to`='fem' AND ( `status2` = 'Done'  OR `status2` = 'rated'  AND `month`='$dateMonth' AND `year`='$dateYear' )order by id asc ";
                   $result = mysqli_query($con,$sql);
 
   
                 }
                 else if($_SESSION['leaderof']=="mis"){
-                    $sql="select * from `request` WHERE (`status2` ='rated' OR `status2` = 'Done') AND `month`='$dateMonth' AND `year` = '$dateYear' AND `request_to`='mis'  order by id asc  ";
+                    $sql="select * from `request` WHERE  `request_to`='mis' AND ( `status2` = 'Done'  OR `status2` = 'rated'  AND `month`='$dateMonth' AND `year`='$dateYear' )order by id asc ";
                     $result = mysqli_query($con,$sql);
   
                 }
                 else{
-                    $sql="select * from `request` WHERE (`status2` ='rated' OR `status2` = 'Done') AND `month`='$dateMonth' AND `year` = '$dateYear' order by id asc  ";
+                    $sql="select * from `request` WHERE  ( `status2` = 'Done'  OR `status2` = 'rated'  AND `month`='$dateMonth' AND `year`='$dateYear' )order by id asc ";
                     $result = mysqli_query($con,$sql);
                 }
 
@@ -1347,13 +1409,17 @@
 <select required id="assigned" name="assigned"class="bg-gray-50 col-span-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
   <option selected disabled value="">Choose</option>
             <?php
-            $sql="select * from `user`";
+            $sql="SELECT u.*, 
+            (SELECT COUNT(id) FROM request 
+             WHERE `status2` = 'inprogress' 
+             AND `assignedPersonnel` = u.username) AS 'pending'
+     FROM `user` u";
                             $result = mysqli_query($con,$sql);
 
                 while($row=mysqli_fetch_assoc($result)){
                     // $date = new DateTime($row['date_filled']);
                     ?>
-                     <option data-sectionassign="<?php echo $row['level'];?>" value="<?php echo $row['username'];?>"><?php echo $row['name'];?></option>;
+                     <option data-sectionassign="<?php echo $row['level'];?>" data-pending = "<?php echo $row['pending']?>" value="<?php echo $row['username'];?>"><?php echo $row['name'];?> (<?php echo $row['pending']?>)</option>;
                     <?php
                 
                 }
@@ -1391,8 +1457,8 @@
                 </div>
                 <a type="button" name="attachment" id="attachment" target="_blank" class="shadow-lg shadow-purple-500/10 dark:shadow-lg dark:shadow-teal-800/80  w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">View Attachment</a>
 
-                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
-                <div>
+                <hr class="hidden h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                <div class="hidden">
                     <div class="grid grid-cols-3">
                         <h2 class=" py-4 col-span-1 font-semibold text-gray-400 dark:text-gray-400"><span
                                 class="inline-block align-middle">Requested Schedule: </span></h2>
@@ -1408,7 +1474,7 @@
                                 </div>
                                 <input id="datestart" name="start" type="date"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input"
-                                    placeholder="Request date start" required="">
+                                    placeholder="Request date start" >
                             </div>
                             <span class="mx-4 text-gray-500">to</span>
                             <div class="relative">
@@ -1422,13 +1488,13 @@
                                 </div>
                                 <input id="datefinish"   name="finish" type="date"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input"
-                                    placeholder="Request date finish" required="">
+                                    placeholder="Request date finish" >
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+                <hr class="hidden h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
 
                 <div id="headRemarksDiv" class="w-full grid gap-4 grid-col-1">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Head Remarks: </span><span id="headremarks"></span></h2>
@@ -1576,13 +1642,17 @@
         <select  id="transferUser" name="transferUser" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
         <option selected disabled value="">Choose</option>
             <?php
-            $sql="select * from `user`";
+            $sql="SELECT u.*, 
+            (SELECT COUNT(id) FROM request 
+             WHERE `status2` = 'inprogress' 
+             AND `assignedPersonnel` = u.username) AS 'pending'
+     FROM `user` u";
                             $result = mysqli_query($con,$sql);
 
                 while($row=mysqli_fetch_assoc($result)){
                     // $date = new DateTime($row['date_filled']);
                     ?>
-                     <option data-transfer="<?php echo $row['level'];?>" value="<?php echo $row['username'];?>"><?php echo $row['name'];?></option>;
+                     <option data-transfer="<?php echo $row['level'];?>" data-pending = "<?php echo $row['pending']?>" value="<?php echo $row['username'];?>"><?php echo $row['name'];?>(<?php echo $row['pending']?>)</option>;
                     <?php
                 
                 }
@@ -1855,6 +1925,10 @@ else if(section=="FEM"){
 //console.log("asd"+sectionFEMorMIS);
 $("#assigned option").each(function() {
 var assignedSection = $(this).attr("data-sectionassign");
+var pending = $(this).attr("data-pending");
+var pending = $(this).attr("data-pending");
+
+
 //console.log(assignedSection);
 //console.log(section);
 
@@ -1863,7 +1937,11 @@ if(assignedSection != sectionFEMorMIS && assignedSection != "admin"){
     $(this).hide();
 }
 else {
-        $(this).show();
+    $(this).show();
+
+    if(pending>=5){
+        $(this).prop("disabled", true);
+    }
       }
 })
 
@@ -1871,13 +1949,16 @@ $("#transferUser option").each(function() {
 var assignedSection1 = $(this).attr("data-transfer");
 //console.log(assignedSection);
 //console.log(section);
-
+var pending = $(this).attr("data-pending");
 
 if(assignedSection1 != sectionFEMorMIS && assignedSection1 != "admin"){
     $(this).hide();
 }
 else {
         $(this).show();
+        if(pending>=5){
+        $(this).prop("disabled", true);
+    }
       }
 })
 
