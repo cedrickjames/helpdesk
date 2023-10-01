@@ -887,6 +887,7 @@
                             <th>Details</th>
                             <th>Requestor</th>
                             <th>Date Approved</th>
+                            <th>Approving Head</th>
                             <th>Category</th>
                             <th>Assigned Section</th>
                         </tr>
@@ -917,6 +918,7 @@
               $date = $date->format('ym');
               echo $date.'-'.$row['id'];?> 
              </td>
+            
               <td >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
                    
@@ -968,7 +970,11 @@
               echo $date;?> 
               
               </td>
-       
+              <td class="">
+              <?php 
+              echo $row['approving_head'];
+              ?> 
+             </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['request_category'];?> 
               </td>
@@ -1009,6 +1015,7 @@
                             <th>Action</th>
                             <th>Details</th>
                             <th>Requestor</th>
+                            <th>Approving Head</th>
                             <th>Date Approved</th>
                             <th>Category</th>
                             <th>Assigned to</th>
@@ -1092,7 +1099,11 @@
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['requestor'];?> 
               </td>
-
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php 
+              echo $row['approving_head'];
+              ?> 
+             </td>
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php 
@@ -1938,10 +1949,17 @@ if(assignedSection != sectionFEMorMIS && assignedSection != "admin"){
 }
 else {
     $(this).show();
-
-    if(pending>=5){
+    if(section=="MIS"){
+        if(pending>=5){
         $(this).prop("disabled", true);
     }
+}
+else if(section=="FEM"){
+    if(pending>=7){
+        $(this).prop("disabled", true);
+    }
+}
+ 
       }
 })
 

@@ -665,7 +665,7 @@
                             $dateMonth = $date1->format('M');
                             $dateYear = $date1->format('Y');
 
-                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE   (`status2` = 'Done')  and `assignedPersonnel` = '$misusername' ";
+                                        $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE  `status2` = 'Done'  and `assignedPersonnel` = '$misusername' ";
                                         $result = mysqli_query($con, $sql1);
                                         while($count=mysqli_fetch_assoc($result))
                                         {
@@ -673,7 +673,7 @@
                                         if($count["pending"] > 0){
                                             ?>
                                             <div  class=" absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-border-white"> <?php 
-                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE (`status2` = 'Done')  and `assignedPersonnel` = '$misusername' ";
+                                                       $sql1 = "SELECT COUNT(id) as 'pending' FROM request WHERE `status2` = 'Done'  and `assignedPersonnel` = '$misusername' ";
                                                        $result = mysqli_query($con, $sql1);
                                                        while($count=mysqli_fetch_assoc($result))
                                                        {

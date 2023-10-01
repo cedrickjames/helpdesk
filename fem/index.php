@@ -185,6 +185,14 @@
 
         if(isset($_POST['approveRequest'])){
             $requestID = $_POST['joid2'];
+
+            $numberOfDays = $_POST['NumberOfDays'];
+            $late;
+            if($numberOfDays >=8){
+                $late = true;
+            }
+            
+
             $completejoid = $_POST['completejoid'];
 
             $action = $_POST['action'];
@@ -211,7 +219,7 @@
             $action = str_replace("'", "&apos;", $action);
             $recommendation = str_replace("'", "&apos;", $recommendation);
 
-            $sql = "UPDATE `request` SET `status2`='Done',`actual_finish_date`='$date',`action`='$action', `recommendation`='$recommendation' WHERE `id` = '$requestID';";
+            $sql = "UPDATE `request` SET `status2`='Done', `late`=$late,`actual_finish_date`='$date',`action`='$action', `recommendation`='$recommendation' WHERE `id` = '$requestID';";
                $results = mysqli_query($con,$sql);
   
                if($results){
@@ -728,32 +736,41 @@
                 <table id="employeeTable" class="display" style="width:100%">
                     <thead>
                         <tr>
-                            <th>JO Number</th>
-                            <th>Action</th>
-                            <th>Details</th>
-                            <th>Requestor</th>
-                            <th>Date Approved</th>
-                            <th>Category</th>
-                            <th>Assigned to</th>
+                            <th data-priority="3">JO Number</th>
+                            <th data-priority="4">Action</th>
+                            <th data-priority="1">Details</th>
+                            <th data-priority="2">Requestor</th>
+                            <th data-priority="5">Date Approved</th>
+                            <th data-priority="6">Category</th>
+                 
                         </tr>
                     </thead>
                     <tbody>
               <?php
                 $a=1;
 
-                  $sql="select * from `request` WHERE `status2` ='inprogress' and `assignedPersonnel` = '$misusername' order by id asc  ";
+                $sql="SELECT *,
+                (DATEDIFF(NOW(), admin_approved_date) - 
+                 (2 * (DATEDIFF(NOW(), admin_approved_date) DIV 7))
+                - IF(DAYOFWEEK(admin_approved_date) = 7, 1, 0)
+                + IF(DAYOFWEEK(NOW()) = 2, 1, 0)) AS days_difference
+         FROM `request`
+         WHERE `status2` ='inprogress'
+           AND `assignedPersonnel` = '$misusername'
+         ORDER BY id ASC;";
+
                   $result = mysqli_query($con,$sql);
 
                 while($row=mysqli_fetch_assoc($result)){
                   ?>
-              <tr>
-              <td>
+               <tr <?php if ($row['days_difference'] ==5) {echo "style='background-color: #ef4444'";} else if($row['days_difference'] ==4) {echo "style='background-color: #ffd78f'";}else if($row['days_difference'] >=6) {echo "style='background-color: #000000'";}?> >
+              <td <?php if ($row['days_difference'] >=5) {echo "style='color: white'";} ?>>
               <?php 
               $date = new DateTime($row['date_filled']);
               $date = $date->format('ym');
               echo $date.'-'.$row['id'];?> 
              
-              <td>
+             <td <?php if ($row['days_difference'] >=5) {echo "style='color: white'";} ?> >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
                     <button type="button" id="viewdetails" onclick="modalShow(this)"
                         data-action1="<?php echo $row['action1'] ?>"
@@ -784,38 +801,42 @@
                         data-start="<?php echo $row['reqstart_date']; ?>"
                         data-end="<?php echo $row['reqfinish_date']; ?>" 
                         data-details="<?php echo $row['request_details']; ?>"
+                        data-numberOfDays="<?php echo $row['days_difference']; ?>"
                                 class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
                     View more
                     </button>
                 </td>
 
-              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+                <td <?php if ($row['days_difference'] >=5) {echo "style='color: white'";} ?> class="text-sm  text-[#c00000] font-semibold font-sans px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+
+              <td <?php if ($row['days_difference'] >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['requestor'];?> 
               </td>
 
               <!-- to view pdf -->
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td <?php if ($row['days_difference'] >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php 
               $date = new DateTime($row['admin_approved_date']);
               $date = $date->format('F d, Y');
               echo $date;?> 
               
+            
+              
               </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td <?php if ($row['days_difference'] >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['request_category'];?> 
               </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <!-- <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"> -->
 
-              <?php if($row['request_to'] == "fem"){
+              <!-- <?php if($row['request_to'] == "fem"){
                 echo "FEM";}
                 else if($row['request_to'] == "mis"){
                 echo "MIS";
                 }
-                ?> 
-              </td>
+                ?>  -->
+              <!-- </td> -->
 
 
 
@@ -840,13 +861,13 @@
                 <table id="overAllTable" class="display" style="width:100%">
                     <thead>
                         <tr>
-                            <th>JO Number</th>
-                            <th>Action</th>
-                            <th>Details</th>
-                            <th>Date Approved</th>
-                            <th>Requestor</th>
-                            <th>Category</th>
-                            <th>Assigned to</th>
+                        <th data-priority="4">JO Number</th>
+                            <th data-priority="3">Action</th>
+                            <th data-priority="1">Details</th>
+                            <th data-priority="2">Requestor</th>
+                            <th data-priority="5">Date Approved</th>
+                            <th data-priority="6">Category</th>
+                            <th data-priority="7">Assigned to</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -899,10 +920,12 @@
                     </button>
                 </td>
 
-              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+                <td class="text-sm text-[#c00000] font-semibold font-sans px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
-
+              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <?php echo $row['requestor'];?> 
+              </td>
 
               <!-- to view pdf -->
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
@@ -912,9 +935,7 @@
               echo $date;?> 
               
               </td>
-              <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-              <?php echo $row['requestor'];?> 
-              </td>
+    
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['request_category'];?> 
               </td>
@@ -947,13 +968,13 @@
                 <table id="forRatingTable" class="display" style="width:100%">
                     <thead>
                         <tr>
-                            <th>JO Number</th>
-                            <th>Action</th>
-                            <th>Details</th>
-                            <th>Requestor</th>
-                            <th>Date Approved</th>
-                            <th>Comments</th>
-                            <th>Ratings</th>
+                        <th data-priority="5">JO Number</th>
+                            <th data-priority="4">Action</th>
+                            <th data-priority="1">Details</th>
+                            <th data-priority="3">Requestor</th>
+                            <th data-priority="6">Date Finished</th>
+                            <th data-priority="7">Comments</th>
+                            <th data-priority="2">Ratings</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -962,7 +983,7 @@
                 $date1 = new DateTime();
                 $dateMonth = $date1->format('M');
                 $dateYear = $date1->format('Y');
-                  $sql="select * from `request` WHERE `assignedPersonnel` = '$misusername' AND `month`='$dateMonth' AND `year`='$dateYear' AND (`status2` ='Done' OR `status2` ='rated')  order by id asc  ";
+                $sql="select * from `request` WHERE  `assignedPersonnel` = '$misusername' AND ( `status2` = 'Done'   OR `status2` = 'rated'  AND `month`='$dateMonth' AND `year`='$dateYear' )order by id asc";
                   $result = mysqli_query($con,$sql);
                   $count = mysqli_num_rows($result);
                   if($count==0){
@@ -1019,7 +1040,7 @@
                     </button>
                 </td>
 
-              <td class="text-sm text-red-700 font-light px-6 py-4 whitespace-nowrap truncate max-w-xs">
+                <td class="text-sm text-[#c00000] font-semibold font-sans px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
               <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap truncate " style="max-width: 40px;">
@@ -1142,6 +1163,7 @@
             <input type="text" id="ptotalRating" name="ptotalRating" class="hidden">
             <input type="text" id="pratingRemarks" name="pratingRemarks" class="hidden">
             <input type="text" id="pratedDate" name="pratedDate" class="hidden">
+            <input type="text" id="pNumberOfDays" name="pNumberOfDays" class="hidden">
 
             <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -1168,7 +1190,8 @@
             <input type="text" name="completejoid" id="completejoid" class="hidden col-span-2 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
            
             <input type="text" name="joid2" id="joid2" class="hidden col-span-2 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
+            <input type="text" name="NumberOfDays" id="NumberOfDays" class="hidden col-span-2 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            
 
             <div class="w-full grid gap-4 grid-cols-2">
                      <h2 class="font-semibold text-gray-900 dark:text-gray-900"><span class="text-gray-400">Requestor : </span><span id="requestor"></span></h2>
@@ -1490,6 +1513,9 @@ function modalShow(element){
     document.getElementById("action3").innerHTML =element.getAttribute("data-action3");
     document.getElementById("recommendation").innerHTML =element.getAttribute("data-recommendation");
 
+    document.getElementById("NumberOfDays").value = element.getAttribute("data-numberOfDays");
+
+
     document.getElementById("pheadsDate").value = element.getAttribute("data-headdate");
 document.getElementById("padminsDate").value = element.getAttribute("data-admindate");
     document.getElementById("pjobOrderNo").value = element.getAttribute("data-joidprint");
@@ -1529,6 +1555,7 @@ document.getElementById("pquality").value = element.getAttribute("data-quality")
 document.getElementById("ptotalRating").value = element.getAttribute("data-ratings");
 document.getElementById("pratingRemarks").value = element.getAttribute("data-requestorremarks");
 document.getElementById("pratedDate").value = element.getAttribute("data-daterate");
+document.getElementById("pNumberOfDays").value = element.getAttribute("data-numberOfDays");
 
 var action1 = element.getAttribute("data-action1");
 var action2 = element.getAttribute("data-action2");
