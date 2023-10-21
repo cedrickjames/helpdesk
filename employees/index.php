@@ -218,7 +218,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
          try {
           //Server settings
             $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+            $mail->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
             $mail->SMTPAuth = true;                               // Enable SMTP authentication
             $mail->Username = $account;     // Your Email/ Server Email
             $mail->Password = $accountpass;                     // Your Password
@@ -236,7 +236,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
             // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
             
             //Recipients
-            $mail->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
+            $mail->setFrom('helpdesk@glorylocal.com.ph', 'Helpdesk');
             $mail->addAddress($personnelEmail);              
             $mail->isHTML(true);                                  
             $mail->Subject = $subject;
@@ -300,7 +300,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <script src="../cdn_tailwindcss.js"></script>
 
-  
+    <script src="../Snowstorm-master/snowstorm.js"></script>
 
 
     <!-- <link href="/dist/output.css" rel="stylesheet"> -->
@@ -546,7 +546,8 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                                       
                                         }
                             ?>
-                        <img src="../resources/img/star.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <!-- <img src="../resources/img/star.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"> -->
+                        <img style="    max-width: 150%; width:150%; height: 150%;"src="../resources/img/parol.gif" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 
                         </div>
                         </div>
@@ -720,7 +721,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                                 </div>
                                 <input  id="datestart" onchange="testDate()" name="start" type="date"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input"
-                                    placeholder="Request date start" required="">
+                                    placeholder="Request date start" >
                             </div>
                             <span class="mx-4 text-gray-500">to</span>
                             <div class="relative">
@@ -734,7 +735,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
                                 </div>
                                 <input id="datefinish" onchange="endDate()"  name="finish" type="date"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input"
-                                    placeholder="Request date finish" required>
+                                    placeholder="Request date finish">
                             </div>
                         </div>
                     </div>

@@ -1022,7 +1022,7 @@ if(isset($_POST['rateJo'])){
          try {
           //Server settings
             $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+            $mail->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
             $mail->SMTPAuth = true;                               // Enable SMTP authentication
             $mail->Username = $account;     // Your Email/ Server Email
             $mail->Password = $accountpass;                     // Your Password
@@ -1099,7 +1099,8 @@ if(isset($_POST['rateJo'])){
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <script src="../cdn_tailwindcss.js"></script>
 
-  
+    <script src="../node_modules/html5-qrcode/html5-qrcode.min.js"></script>
+
 
 
     <!-- <link href="/dist/output.css" rel="stylesheet"> -->
@@ -1410,7 +1411,7 @@ if(isset($_POST['rateJo'])){
   <!-- <button type="button" onclick="exportDevices()" name="getDevice" id="getDevices" class="w-full mt-5 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Export</button> -->
     <!-- <button  type="submit" name="updateSelectedcctv" id="updateSelectedcctv" class="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Edit</button> -->
 <!-- </form> -->
-
+<div style="width: 500px" id="reader"></div>
     <button data-modal-target="addDeviceModalComputer" data-modal-toggle="addDeviceModalComputer" type="button" class="w-full mt-5 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Add Device</button>
 
     <?php include 'workingStation.php';?>   
@@ -2693,6 +2694,24 @@ AND ip.ipaddress NOT IN (
     <script type="text/javascript" src="../node_modules/DataTables/Responsive-2.3.0/js/dataTables.responsive.min.js"></script>
     <script type="text/javascript" src="index.js"></script>
     <script>
+
+function onScanSuccess(decodedText, decodedResult) {
+    // Handle on success condition with the decoded text or result.
+    console.log(`Scan result: ${decodedText}`, decodedResult);
+}
+
+var html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader", { fps: 10, qrbox: 250 });
+        
+function onScanSuccess(decodedText, decodedResult) {
+    // Handle on success condition with the decoded text or result.
+    console.log(`Scan result: ${decodedText}`, decodedResult);
+    // ...
+    html5QrcodeScanner.clear();
+    // ^ this will stop the scanner (video feed) and clear the scan area.
+}
+
+html5QrcodeScanner.render(onScanSuccess);
     const $targetElModalHistory = document.getElementById('deviceHistoryModal');
 
 // options with default values

@@ -267,7 +267,7 @@
                  try {
                   //Server settings
                     $mail->isSMTP();                                      // Set mailer to use SMTP
-                    $mail->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+                    $mail->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
                     $mail->SMTPAuth = true;                               // Enable SMTP authentication
                     $mail->Username = $account;     // Your Email/ Server Email
                     $mail->Password = $accountpass;                     // Your Password
@@ -285,7 +285,7 @@
                     // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
                     
                     //Recipients
-                    $mail->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
+                    $mail->setFrom('helpdesk@glorylocal.com.ph', 'Helpdesk');
                     $mail->addAddress($personnelEmail);              
                     $mail->isHTML(true);                                  
                     $mail->Subject = $subject;
@@ -301,7 +301,7 @@
             
                         //Server settings
                           $mail2->isSMTP();                                      // Set mailer to use SMTP
-                          $mail2->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+                          $mail2->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
                           $mail2->SMTPAuth = true;                               // Enable SMTP authentication
                           $mail2->Username = $account;     // Your Email/ Server Email
                           $mail2->Password = $accountpass;                     // Your Password
@@ -319,7 +319,7 @@
                           // $mail2->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
                           
                           //Recipients
-                          $mail2->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
+                          $mail2->setFrom('helpdesk@glorylocal.com.ph', 'Helpdesk');
                           $mail2->addAddress($requestorEmail);              
                           $mail2->isHTML(true);                                  
                           $mail2->Subject = $subject2;
@@ -384,7 +384,7 @@
                 
                             //Server settings
                               $mail->isSMTP();                                      // Set mailer to use SMTP
-                              $mail->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+                              $mail->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
                               $mail->SMTPAuth = true;                               // Enable SMTP authentication
                               $mail->Username = $account;     // Your Email/ Server Email
                               $mail->Password = $accountpass;                     // Your Password
@@ -402,7 +402,7 @@
                               // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
                               
                               //Recipients
-                              $mail->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
+                              $mail->setFrom('helpdesk@glorylocal.com.ph', 'Helpdesk');
                               $mail->addAddress($requestorEmail);              
                               $mail->isHTML(true);                                  
                               $mail->Subject = $subject2;
@@ -753,8 +753,9 @@
                                       
                                         }
                             ?>
+                        <img style="    max-width: 150%; width:150%; height: 150%;"src="../resources/img/parol.gif" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             
-                        <img src="../resources/img/star.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <!-- <img src="../resources/img/star.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"> -->
 
                         </div>
                         </div>

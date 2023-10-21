@@ -1,7 +1,9 @@
 
 
 
-<nav class="bg-white px-2 sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0  left-0 border-b border-gray-200 dark:border-gray-600">
+<!-- <nav class="bg-white px-2 sm:px-4 py-2.5 dark:bg-gray-900 fixed w-full z-20 top-0  left-0 border-b border-gray-200 dark:border-gray-600"> -->
+<nav class=" px-2 sm:px-4 py-2.5  fixed w-full z-20 top-0  left-0 ">
+
 
 <div class="flex items-center">
 
@@ -17,7 +19,7 @@
 
     <!-- <a class="flex items-center" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation"> -->
         <img src="resources/img/helpdesk.png" class="mr-3 h-6 sm:h-9" alt="Flowbite Logo" >
-        <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">MIS x FEM
+        <span class="self-center text-xl font-semibold whitespace-nowrap text-white">MIS x FEM
         
         </span>
     <!-- </a> -->

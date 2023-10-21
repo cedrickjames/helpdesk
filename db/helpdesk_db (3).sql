@@ -649,7 +649,7 @@ CREATE TABLE `sender` (
 --
 
 INSERT INTO `sender` (`id`, `email`, `password`) VALUES
-(1, 'helpdesk@glory.com.ph', 'Xc71k9^h1');
+(1, 'helpdesk@glorylocal.com.ph', 'Xc71k9^h1');
 
 -- --------------------------------------------------------
 

@@ -59,7 +59,7 @@ else if($type=="pms"){
 }
 else if($type=="edit"){
     $deviceid = $_GET['deviceid'];
-    $sql="SELECT * FROM `devicehistory` WHERE `deviceId`='".$deviceid."' AND type = '' ORDER BY id DESC";
+    $sql="SELECT * FROM `devicehistory` WHERE `deviceId`='".$deviceid."' AND type = 'computer' ORDER BY id DESC";
     $result = mysqli_query($con,$sql);
     $rowsJo = array();
     while($row=mysqli_fetch_assoc($result)){

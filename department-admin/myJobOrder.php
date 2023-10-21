@@ -224,7 +224,7 @@
                  try {
                   //Server settings
                     $mail->isSMTP();                                      // Set mailer to use SMTP
-                    $mail->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+                    $mail->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
                     $mail->SMTPAuth = true;                               // Enable SMTP authentication
                     $mail->Username = $account;     // Your Email/ Server Email
                     $mail->Password = $accountpass;                     // Your Password
@@ -310,7 +310,7 @@
                 
                             //Server settings
                               $mail->isSMTP();                                      // Set mailer to use SMTP
-                              $mail->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+                              $mail->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
                               $mail->SMTPAuth = true;                               // Enable SMTP authentication
                               $mail->Username = $account;     // Your Email/ Server Email
                               $mail->Password = $accountpass;                     // Your Password

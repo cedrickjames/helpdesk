@@ -89,13 +89,16 @@ if(isset($_POST['submit'])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FEM MIS Helpdesk</title>
-    
+    <style>
+ 
+    </style>
     <!-- font awesome -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" /> -->
     <link rel="stylesheet" href="./fontawesome-free-6.2.0-web/css/all.min.css">
   
      <!-- tailwind play cdn -->
     <script src="./cdn_tailwindcss.js"></script>
+    <script src="Snowstorm-master/snowstorm.js"></script>
 
 
 
@@ -123,7 +126,8 @@ if(isset($_POST['submit'])){
 
 
 </head>
-<body  class="static  bg-white dark:bg-gray-900"  >
+<body  class="static  bg-white dark:bg-gray-900" style="background-image: url('resources/img/Family Picture Christmas.png');    background-repeat: no-repeat; background-size: cover;" >
+<div id="particles-js"></div>
 
     <!-- nav -->
     <?php require_once 'nav_login.php';?>
@@ -132,12 +136,12 @@ if(isset($_POST['submit'])){
 <!-- main -->
 
 
-<section class="h-screen">
+<section class="h-screen " >
   <div class="m-auto container px-6 py-4 h-full">
     <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-      <div class="sm:p-28 w-1/2 md:w-8/12 lg:w-6/12 sm:mb-12 md:mb-0">
+      <div class="sm:p-20 w-1/2 md:w-8/12 lg:w-6/12 sm:mb-12 md:mb-0">
         <img
-          src="resources/img/heldesk 3d.png"
+          src="resources/img/Helpdesk Christmas Logo.gif"
           class="w-full"
           alt="Login image"
         />
@@ -147,7 +151,9 @@ if(isset($_POST['submit'])){
 
         <form  method="post" action="login.php">
 
-        <h1 class="text-gray-400 text-xl font-bold text-center mb-10">Welcome to Helpdesk System</h1>
+        <h1 class="text-white text-xl font-bold text-center mb-10">Welcome to Helpdesk System</h1>
+        <!-- <h1 class="text-gray-400 text-xl font-bold text-center mb-10">Welcome to Helpdesk System</h1> -->
+
           <!-- password input -->
           <div class="mb-6">
             <input
@@ -221,10 +227,14 @@ if(isset($_POST['submit'])){
 </div>
        -->
 
-      <footer class="w-full bg-white dark:bg-gray-900 m-4">
+      <!-- <footer class="w-full bg-white dark:bg-gray-900 m-4"> -->
+      <footer class="w-full  m-4">
+
 
 <!-- <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" /> -->
-<span class="block text-sm text-gray-500 text-center dark:text-gray-400">  <a href="https://flowbite.com/" class="hover:underline">Designed By</a> Cedrick James - MIS Section</span>
+<!-- <span class="block text-sm text-gray-500 text-center dark:text-gray-400">  <a href="https://flowbite.com/" class="hover:underline">Designed By</a> Cedrick James - MIS Section</span> -->
+<span class="block text-sm text-white text-center dark:text-gray-400">  <a href="https://flowbite.com/" class="hover:underline">Designed By</a> Cedrick James - MIS Section</span>
+
 </div>
 </footer>
     </div>
@@ -250,6 +260,10 @@ if(isset($_POST['submit'])){
 
 <!-- darkmode script -->
 <script>  
+
+
+
+
 // const gallery = document.getElementById('gallery');
 // const slider = document.getElementById('slider');
 // const prevButton = document.getElementById('prevButton');

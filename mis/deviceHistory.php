@@ -40,7 +40,7 @@ $username=$_SESSION['username'];
                 CASE
                   WHEN devicehistory.type = 'cctv' THEN cctv.cameraNo
                   WHEN devicehistory.type = 'printer' THEN printer.serialNo
-                  ELSE devices.computerName
+                 WHEN devicehistory.type = 'computer' THEN devices.computerName
                 END AS computerName,
                 devicehistory.field,
                 CASE

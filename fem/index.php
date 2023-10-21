@@ -189,7 +189,11 @@
             $numberOfDays = $_POST['NumberOfDays'];
             $late;
             if($numberOfDays >=8){
-                $late = true;
+                $late = 1;
+            }
+            else{
+                $late = 0;
+                
             }
             
 
@@ -219,7 +223,7 @@
             $action = str_replace("'", "&apos;", $action);
             $recommendation = str_replace("'", "&apos;", $recommendation);
 
-            $sql = "UPDATE `request` SET `status2`='Done', `late`=$late,`actual_finish_date`='$date',`action`='$action', `recommendation`='$recommendation' WHERE `id` = '$requestID';";
+            $sql = "UPDATE `request` SET `status2`='Done', `late`='$late',`actual_finish_date`='$date',`action`='$action', `recommendation`='$recommendation' WHERE `id` = '$requestID';";
                $results = mysqli_query($con,$sql);
   
                if($results){
@@ -247,7 +251,7 @@
                  try {
                   //Server settings
                     $mail->isSMTP();                                      // Set mailer to use SMTP
-                    $mail->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+                    $mail->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
                     $mail->SMTPAuth = true;                               // Enable SMTP authentication
                     $mail->Username = $account;     // Your Email/ Server Email
                     $mail->Password = $accountpass;                     // Your Password
@@ -273,7 +277,7 @@
             
                     $mail->send();
                     $mailA->isSMTP();                                      // Set mailer to use SMTP
-                    $mailA->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+                    $mailA->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
                     $mailA->SMTPAuth = true;                               // Enable SMTP authentication
                     $mailA->Username = $account;     // Your Email/ Server Email
                     $mailA->Password = $accountpass;                     // Your Password
@@ -291,7 +295,7 @@
                     // $mailA->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
                     
                     //Recipients
-                    $mailA->setFrom('helpdesk@glory.com.ph', 'Helpdesk');
+                    $mailA->setFrom('helpdesk@glorylocal.com.ph', 'Helpdesk');
                     $mailA->addAddress($adminemail);              
                     $mailA->isHTML(true);                                  
                     $mailA->Subject = $subjectA;
@@ -313,6 +317,9 @@
                     }
 
                
+               }
+               else{
+                echo "<script>alert('Error Alert!!!. Please contact your administrator.') </script>";
                }
           
           
@@ -363,7 +370,7 @@
                 
                             //Server settings
                               $mail->isSMTP();                                      // Set mailer to use SMTP
-                              $mail->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+                              $mail->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
                               $mail->SMTPAuth = true;                               // Enable SMTP authentication
                               $mail->Username = $account;     // Your Email/ Server Email
                               $mail->Password = $accountpass;                     // Your Password
@@ -425,7 +432,7 @@
     <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Responsive-2.3.0/css/responsive.dataTables.min.css"/>
 
     <link rel="stylesheet" href="index.css">
-
+ <script src="../Snowstorm-master/snowstorm.js"></script>
     <script src="../cdn_tailwindcss.js"></script>
 
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
@@ -682,7 +689,8 @@
                                       
                                         }
                             ?>
-                        <img src="../resources/img/star.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <!-- <img src="../resources/img/star.png" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"> -->
+                        <img style="    max-width: 150%; width:150%; height: 150%;"src="../resources/img/parol.gif" class="h-full w-full text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 
                         </div>
                         </div>
@@ -747,30 +755,45 @@
                     </thead>
                     <tbody>
               <?php
-                $a=1;
-
-                $sql="SELECT *,
-                (DATEDIFF(NOW(), admin_approved_date) - 
-                 (2 * (DATEDIFF(NOW(), admin_approved_date) DIV 7))
-                - IF(DAYOFWEEK(admin_approved_date) = 7, 1, 0)
-                + IF(DAYOFWEEK(NOW()) = 2, 1, 0)) AS days_difference
-         FROM `request`
-         WHERE `status2` ='inprogress'
-           AND `assignedPersonnel` = '$misusername'
-         ORDER BY id ASC;";
-
-                  $result = mysqli_query($con,$sql);
-
-                while($row=mysqli_fetch_assoc($result)){
+                 $end_date = new DateTime(); 
+                 $end_date = $end_date->format('Y-m-d');
+                 $a=1;
+                   $sql="SELECT * FROM `request`
+            WHERE `status2` ='inprogress'
+              AND `assignedPersonnel` = '$misusername'
+            ORDER BY id ASC;";
+                   $result = mysqli_query($con,$sql);
+ 
+                 while($row=mysqli_fetch_assoc($result)){
+ 
+                     $start = new DateTime($row['admin_approved_date']);
+                     $start1= $start->format('Y-m-d');
+                     // echo $start1;
+                     $end = new DateTime(); 
+                     $end1 = $end->format('Y-m-d');
+                     // echo $end1;
+                     $count = 0;
+                     // echo $start->format('N');
+                     $start->add(new DateInterval('P1D')); // Increment by 1 day
+                 
+                     while ($start <= $end) {
+                         // Check if the current day is not Saturday (6) or Sunday (0)
+                         $start->add(new DateInterval('P1D')); // Increment by 1 day
+ 
+                         if ($start->format('N') < 6) {
+                             // echo $start->format('N');
+                             $count++;
+                         }
+                     }
                   ?>
-               <tr <?php if ($row['days_difference'] ==5) {echo "style='background-color: #ef4444'";} else if($row['days_difference'] ==4) {echo "style='background-color: #ffd78f'";}else if($row['days_difference'] >=6) {echo "style='background-color: #000000'";}?> >
-              <td <?php if ($row['days_difference'] >=5) {echo "style='color: white'";} ?>>
+               <tr <?php if ($count ==5) {echo "style='background-color: #ef4444'";} else if($count ==4) {echo "style='background-color: #ffd78f'";}else if($count >=6) {echo "style='background-color: #000000'";}?> >
+              <td <?php if ($count >=5) {echo "style='color: white'";} ?>>
               <?php 
               $date = new DateTime($row['date_filled']);
               $date = $date->format('ym');
               echo $date.'-'.$row['id'];?> 
              
-             <td <?php if ($row['days_difference'] >=5) {echo "style='color: white'";} ?> >
+             <td <?php if ($count >=5) {echo "style='color: white'";} ?> >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
                     <button type="button" id="viewdetails" onclick="modalShow(this)"
                         data-action1="<?php echo $row['action1'] ?>"
@@ -801,22 +824,22 @@
                         data-start="<?php echo $row['reqstart_date']; ?>"
                         data-end="<?php echo $row['reqfinish_date']; ?>" 
                         data-details="<?php echo $row['request_details']; ?>"
-                        data-numberOfDays="<?php echo $row['days_difference']; ?>"
+                        data-numberOfDays="<?php echo $count; ?>"
                                 class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"> 
                     View more
                     </button>
                 </td>
 
-                <td <?php if ($row['days_difference'] >=5) {echo "style='color: white'";} ?> class="text-sm  text-[#c00000] font-semibold font-sans px-6 py-4 whitespace-nowrap truncate max-w-xs">
+                <td <?php if ($count >=5) {echo "style='color: white'";} ?> class="text-sm  text-[#c00000] font-semibold font-sans px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
 
-              <td <?php if ($row['days_difference'] >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td <?php if ($count >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['requestor'];?> 
               </td>
 
               <!-- to view pdf -->
-              <td <?php if ($row['days_difference'] >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td <?php if ($count >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php 
               $date = new DateTime($row['admin_approved_date']);
               $date = $date->format('F d, Y');
@@ -825,7 +848,7 @@
             
               
               </td>
-              <td <?php if ($row['days_difference'] >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td <?php if ($count >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['request_category'];?> 
               </td>
               <!-- <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"> -->

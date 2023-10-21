@@ -154,7 +154,7 @@ padding-top: 5px;
                 <td><span class="label">Date Filed: </span></td>
                 <td> <span class="child">'.$dateFiled.'</span></td>
             </tr>
-            <tr>
+            <tr style="display: none">
                 <td><span class="label">Requested Schedule: </span></td>
                 <td> <span class="child">'.$requestedSchedule .'</span></td>
 
@@ -176,7 +176,6 @@ if($type == "Computer"){
             if($headsRemarks !=""){
                 
                 $html.='<tr>
-            <td class="first"><span class="label">Head&apos;s Remarks</span></td>
             <td class="second"> <span class="child">'.$headsRemarks .'</span></td>
             <td><span class="label">Date: </span></td>
             <td class="fourth"><span class="child">'.$headsDate.'</span></td>
@@ -225,7 +224,7 @@ if($type == "Computer"){
                 <td><span class="child">'.$section.'</span></td>
             </tr>';
 if($firstAction !=""){
-    $html.='<tr class="w-full">
+    $html.='<tr>
     <td class="first"><span class="label">1st Action: </span></td>
     <td class="second"> <span class="child">'.$firstAction.'</span></td>
     <td style="width: 10%"><span class="label">Date: </span></td>

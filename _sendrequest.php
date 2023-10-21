@@ -110,7 +110,7 @@ if(isset($_POST['send'])){
     try {
         //Server settings
         $mail->isSMTP();                                      // Set mailer to use SMTP
-        $mail->Host = 'mail.glory.com.ph';                       // Specify main and backup SMTP servers
+        $mail->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
         $mail->SMTPAuth = true;                               // Enable SMTP authentication
         $mail->Username = 'j.nemedez@glory.com.ph';     // Your Email/ Server Email
         $mail->Password = 'C0nn3ctm387';                     // Your Password
