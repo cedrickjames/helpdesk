@@ -1411,7 +1411,35 @@ if(isset($_POST['rateJo'])){
   <!-- <button type="button" onclick="exportDevices()" name="getDevice" id="getDevices" class="w-full mt-5 text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Export</button> -->
     <!-- <button  type="submit" name="updateSelectedcctv" id="updateSelectedcctv" class="w-full text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Edit</button> -->
 <!-- </form> -->
-<div style="width: 500px" id="reader"></div>
+
+<button data-modal-target="scanQr" data-modal-toggle="scanQr" type="button" class="w-full mt-5  text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium "> <span class="w-full block relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+      Scan QR
+  </span></button>
+<div id="scanQr" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                    Scan Qr
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="scanQr">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="p-6 space-y-6">
+            <div class="w-full" id="reader"></div>
+            <h4 id="textQr" ></h4>
+            </div>
+     
+        </div>
+    </div>
+</div>
     <button data-modal-target="addDeviceModalComputer" data-modal-toggle="addDeviceModalComputer" type="button" class="w-full mt-5 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Add Device</button>
 
     <?php include 'workingStation.php';?>   
@@ -2706,6 +2734,54 @@ var html5QrcodeScanner = new Html5QrcodeScanner(
 function onScanSuccess(decodedText, decodedResult) {
     // Handle on success condition with the decoded text or result.
     console.log(`Scan result: ${decodedText}`, decodedResult);
+    var h4Element = document.getElementById("textQr");
+
+// Add text to the <h4> using textContent
+
+var decodedText = `${decodedText}`;
+
+var indexOfProperty = decodedText.indexOf("- Property");
+
+if (indexOfProperty !== -1) {
+  // Extract the computer name before "- Property"
+  var computerName = decodedText.slice(0, indexOfProperty);
+var computerId;
+  // Trim any leading or trailing whitespace
+  computerName = computerName.trim();
+
+
+  
+var xhrPcTag = new XMLHttpRequest();
+xhrPcTag.open("GET", "getPcId.php?pcTag=" + encodeURIComponent(computerName), true);
+xhrPcTag.onreadystatechange = function() {
+    if (xhrPcTag.readyState === XMLHttpRequest.DONE) {
+        if (xhrPcTag.status === 200) {
+             computerId = JSON.parse(xhrPcTag.responseText);
+             
+  modalShowHistory2(computerName, computerId);
+console.log(computerId);
+
+        } else {
+            console.log("Error: " + xhrPcTag.status);
+        }
+    }
+};
+
+xhrPcTag.send();
+
+
+
+
+//   h4Element.textContent = computerName;
+//   console.log("Computer Name:", computerName);
+} else {
+  h4Element.textContent = "'- Property' not found in the text.";
+
+  console.log("'- Property' not found in the text.");
+}
+
+
+    // document.getElementById("textQr").innerHTML(`Scan result: ${decodedText}`, decodedResult)
     // ...
     html5QrcodeScanner.clear();
     // ^ this will stop the scanner (video feed) and clear the scan area.
@@ -2934,6 +3010,203 @@ xhr1Edit.send();
     modalHistory.toggle();
 }
 function modalCloseHistory(){
+    modalHistory.toggle();
+}
+
+
+function modalShowHistory2(element, pcId){
+    // divContainerForHistory.removeChild();
+    while (divContainerForHistory.firstChild) {
+        divContainerForHistory.removeChild(divContainerForHistory.firstChild);
+}
+while (divContainerForHistoryPms.firstChild) {
+    divContainerForHistoryPms.removeChild(divContainerForHistoryPms.firstChild);
+}
+while (divContainerForHistoryEdit.firstChild) {
+    divContainerForHistoryEdit.removeChild(divContainerForHistoryEdit.firstChild);
+}
+
+    var pcTag = element;
+    var pchost = element;
+    var pcid = pcId;
+
+console.log(pchost)
+
+    const div =document.createElement("div");
+    const divPms =document.createElement("div");
+    const divEdit =document.createElement("div");
+
+
+
+    var historyHTML = "";
+    var historyHTMLPms = "";
+    var historyHTMLEdit= "";
+
+var xhr1History = new XMLHttpRequest();
+xhr1History.open("GET", "getPcHistory.php?pcTag=" + encodeURIComponent(pcTag)+ "&type=joborder", true);
+xhr1History.onreadystatechange = function() {
+    if (xhr1History.readyState === XMLHttpRequest.DONE) {
+        if (xhr1History.status === 200) {
+            var options = JSON.parse(xhr1History.responseText);
+console.log(options);
+            // Create a string variable to store the HTML
+
+            // Iterate over the options and create <option> elements
+            if(options.length == 0){
+                historyHTML = "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><p class='mt-0 text-gray-500 dark:text-gray-400'>No Job Order History Recorded</p></div>"
+    }
+            if(pcTag ==""){
+                historyHTML = "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><p class='mt-0 text-gray-500 dark:text-gray-400'>Please Add PC Tag</p></div>"
+    }
+    else{
+        options.forEach(function(option) {
+                historyHTML += "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Request ID: " + option.id + "</h4></div><div class='text-right'><h4>Date: " + option.admin_approved_date + "</h4></div></div><p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>Problem:  </span>" + option.request_details + "</p><div class='mt-2'><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Action</h4></div><div class='text-right'><h4>Date: " + option.actual_finish_date + "</h4></div></div><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>" + option.action1 + "</p><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>" + option.action2 + "</p><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>" + option.action3 + "</p><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>" + option.action + "</p></div> <p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>MIS:  </span>" + option.assignedPersonnelName + "</p><p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>Requestor:  </span>" + option.requestor + "</p></div>";
+            });
+    }
+
+            // selectHTML += "</select>";
+
+            // You can now use the 'selectHTML' variable as needed
+            // console.log(historyHTML);
+            div.innerHTML=historyHTML;
+    divContainerForHistory.appendChild(div);
+
+        } else {
+            console.log("Error: " + xhr1History.status);
+        }
+    }
+};
+
+xhr1History.send();
+
+
+var xhr1Pms = new XMLHttpRequest();
+xhr1Pms.open("GET", "getPcHistory.php?pcTag=" + encodeURIComponent(pcTag)+ "&type=pms&pchost="+ encodeURIComponent(pchost), true);
+xhr1Pms.onreadystatechange = function() {
+    if (xhr1Pms.readyState === XMLHttpRequest.DONE) {
+        if (xhr1Pms.status === 200) {
+            var options2 = JSON.parse(xhr1Pms.responseText);
+console.log(options2);
+            // Create a string variable to store the HTML
+
+            // Iterate over the options2 and create <option> elements
+            if(options2.length == 0){
+                historyHTMLPms = "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><p class='mt-0 text-gray-500 dark:text-gray-400'>No PMS Recorded</p></div>"
+    }
+            if(pchost =="" && pcTag =="" ){
+                historyHTMLPms = "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><p class='mt-0 text-gray-500 dark:text-gray-400'>Please Add PC Tag or Hostname</p></div>"
+    }
+    else{
+        options2.forEach(function(option) {
+                historyHTMLPms += "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Date: " + option.Date + "</h4></div></div><div class='mt-2'><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Action</h4></div></div><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>" + option.action + "</p></div> <p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>MIS:  </span>" + option.performedBy + "</p></div>";
+            });
+    }
+
+            // selectHTML += "</select>";
+
+            // You can now use the 'selectHTML' variable as needed
+            // console.log(historyHTMLPms);
+            divPms.innerHTML=historyHTMLPms;
+            divContainerForHistoryPms.appendChild(divPms);
+
+        } else {
+            console.log("Error: " + xhr1Pms.status);
+        }
+    }
+};
+
+xhr1Pms.send();
+
+
+
+var xhr1Edit = new XMLHttpRequest();
+xhr1Edit.open("GET", "getPcHistory.php?pcTag=" + encodeURIComponent(pcTag)+ "&type=edit&pchost="+ encodeURIComponent(pchost)+ "&deviceid="+encodeURIComponent(pcid), true);
+xhr1Edit.onreadystatechange = function() {
+    if (xhr1Edit.readyState === XMLHttpRequest.DONE) {
+        if (xhr1Edit.status === 200) {
+            var options3 = JSON.parse(xhr1Edit.responseText);
+console.log(options3);
+            // Create a string variable to store the HTML
+
+            // Iterate over the options3 and create <option> elements
+            if(options3.length == 0){
+                historyHTMLEdit = "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><p class='mt-0 text-gray-500 dark:text-gray-400'>No Edit History Recorded</p></div>"
+    }
+
+    else{
+        options3.forEach(function(option) {
+            if(option.field == "deactivated"){
+                option.field = 'Status'
+                if(option.fromThis == 0){
+                    option.fromThis = "Active"
+            }
+            if( option.toThis == 1){
+                option.toThis = "Deactivated"
+
+            }
+            if(option.fromThis == 1){
+                    option.fromThis = "Deactivated"
+            }
+            if( option.toThis == 0){
+                option.toThis = "Active"
+            }
+            }
+            if(option.field == "edr"){
+                option.field = 'EDR'
+                if(option.fromThis == 0){
+                    option.fromThis = "Not Installed"
+            }
+            if( option.toThis == 1){
+                option.toThis = "Installed"
+
+            }
+            if(option.fromThis == 1){
+                    option.fromThis = "Installed"
+            }
+            if( option.toThis == 0){
+                option.toThis = "Not Installed"
+            }
+            }
+            if(option.field == "kaspersky"){
+                option.field = 'Kaspersky'
+                if(option.fromThis == 0){
+                    option.fromThis = "Not Installed"
+            }
+            if( option.toThis == 1){
+                option.toThis = "Installed"
+
+            }
+            if(option.fromThis == 1){
+                    option.fromThis = "Installed"
+            }
+            if( option.toThis == 0){
+                option.toThis = "Not Installed"
+            }
+            }
+          
+                historyHTMLEdit += "<div class=' mt-2.5 rounded-lg bg-gray-50 dark:bg-gray-800 w-full p-6 '><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Field Changed: " + option.field + "</h4></div><div class='text-right'><h4>Date: " + option.date + "</h4></div><p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>From:  </span>" + option.fromThis + "</p><p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>To:  </span>" + option.toThis + "</p></div><div class='mt-2'><div class='grid grid-cols-2 gap-4 place-content-between '> <p class='mt-0 text-gray-500 dark:text-gray-400'><span class='text-gray-900'>Modifier:  </span>" + option.modifier + "</p></div></div></div>";
+            });
+    }
+
+            // selectHTML += "</select>";
+
+            // You can now use the 'selectHTML' variable as needed
+            // console.log(historyHTMLEdit);
+            divEdit.innerHTML=historyHTMLEdit;
+            divContainerForHistoryEdit.appendChild(divEdit);
+
+        } else {
+            console.log("Error: " + xhr1Edit.status);
+        }
+    }
+};
+
+xhr1Edit.send();
+// console.log(historyHTML);
+    // var set = "<div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Request</h4></div><div class='text-right'><h4>Request ID: 2304-002</h4></div></div><p class='mt-0 text-gray-500 dark:text-gray-400'>The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union.</p><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Requestor: Kimberly Bautista</h4></div><div class='text-right'><h4>Date: May 01, 2023</h4></div></div><div class='mt-2'><div class='grid grid-cols-2 gap-4 place-content-between '><div><h4>Action</h4></div><div class='text-right'><h4>Date: May 05, 2023</h4></div></div><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>The European Union’s General Data Protection Regulation (G.D.P.R.).</p><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>The European Union’s General Data Protection Regulation (G.D.P.R.).</p><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>The European Union’s General Data Protection Regulation (G.D.P.R.).</p><p class='text-base leading-relaxed text-gray-500 dark:text-gray-400'>With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply</p></div>";
+    // div.innerHTML=historyHTML;
+    // divContainerForHistory.appendChild(div);
+
     modalHistory.toggle();
 }
 

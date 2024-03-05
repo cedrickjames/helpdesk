@@ -121,7 +121,8 @@ if(isset($_POST['print'])){
    $_SESSION['totalRating']= $_POST['ptotalRating'] ;
    $_SESSION['ratingRemarks']= $_POST['pratingRemarks'] ;
    $_SESSION['ratedDate']= $_POST['pratedDate'] ;
-
+   $_SESSION['headsDate']= $_POST['pheadsDate'] ;
+   $_SESSION['adminsDate']= $_POST['padminsDate'] ;
 
 //    header("location:Job Order Report.php", true, 302);
    ?>
@@ -520,7 +521,8 @@ if(isset($_POST['rateJo'])){
             <input type="text" id="ptotalRating" name="ptotalRating" class="hidden">
             <input type="text" id="pratingRemarks" name="pratingRemarks" class="hidden">
             <input type="text" id="pratedDate" name="pratedDate" class="hidden">
-
+            <input type="text" id="pheadsDate" name="pheadsDate" class="hidden">
+            <input type="text" id="padminsDate" name="padminsDate" class="hidden">
 
             <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -892,6 +894,9 @@ document.getElementById("ptotalRating").value = element.getAttribute("data-ratin
 document.getElementById("pratingRemarks").value = element.getAttribute("data-requestorremarks");
 document.getElementById("userComments").innerHTML = element.getAttribute("data-requestorremarks");
 document.getElementById("pratedDate").value = element.getAttribute("data-daterate");
+
+document.getElementById("pheadsDate").value = element.getAttribute("data-headdate");
+document.getElementById("padminsDate").value = element.getAttribute("data-admindate");
 
 
 var action1 = element.getAttribute("data-action1");
