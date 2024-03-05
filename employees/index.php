@@ -146,6 +146,20 @@ if(isset($_POST['print'])){
 
 
 }
+
+
+if(isset($_POST['UpdateEmail'])){
+    $emailnew = $_POST['emailnew'];
+    
+    $sql = "UPDATE `user` SET `email`='$emailnew', `updatedEmail` = '1' WHERE `username` = '$username';";
+    $results = mysqli_query($con,$sql);
+    if($results){
+        echo "<script>alert('Your email has been updated!') </script>";
+
+    }
+}
+
+
 $sqllink = "SELECT `link` FROM `setting`";
 $resultlink = mysqli_query($con, $sqllink);
 $link = "";
@@ -271,6 +285,17 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
         
               
         }
+
+        $sqlemail="SELECT  `email` FROM `user` WHERE `username` = '$username'";
+        $result = mysqli_query($con,$sqlemail);
+        // $rowsJo = array();
+        $email;
+        while($userRow = mysqli_fetch_assoc($result)){
+        
+            $email = $userRow['email'];
+        } 
+
+
 ?>
 
 
@@ -345,6 +370,51 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
 </div>
   
 </div>
+
+
+
+<div id="updateEmail" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-start justify-between p-5 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">
+                    PLEASE UPDATE YOUR EMAIL
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <form action="" method="POST">
+            <div class="p-6 space-y-6">
+                
+
+  <div class="mb-6">
+    <label for="emailold" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Old Email</label>
+    <input type="email" id="emailold" value="<?php echo $email;?>"class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required>
+  </div>
+  <div class="mb-6">
+    <label for="emailnew" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your New Email</label>
+    <input type="email" name="emailnew" id="emailnew" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+  </div>
+
+
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button  type="submit"  name="UpdateEmail" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 
 <div   id="mainContent" class=" ml-72 flex mt-16  left-10 right-5  flex-col  px-14 sm:px-8  pt-6 pb-14 z-50 ">
 <div class="justify-center text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
@@ -1026,12 +1096,60 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
     <script type="text/javascript" src="index.js"></script>
 
 <script>
+
+    
+var phpVariable = "<?php echo $_SESSION['username']; ?>";
+console.log(phpVariable);
+const $targetUpdateEmail = document.getElementById('updateEmail');
+const optionsUpdateEmail = {
+  placement: 'center',
+  backdrop: 'static',
+  backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
+  closable: true,
+  onHide: () => {
+      console.log('modal is hidden');
+  },
+  onShow: () => {
+      console.log('modal is shown');
+  },
+  onToggle: () => {
+      console.log('modal has been toggled');
+  }
+};
+
+
+const modalUpdateEmail = new Modal($targetUpdateEmail, optionsUpdateEmail);
+
+
+  
+var xhrEmailUpdate = new XMLHttpRequest();
+xhrEmailUpdate.open("GET", "getEmailUpdate.php?username=" + encodeURIComponent(phpVariable), true);
+xhrEmailUpdate.onreadystatechange = function() {
+    if (xhrEmailUpdate.readyState === XMLHttpRequest.DONE) {
+        if (xhrEmailUpdate.status === 200) {
+             emailUpdated = JSON.parse(xhrEmailUpdate.responseText);
+             if(emailUpdated=='0'){
+                modalUpdateEmail.show();
+             }
+
+        } else {
+            console.log("Error: " + xhrEmailUpdate.status);
+        }
+    }
+};
+
+xhrEmailUpdate.send();
+
+
+
+
+
     const $targetElModal = document.getElementById('defaultModal');
 
 // options with default values
 const optionsModal = {
   placement: 'center-center',
-  backdrop: 'dynamic',
+  backdrop: 'static',
   backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
   closable: true,
   onHide: () => {

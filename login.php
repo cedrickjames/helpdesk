@@ -12,6 +12,12 @@ if(isset($_POST['submit'])){
     
   $username = $_POST['username'];
   $password = $_POST['password'];
+  $section = $_POST['section'];
+
+  if($section == "femmis"){
+
+  
+
   $sql1 = "Select * FROM `user` WHERE `username`='$username'";
   $result = mysqli_query($con, $sql1);
   $numrows = mysqli_num_rows($result);
@@ -70,7 +76,36 @@ if(isset($_POST['submit'])){
     echo '<script>alert("Login Failed! Wrong credentials")</script>';
   }
 
+}
+else{
+  
 
+  $sql1 = "Select * FROM `user` WHERE `username`='$username'";
+  $result = mysqli_query($con, $sql1);
+  $numrows = mysqli_num_rows($result);
+  while($userRow = mysqli_fetch_assoc($result)){
+    $userDept = $userRow['department'];
+    $name = $userRow['name'];
+    $level = $userRow['level'];
+    $userpass = $userRow['password'];
+    $usermail = $userRow['email'];
+    $leaderof = $userRow['leader'];
+
+
+    if($password == $userpass){
+      header("location:http://192.168.60.47/srs/login.php?user=$username&pass=$userpass");
+
+    }
+    else{
+      echo '<script>alert("Login Failed! Wrong password")</script>';
+    }
+  }
+
+  if($numrows == 0){
+    echo '<script>alert("Login Failed! Wrong credentials")</script>';
+  }
+
+}
 }
 ?>
 
@@ -89,19 +124,16 @@ if(isset($_POST['submit'])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FEM MIS Helpdesk</title>
-    <style>
- 
-    </style>
+    
     <!-- font awesome -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" /> -->
     <link rel="stylesheet" href="./fontawesome-free-6.2.0-web/css/all.min.css">
   
      <!-- tailwind play cdn -->
     <script src="./cdn_tailwindcss.js"></script>
-    <script src="Snowstorm-master/snowstorm.js"></script>
 
 
-
+    <!-- <script src="Snowstorm-master/snowstorm.js"></script> -->
 
 
      <!-- from flowbite cdn -->
@@ -123,11 +155,29 @@ if(isset($_POST['submit'])){
     }
 </script>
 
+<style>
+  
+.logo-container {
+  position: relative;
+  animation: floatAnimation 2s ease-in-out infinite;
+}
 
+
+
+@keyframes floatAnimation {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+
+</style>
 
 </head>
-<body  class="static  bg-white dark:bg-gray-900" style="background-image: url('resources/img/Family Picture Christmas.png');    background-repeat: no-repeat; background-size: cover;" >
-<div id="particles-js"></div>
+<body  class="static  bg-[#d0d7eff2] dark:bg-gray-900"  >
 
     <!-- nav -->
     <?php require_once 'nav_login.php';?>
@@ -136,13 +186,13 @@ if(isset($_POST['submit'])){
 <!-- main -->
 
 
-<section class="h-screen " >
+<section class="h-screen" >
   <div class="m-auto container px-6 py-4 h-full">
     <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
       <div class="sm:p-20 w-1/2 md:w-8/12 lg:w-6/12 sm:mb-12 md:mb-0">
         <img
-          src="resources/img/Helpdesk Christmas Logo.gif"
-          class="w-full"
+          src="resources/img/heldesk 3d.png"
+          class="w-full logo-container"
           alt="Login image"
         />
       </div>
@@ -151,7 +201,7 @@ if(isset($_POST['submit'])){
 
         <form  method="post" action="login.php">
 
-        <h1 class="text-white text-xl font-bold text-center mb-10">Welcome to Helpdesk System</h1>
+        <h1 class="text-[#3a394b] text-xl font-bold text-center mb-10">Welcome to Helpdesk System</h1>
         <!-- <h1 class="text-gray-400 text-xl font-bold text-center mb-10">Welcome to Helpdesk System</h1> -->
 
           <!-- password input -->
@@ -173,6 +223,19 @@ if(isset($_POST['submit'])){
               class="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
               placeholder="Password"
             />
+          </div>
+          <div class="mb-6 flex gap-4">
+
+          
+<div class="gap-4 p-2 flex w-full items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+    <input id="bordered-radio-1" type="radio" value="femmis" name="section" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+    <label for="bordered-radio-1" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">FEM / MIS</label>
+</div>
+<div class=" gap-4 p-2 flex w-full items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+    <input checked="" id="bordered-radio-2" type="radio" value="systemkaizen" name="section" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+    <label for="bordered-radio-2" class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">System Kaizen</label>
+</div>
+
           </div>
 
           <div class="flex justify-between items-center mb-6">
@@ -233,7 +296,7 @@ if(isset($_POST['submit'])){
 
 <!-- <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" /> -->
 <!-- <span class="block text-sm text-gray-500 text-center dark:text-gray-400">  <a href="https://flowbite.com/" class="hover:underline">Designed By</a> Cedrick James - MIS Section</span> -->
-<span class="block text-sm text-white text-center dark:text-gray-400">  <a href="https://flowbite.com/" class="hover:underline">Designed By</a> Cedrick James - MIS Section</span>
+<span class="block text-sm  text-center dark:text-gray-400">  <a href="https://flowbite.com/" class="hover:underline">Designed By</a> Cedrick James - MIS Section</span>
 
 </div>
 </footer>
@@ -260,10 +323,6 @@ if(isset($_POST['submit'])){
 
 <!-- darkmode script -->
 <script>  
-
-
-
-
 // const gallery = document.getElementById('gallery');
 // const slider = document.getElementById('slider');
 // const prevButton = document.getElementById('prevButton');

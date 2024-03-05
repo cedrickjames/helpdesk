@@ -786,14 +786,14 @@
                          }
                      }
                   ?>
-               <tr <?php if ($count ==5) {echo "style='background-color: #ef4444'";} else if($count ==4) {echo "style='background-color: #ffd78f'";}else if($count >=6) {echo "style='background-color: #000000'";}?> >
-              <td <?php if ($count >=5) {echo "style='color: white'";} ?>>
+               <tr <?php if ($count ==7) {echo "style='background-color: #ef4444'";} else if($count ==4) {echo "style='background-color: #ffd78f'";}else if($count >=6) {echo "style='background-color: #000000'";}?> >
+              <td <?php if ($count >=7) {echo "style='color: white'";} ?>>
               <?php 
               $date = new DateTime($row['date_filled']);
               $date = $date->format('ym');
               echo $date.'-'.$row['id'];?> 
              
-             <td <?php if ($count >=5) {echo "style='color: white'";} ?> >
+             <td <?php if ($count >=7) {echo "style='color: white'";} ?> >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
                     <button type="button" id="viewdetails" onclick="modalShow(this)"
                         data-action1="<?php echo $row['action1'] ?>"
@@ -830,16 +830,16 @@
                     </button>
                 </td>
 
-                <td <?php if ($count >=5) {echo "style='color: white'";} ?> class="text-sm  text-[#c00000] font-semibold font-sans px-6 py-4 whitespace-nowrap truncate max-w-xs">
+                <td <?php if ($count >=7) {echo "style='color: white'";} ?> class="text-sm  text-[#c00000] font-semibold font-sans px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
 
-              <td <?php if ($count >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td <?php if ($count >=7) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['requestor'];?> 
               </td>
 
               <!-- to view pdf -->
-              <td <?php if ($count >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td <?php if ($count >=7) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php 
               $date = new DateTime($row['admin_approved_date']);
               $date = $date->format('F d, Y');
@@ -848,7 +848,7 @@
             
               
               </td>
-              <td <?php if ($count >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td <?php if ($count >=7) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['request_category'];?> 
               </td>
               <!-- <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"> -->
@@ -1463,7 +1463,7 @@ const $targetElModal = document.getElementById('defaultModal');
 // options with default values
 const optionsModal = {
   placement: 'center-center',
-  backdrop: 'dynamic',
+  backdrop: 'static',
   backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
   closable: true,
   onHide: () => {

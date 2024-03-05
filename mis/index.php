@@ -149,6 +149,18 @@
         $user_level=$_SESSION['level'];
 
         
+        
+
+        if(isset($_POST['UpdateEmail'])){
+            $emailnew = $_POST['emailnew'];
+            
+            $sql = "UPDATE `user` SET `email`='$emailnew', `updatedEmail` = '1' WHERE `username` = '$misusername';";
+            $results = mysqli_query($con,$sql);
+            if($results){
+                echo "<script>alert('Your email has been updated!') </script>";
+
+            }
+        }
 
         if(isset($_POST['addAction'])){
             $requestID = $_POST['joid2'];
@@ -190,7 +202,7 @@
             $requestID = $_POST['joid2'];
             $numberOfDays = $_POST['NumberOfDays'];
             $late;
-            if($numberOfDays >=6){
+            if($numberOfDays >=8){
                 $late = 1;
             }
             else{
@@ -412,6 +424,22 @@
                    }
                 
                 }
+
+
+                
+// $uploadDir = '../src/Photo/';
+// $uploadFile = $uploadDir . $username . '.png';
+
+// $response = array();
+
+// if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadFile)) {
+//     $response['success'] = true;
+// } else {
+//     $response['success'] = false;
+// }
+
+// header('Content-Type: application/json');
+// echo json_encode($response);
 ?>
 
 
@@ -436,9 +464,33 @@
     <link rel="stylesheet" href="index.css">
     <link href="../node_modules/select2/dist/css/select2.min.css" rel="stylesheet" />
     <script src="../cdn_tailwindcss.js"></script>
-    <script src="../Snowstorm-master/snowstorm.js"></script>
+    <!-- <script src="../Snowstorm-master/snowstorm.js"></script> -->
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
-   <style>
+  <style>
+   
+         .calendar-day {
+            border: 1px solid #e2e8f0;
+            height: 100px;
+        }
+        .current-date {
+            border: 10px solid #0d970b;
+            height: 100px;
+        }
+        .calendar-header {
+            font-weight: bold;
+        }
+
+        .holiday {
+            background-color: #F87171; /* Red for holidays */
+        }
+
+        .saturday {
+            background-color: #93C5FD; /* Blue for Saturdays */
+        }
+
+        .sunday {
+            background-color: #FBD38D; /* Yellow for Sundays */
+        }
   .animated-gradient {
     width: 100%;
     height: 100vh;
@@ -471,6 +523,59 @@
 </div>
   
 </div>
+
+
+<div id="updateEmail" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-2xl max-h-full">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-start justify-between p-5 border-b rounded-t dark:border-gray-600">
+                <h3 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">
+                    PLEASE UPDATE YOUR EMAIL
+                </h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <form action="" method="POST">
+            <div class="p-6 space-y-6">
+                
+
+  <div class="mb-6">
+    <label for="emailold" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Old Email</label>
+    <input type="email" id="emailold" value="<?php 
+    $sql="SELECT  `email` FROM `user` WHERE `username` = '$misusername'";
+    $result = mysqli_query($con,$sql);
+    $rowsJo = array();
+    while($row=mysqli_fetch_assoc($result)){
+    
+        $email = $row['email'];
+    
+    } echo $email;
+    ?>"class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required>
+  </div>
+  <div class="mb-6">
+    <label for="emailnew" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your New Email</label>
+    <input type="email" name="emailnew" id="emailnew" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+  </div>
+
+
+            </div>
+            <!-- Modal footer -->
+            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button  type="submit"  name="UpdateEmail" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <div id="mainContent"class=" ml-72 flex mt-10 sm:mt-16  left-10 right-5  flex-col  px-0 sm:px-8  pt-6 pb-14 z-50 ">
     <div
         class="justify-center animated-gradient text-center flex items-start h-auto bg-gradient-to-r from-blue-900 to-teal-500 rounded-xl ">
@@ -768,6 +873,9 @@
                             <th data-priority="2">Requestor</th>
                             <th data-priority="5">Date Approved</th>
                             <th data-priority="6">Category</th>
+                            <th data-priority="7">Deadline</th>
+
+                            
                             <!-- <th>Days Late</th> -->
                             <!-- <th>Assigned to</th> -->
                         </tr>
@@ -795,6 +903,15 @@
             // $end_date = '2023-10-02';
             
             // echo "Number of weekdays between $start_date and $end_date: $result";
+
+            $sqlHoli="SELECT holidaysDate FROM holidays";
+            $resultHoli = mysqli_query($con,$sqlHoli);
+            $holidays = array();
+            while($row=mysqli_fetch_assoc($resultHoli)){
+                $holidays[] = $row['holidaysDate'];
+            }
+            // print_r($holidays);
+
             $end_date = new DateTime(); 
                 $end_date = $end_date->format('Y-m-d');
                 $a=1;
@@ -817,26 +934,35 @@
                     $start->add(new DateInterval('P1D')); // Increment by 1 day
                 
                     while ($start <= $end) {
-                        // Check if the current day is not Saturday (6) or Sunday (0)
-                        $start->add(new DateInterval('P1D')); // Increment by 1 day
+                        // echo $start;
+                        // echo $end;
+                        // echo $start->format('Y-m-d') ;
+                        // echo $end->format('Y-m-d') ;
+                        // echo "<br>";
 
-                        if ($start->format('N') < 6) {
-                            // echo $start->format('N');
+                        // Check if the current day is not Saturday (6) or Sunday (0)
+                        // echo $start->format('Y-m-d') ;
+
+                        if ($start->format('N') < 6 && !in_array($start->format('Y-m-d'), $holidays)) {
+                            // echo $start->format('Y-m-d') ;
+
                             $count++;
                         }
+                        $start->add(new DateInterval('P1D')); // Increment by 1 day
+
                     }
                 //    echo $count;
                 //    $resultdays = 2;
                   ?>
 
-              <tr <?php if ($count ==5) {echo "style='background-color: #ef4444'";} else if($count ==4) {echo "style='background-color: #ffd78f'";}else if($count >=6) {echo "style='background-color: #000000'";}?> >
-              <td <?php if ($count >=5) {echo "style='color: white'";} ?>>
+              <tr <?php if ($count ==7) {echo "style='background-color: #ef4444'";} else if($count ==6) {echo "style='background-color: #ffd78f'";}else if($count >=8) {echo "style='background-color: #000000'";}?> >
+              <td <?php if ($count >=7) {echo "style='color: white'";} ?>>
               <?php 
               $date = new DateTime($row['date_filled']);
               $date = $date->format('ym');
               echo $date.'-'.$row['id'];?> 
              
-              <td <?php if ($count >=5) {echo "style='color: white'";} ?> >
+              <td <?php if ($count >=7) {echo "style='color: white'";} ?> >
                     <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Select</a> -->
                     <button type="button" id="viewdetails" onclick="modalShow(this)"
                         data-action1="<?php echo $row['action1'] ?>"
@@ -874,25 +1000,33 @@
                     </button>
                 </td>
 
-              <td <?php if ($count >=5) {echo "style='color: white'";} ?> class="text-sm  text-[#c00000] font-semibold font-sans px-6 py-4 whitespace-nowrap truncate max-w-xs">
+              <td <?php if ($count >=7) {echo "style='color: white'";}  ?> class="<?php echo $count; ?> text-sm  text-[#c00000] font-semibold font-sans px-6 py-4 whitespace-nowrap truncate max-w-xs">
               <?php echo $row['request_details'];?> 
               </td>
 
 
-              <td <?php if ($count >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td <?php if ($count >=7) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['requestor'];?> 
               </td>
               <!-- to view pdf -->
-              <td <?php if ($count >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td <?php if ($count >=7) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php 
               $date = new DateTime($row['admin_approved_date']);
               $date = $date->format('F d, Y');
               echo $date;?> 
               
               </td>
-              <td <?php if ($count >=5) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <td <?php if ($count >=7) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
               <?php echo $row['request_category'];?> 
               </td>
+              <td <?php if ($count >=7) {echo "style='color: white'";} ?> class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+              <!-- <?php echo $row['expectedFinishDate'];?>  -->
+              <?php 
+              $date = new DateTime($row['expectedFinishDate']);
+              $date = $date->format('F d, Y');
+              echo $date;?> 
+              </td>
+              
               <!-- <td > <?php echo $count;?></td> -->
               <!-- <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
 
@@ -1526,6 +1660,54 @@
 
 <script>
 
+
+var phpVariable = "<?php echo $_SESSION['username']; ?>";
+console.log(phpVariable);
+const $targetUpdateEmail = document.getElementById('updateEmail');
+const optionsUpdateEmail = {
+  placement: 'center',
+  backdrop: 'static',
+  backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
+  closable: true,
+  onHide: () => {
+      console.log('modal is hidden');
+  },
+  onShow: () => {
+      console.log('modal is shown');
+  },
+  onToggle: () => {
+      console.log('modal has been toggled');
+  }
+};
+
+
+const modalUpdateEmail = new Modal($targetUpdateEmail, optionsUpdateEmail);
+
+
+  
+var xhrEmailUpdate = new XMLHttpRequest();
+xhrEmailUpdate.open("GET", "getEmailUpdate.php?username=" + encodeURIComponent(phpVariable), true);
+xhrEmailUpdate.onreadystatechange = function() {
+    if (xhrEmailUpdate.readyState === XMLHttpRequest.DONE) {
+        if (xhrEmailUpdate.status === 200) {
+             emailUpdated = JSON.parse(xhrEmailUpdate.responseText);
+             if(emailUpdated=='0'){
+                modalUpdateEmail.show();
+             }
+
+        } else {
+            console.log("Error: " + xhrEmailUpdate.status);
+        }
+    }
+};
+
+xhrEmailUpdate.send();
+
+
+
+
+
+
     function Edit(){
         $("#editPcTag").addClass("hidden");
         $("#updatePcTag").removeClass("hidden");
@@ -1665,7 +1847,7 @@ const $targetElModal = document.getElementById('defaultModal');
 // options with default values
 const optionsModal = {
   placement: 'center-center',
-  backdrop: 'dynamic',
+  backdrop: 'static',
   backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
   closable: true,
   onHide: () => {

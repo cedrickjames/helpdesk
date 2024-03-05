@@ -1,3 +1,23 @@
+
+.picblack{
+    opacity: 1;
+}
+.picbg{
+
+    position: absolute; 
+    top: 50%; left: 50%; 
+    transform: translate(-50%, -50%); 
+    font-size: 50px; color: #fff; 
+    opacity: 0; 
+    transition: opacity 0.3s;
+}
+.profile_pic{
+ 
+}
+.profile_pic:hover .picbg {
+    opacity: 1;
+
+}
 #loading-message {
     display: none;
     position: fixed;

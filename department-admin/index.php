@@ -85,7 +85,48 @@
         header("location: ../logout.php");
       }
       
+    //   $sqlHoli = "SELECT holidaysDate FROM holidays";
+    //   $resultHoli = mysqli_query($con, $sqlHoli);
+    //   $holidays = array();
+    //   while ($row = mysqli_fetch_assoc($resultHoli)) {
+    //       $holidays[] = $row['holidaysDate'];
+    //   }
+      
+    //   // Function to add weekdays, excluding weekends and holidays
+    //   function addWeekdays($startDate, $daysToAdd, $holidays) {
+    //       $currentDate = strtotime($startDate);
+    //       $weekdaysAdded = 0;
+      
+    //       while ($weekdaysAdded < $daysToAdd) {
+    //           $currentDayOfWeek = date('N', $currentDate);
+      
+    //           // Exclude weekends (Saturday and Sunday)
+    //           if ($currentDayOfWeek < 6) {
+    //               $isHoliday = in_array(date('Y-m-d', $currentDate), $holidays);
+      
+    //               // Exclude holidays
+    //               if (!$isHoliday) {
+    //                   $weekdaysAdded++;
+    //               }
+    //           }
+      
+    //           // Move to the next day
+    //           $currentDate = strtotime('+1 day', $currentDate);
+    //       }
+      
+    //       return date('Y-m-d', $currentDate);
+    //   }
+      
+    //   // Your existing code to set the start date and add 7 weekdays
+    //   $date = date("Y-m-d");
+    //   $startDate = $date; // Replace with your start date
+    //   $daysToAdd = 7; // Number of weekdays to add
+      
+    //   $newDate = addWeekdays($startDate, $daysToAdd, $holidays);
+    //   echo "Start Date: $startDate<br>";
+    //   echo "New Date (after adding 7 weekdays excluding weekends and holidays): $newDate";
 
+      
       $sqllink = "SELECT `link` FROM `setting`";
       $resultlink = mysqli_query($con, $sqllink);
       $link = "";
@@ -234,12 +275,50 @@
             $perseonnelName=$list["name"];
             }
              
-            $date = date("Y-m-d");
 
-            $startDate = $date; // Replace with your start date
-            $daysToAdd = 5; // Number of weekdays to add
-            
-            $newDate = addWeekdays($startDate, $daysToAdd);
+
+// Function to add weekdays, excluding weekends and holidays
+$sqlHoli = "SELECT holidaysDate FROM holidays";
+$resultHoli = mysqli_query($con, $sqlHoli);
+$holidays = array();
+while ($row = mysqli_fetch_assoc($resultHoli)) {
+    $holidays[] = $row['holidaysDate'];
+}
+
+// Function to add weekdays, excluding weekends and holidays
+function addWeekdays2($startDate, $daysToAdd, $holidays) {
+    $currentDate = strtotime($startDate);
+    $weekdaysAdded = 0;
+
+    while ($weekdaysAdded < $daysToAdd) {
+        $currentDayOfWeek = date('N', $currentDate);
+
+        // Exclude weekends (Saturday and Sunday)
+        if ($currentDayOfWeek < 6) {
+            $isHoliday = in_array(date('Y-m-d', $currentDate), $holidays);
+
+            // Exclude holidays
+            if (!$isHoliday) {
+                $weekdaysAdded++;
+            }
+        }
+
+        // Move to the next day
+        $currentDate = strtotime('+1 day', $currentDate);
+    }
+
+    return date('Y-m-d', $currentDate);
+}
+
+// Your existing code to set the start date and add 7 weekdays
+$date = date("Y-m-d");
+$startDate = $date; // Replace with your start date
+$daysToAdd = 7; // Number of weekdays to add
+
+$newDate = addWeekdays2($startDate, $daysToAdd, $holidays);
+// echo "Start Date: $startDate<br>";
+// echo "New Date (after adding 7 weekdays excluding weekends and holidays): $newDate";
+
             $username = $_SESSION['name'];
             $sql = "UPDATE `request` SET `status2`='inprogress',`reqstart_date` = '$start',`reqfinish_date` = '$finish',`admin_approved_date`='$date',`expectedFinishDate` = '$newDate',`admin_remarks`='$remarks',`assignedPersonnel`='$assigned',`assignedPersonnelName`='$perseonnelName' WHERE `id` = '$requestID';";
                $results = mysqli_query($con,$sql);
@@ -1750,7 +1829,7 @@ const $targetElModal = document.getElementById('defaultModal');
 // options with default values
 const optionsModal = {
   placement: 'center-center',
-  backdrop: 'dynamic',
+  backdrop: 'static',
   backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
   closable: true,
   onHide: () => {
@@ -1956,7 +2035,7 @@ else {
     }
 }
 else if(section=="FEM"){
-    if(pending>=7){
+    if(pending>=5){
         $(this).prop("disabled", true);
     }
 }

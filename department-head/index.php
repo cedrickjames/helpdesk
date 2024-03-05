@@ -1276,7 +1276,7 @@ const $targetElModal = document.getElementById('defaultModal');
 // options with default values
 const optionsModal = {
   placement: 'center-center',
-  backdrop: 'dynamic',
+  backdrop: 'static',
   backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40',
   closable: true,
   onHide: () => {

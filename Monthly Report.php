@@ -10,7 +10,22 @@ include ("includes/connect.php");
     $wholename=$_SESSION['name'];
     $section = $_SESSION['level'];
 
+    $monthNumber1 = date('m', strtotime($month));
 
+    // Create DateTime object
+    $currentDate = DateTime::createFromFormat('m-d-Y', $monthNumber1 . '-01-' . $year);
+
+
+    $lastMonth = $currentDate->modify('-1 month');
+
+// Get the year and month of the last month
+$lastMonthYear = $lastMonth->format('Y');
+$lastMonthMonth = $lastMonth->format('m');
+
+
+
+    $currentDate = $currentDate->format('m-d-y');
+    
     $monthNumber = date('m', strtotime($month));
 // Calculate the previous month
 if ($monthNumber == 1) {
@@ -33,7 +48,7 @@ $previousMonthNumber = str_pad($previousMonthNumber, 2, '0', STR_PAD_LEFT);
     $lastDateOfMonth = date('d', strtotime("last day of $year-$month"));
     
     $monthNumber = date('m', strtotime("$month"));
-    $sql = "SELECT ROUND (((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated' )AND late != true AND admin_approved_date BETWEEN '$year-$previousMonthNumber-28' AND '$year-$monthNumber-$lastDateOfMonth')) / ((SELECT ((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$previousMonthNumber-28' AND '$year-$monthNumber-$lastDateOfMonth')) + (SELECT COUNT('id') FROM request WHERE request_to = '$section' AND status2 = 'inprogress'  ))) * 100, 2) AS percentage;";
+    $sql = "SELECT ROUND (((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated' )AND late != true AND admin_approved_date BETWEEN '$lastMonthYear-$previousMonthNumber-28' AND '$year-$monthNumber-$lastDateOfMonth')) / ((SELECT ((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$lastMonthYear-$previousMonthNumber-28' AND '$year-$monthNumber-$lastDateOfMonth')) + (SELECT COUNT('id') FROM request WHERE request_to = '$section' AND status2 = 'inprogress' AND admin_approved_date  BETWEEN '$lastMonthYear-$previousMonthNumber-28' AND '$year-$monthNumber-$lastDateOfMonth'  ))) * 100, 2) AS percentage;";
     // $sql="SELECT ROUND (((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) / ((SELECT ((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) + (SELECT COUNT('id') FROM request WHERE request_to = '$section' AND status2 = 'inprogress' AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' AND reqfinish_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth'))) * 100, 2) AS percentage;";
     $result = mysqli_query($con,$sql);
     // $sql = "SELECT ROUND (((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) / ((SELECT ((SELECT COUNT('id') FROM request WHERE request_to = '$section' AND (status2 = 'Done' OR status2 = 'rated') AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth')) + (SELECT COUNT('id') FROM request WHERE request_to = '$section' AND status2 = 'inprogress' AND admin_approved_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth' AND reqfinish_date BETWEEN '$year-$monthNumber-$firstdate' AND '$year-$monthNumber-$lastDateOfMonth'))) * 100, 2) AS percentage;";
@@ -133,7 +148,7 @@ $previousMonthNumber = str_pad($previousMonthNumber, 2, '0', STR_PAD_LEFT);
         <table>
         <tr>
                 <td class="first"><span class="label">Date</span><span style="align-text: right">:</span></td>
-                <td class="second"> <span class="child">'.$dateNow.$previousMonthNumber.'</span></td>
+                <td class="second"> <span class="child">'.$dateNow.'</span></td>
                
            
 
@@ -146,15 +161,22 @@ $previousMonthNumber = str_pad($previousMonthNumber, 2, '0', STR_PAD_LEFT);
 
 
             </tr>
-
-            <tr>
-            <td class="first"><span class="label">Target:  </span></td>
-            <td class="second"> <span class="child">100% on time accomplishment of Job Order Schedule.</span></td>
-            <td><span class="label">Result: </span></td>
-            <td class="fourth"><span class="child">'.$resultPercentage.'%</span></td>
                 
-            </tr>
-            <tr>
+            </tr>';
+            if($section == "fem"){
+                $html.= '<tr>
+                <td class="first"><span class="label">Target:  </span></td>
+                <td class="second"> <span class="child">97% Completion of Job Orders from Approved Schedule</span></td>
+                <td><span class="label">Result: </span></td>
+                <td class="fourth"><span class="child">'.$resultPercentage.'%</span></td>
+                    
+                </tr>';
+            }
+            else{
+                $html.= '<tr> </tr>';
+            }
+          
+            $html.= '<tr>
             
         </tr>
         </table>
@@ -163,21 +185,21 @@ $previousMonthNumber = str_pad($previousMonthNumber, 2, '0', STR_PAD_LEFT);
         <table id="finishedTable" >
         
         <tr>
-               <td>No.</td>
-               <td>JO Number</td>
-               <td>Requestor</td>
-               <td>Details</td>
-               <td>Personnel</td>
-               <td>Date Started</td>
-               <td>Expected Finished Date </td>
-               <td>Date Finished</td>
-            </tr>
+        <td>No.</td>
+        <td>JO Number</td>
+        <td>Requestor</td>
+        <td>Details</td>
+        <td>Personnel</td>
+        <td>Approved Date</td>
+        <td>Due Date</td>
+        <td>Date Finish</td>
+     </tr>
 
             
             ';
         $a=1;
       
-        $sql="select * from `request` WHERE `request_to` = '$section' and (`status2` = 'Done' or `status2` = 'rated') AND late != true AND `admin_approved_date` BETWEEN '$year-$previousMonthNumber-28' AND '$year-$monthNumber-$lastDateOfMonth' order by id asc  ";
+        $sql="select * from `request` WHERE `request_to` = '$section' and (`status2` = 'Done' or `status2` = 'rated') AND late != true AND `admin_approved_date` BETWEEN '$lastMonthYear-$previousMonthNumber-28' AND '$year-$monthNumber-$lastDateOfMonth' order by assignedPersonnelName asc  ";
         $result = mysqli_query($con,$sql);
 
       while($row=mysqli_fetch_assoc($result)){
@@ -210,6 +232,11 @@ $previousMonthNumber = str_pad($previousMonthNumber, 2, '0', STR_PAD_LEFT);
             
         
        $html.=' </table>
+<br>
+<br>
+<br>
+<br>
+<br>
 
        <h5 style="margin-bottom: 0">Late Finished Job Order</h5>
        <table id="latefinishedTable" >
@@ -229,7 +256,7 @@ $previousMonthNumber = str_pad($previousMonthNumber, 2, '0', STR_PAD_LEFT);
             ';
         $a=1;
       
-        $sql="select * from `request` WHERE `request_to` = '$section' and (`status2` = 'Done' or `status2` = 'rated') AND late != false AND `admin_approved_date` BETWEEN '$year-$previousMonthNumber-28' AND '$year-$monthNumber-$lastDateOfMonth' order by id asc  ";
+        $sql="select * from `request` WHERE `request_to` = '$section' and (`status2` = 'Done' or `status2` = 'rated') AND late != false AND `admin_approved_date` BETWEEN '$lastMonthYear-$previousMonthNumber-28' AND '$year-$monthNumber-$lastDateOfMonth' order by id asc  ";
         $result = mysqli_query($con,$sql);
 
       while($row=mysqli_fetch_assoc($result)){
@@ -282,7 +309,7 @@ $previousMonthNumber = str_pad($previousMonthNumber, 2, '0', STR_PAD_LEFT);
             ';
         $a=1;
 
-        $sql="select * from `request` WHERE `request_to` = '$section' and `status2` = 'inprogress'  order by id asc  ";
+        $sql="select * from `request` WHERE `request_to` = '$section' and `status2` = 'inprogress'AND admin_approved_date  BETWEEN '$lastMonthYear-$previousMonthNumber-28' AND '$year-$monthNumber-$lastDateOfMonth'  order by id asc  ";
         $result = mysqli_query($con,$sql);
 
       while($row=mysqli_fetch_assoc($result)){
@@ -313,7 +340,9 @@ $previousMonthNumber = str_pad($previousMonthNumber, 2, '0', STR_PAD_LEFT);
             
         
        $html.=' </table>';
-       $html.='<table style="bottom: 75px; position: absolute;">
+       $html.='
+       
+       <table style="bottom: 75px; position: absolute;">
        <tr>
        <td class="first" style="text-align: center"><span class="label">Prepared by: </span></td>
        <td class="second"> <span class="child"></span></td>
