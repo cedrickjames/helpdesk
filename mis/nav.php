@@ -57,7 +57,7 @@
     $userDepartment= $_POST['userDepartment'] ;
     $userType= $_POST['userType'] ;
 
-    $sql = "INSERT INTO `user`(`username`, `password`, `name`, `department`, `email`, `level`) VALUES ('$userEmployeeId','$userEmployeeId','$userFullName','$userDepartment','$userEmail','$userType')";
+    $sql = "INSERT INTO `user`(`username`, `password`, `name`, `department`, `email`, `level`,`updatedEmail`) VALUES ('$userEmployeeId','$userEmployeeId','$userFullName','$userDepartment','$userEmail','$userType','1')";
   $results = mysqli_query($con,$sql);
   }
 
