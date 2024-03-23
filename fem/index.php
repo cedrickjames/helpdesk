@@ -432,7 +432,7 @@
     <link rel="stylesheet" type="text/css" href="../node_modules/DataTables/Responsive-2.3.0/css/responsive.dataTables.min.css"/>
 
     <link rel="stylesheet" href="index.css">
- <script src="../Snowstorm-master/snowstorm.js"></script>
+ <!-- <script src="../Snowstorm-master/snowstorm.js"></script> -->
     <script src="../cdn_tailwindcss.js"></script>
 
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />

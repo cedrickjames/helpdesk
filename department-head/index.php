@@ -513,7 +513,7 @@ if(isset($_POST['print'])){
     <link rel="stylesheet" href="index.css">
 
     <script src="../cdn_tailwindcss.js"></script>
-    <script src="../Snowstorm-master/snowstorm.js"></script>
+    <!-- <script src="../Snowstorm-master/snowstorm.js"></script> -->
     <link rel="stylesheet" href="../node_modules/flowbite/dist/flowbite.min.css" />
     <link rel="shortcut icon" href="../resources/img/helpdesk.png">
    

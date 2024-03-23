@@ -325,7 +325,7 @@ $final_rating = ($rateScore + $rateScoreQuality)/2;
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <script src="../cdn_tailwindcss.js"></script>
 
-    <script src="../Snowstorm-master/snowstorm.js"></script>
+    <!-- <script src="../Snowstorm-master/snowstorm.js"></script> -->
 
 
     <!-- <link href="/dist/output.css" rel="stylesheet"> -->

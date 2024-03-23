@@ -4,7 +4,7 @@
   $nname=$_SESSION['name'];
   $llevel=$_SESSION['level'];
   $username=$_SESSION['username'];
-
+// echo $username;
 
   $sqlLevel="select level from user where username='$username'";
   $resultLevel = mysqli_query($con,$sqlLevel);
@@ -65,8 +65,6 @@
 
  require_once '../changePassword.php';
 
-
-
   ?>
 
 
@@ -86,6 +84,8 @@
           <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Helpdesk</span>
       </a>
       <div class="flex items-center order-2">
+      <a href="ticketForm.php" type="button" class=" hidden lg:block text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 shadow-lg shadow-teal-500/50 dark:shadow-lg dark:shadow-teal-800/80 w-60 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-3 md:mx-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Create a Ticket</a>
+
       <a data-modal-target="registerModal" data-modal-toggle="registerModal" type="button" class="hidden lg:block text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 w-60 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-3 md:mx-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Register</a>
 
       <a data-modal-target="reportModal" data-modal-toggle="reportModal" type="button" class="hidden lg:block text-white bg-gradient-to-r from-purple-400 to-blue-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 w-60 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mx-3 md:mx-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Monthly Report</a>
@@ -96,8 +96,9 @@
           <!-- <img class="w-8 h-8 rounded-full" src="../src/Photo/<?php echo $username;?>.png" alt="user photo"> -->
 
           <?php
-      
+       $username=$_SESSION['username'];
       $first_two_letters = substr($username, 0, 2); 
+      // echo $username;
       if($first_two_letters !="GP")
       {
         $imageFileName = '../src/Photo/' . $username . '.png';
@@ -115,7 +116,7 @@
       }
       else{
       ?>
-                <div class="w-10 h-10 rounded-full  "  style="background-color: #C5957F;padding-top: 5px;
+                <div class="w-10 h-10 rounded-full  "  style="
       padding-right: 10px;">
           <div class="rounded-full h-full w-full mr-5"style="background-color: #C5957F;width: 125%; background-size: cover; background-image: url('../src/Photo/<?php echo $username;?>.png')"></div>
 
@@ -249,8 +250,7 @@
       }
       else{
       ?>
-        <div class=" absolute -left-6 w-24 h-24 rounded-full shadow-lg"  style="padding-top: 10px;
-      padding-right: 20px; background-color: #C5957F;" >
+        <div class=" absolute -left-6 w-24 h-24 rounded-full shadow-lg"  style="" >
       
     <div class="rounded-full h-full w-full  mr-10" id="picture" style="background-color: #C5957F;width: 125%; background-size: cover; background-image: url('../src/Photo/<?php echo $username; ?>.png')">
   </div>
@@ -329,7 +329,6 @@
       <!-- <img class="bg-blue-900 absolute -left-6 w-24 h-24 rounded-full shadow-lg" src="../src/Photo/<?php echo $username;?>.png" > -->
       <?php
 $first_two_letters = substr($username, 0, 2);
-
 if ($first_two_letters != "GP") {
     $imageFileName = '../src/Photo/' . $username . '.png';
     
@@ -353,8 +352,8 @@ if ($first_two_letters != "GP") {
 
       else{
       ?>
-        <div class="profile_pic absolute -left-6 w-24 h-24 rounded-full shadow-lg"  style="padding-top: 10px;
-      padding-right: 20px; background-color: #C5957F;" >
+        <div class="profile_pic absolute -left-6 w-24 h-24 rounded-full shadow-lg"  style="
+      padding-right: 20px;" >
 
     <div class="picture-container rounded-full h-full w-full  mr-10" id="picture" style="background-color: #C5957F;width: 125%; background-size: cover; background-image: url('../src/Photo/<?php echo $username; ?>.png')">
     <label for="fileInput" style="cursor: pointer;">
