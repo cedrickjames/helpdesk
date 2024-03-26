@@ -76,178 +76,10 @@ else
 
         $dest_path = "";
         $jono=date("ym-dH-is");
-        if(isset($_POST['submit'])){
-            $userid = $_POST['head'];
-            $sql1 = "Select * FROM `user` WHERE `id` = '$userid'";
-            $result = mysqli_query($con, $sql1);
-            while($list=mysqli_fetch_assoc($result))
-            {
-            $email=$list["email"];
-            $headname=$list["name"];
-            }    
-            $messageUpload ="";
-    
-                    $nullFile =  implode($_FILES['uploadedFile']);
 
-                    if($nullFile != "40"){
-                        if (isset($_FILES['uploadedFile']) && $_FILES['uploadedFile']['error'] === UPLOAD_ERR_OK)
-                        {
-                        // get details of the uploaded file
-                        $fileTmpPath = $_FILES['uploadedFile']['tmp_name'];
-                        $fileName = $_FILES['uploadedFile']['name'];
-                    
-                        $fileSize = $_FILES['uploadedFile']['size'];
-                        $fileType = $_FILES['uploadedFile']['type'];
-                        $fileNameCmps = explode(".", $fileName);
-                        $fileExtension = strtolower(end($fileNameCmps));
-                    
-                        // sanitize file-name
-                        //   $newFileName = md5(time() . $fileName) . '.' . $fileExtension;
-                        $newFileName = $jono .'.'. $fileName . '.' . $fileExtension;
-                    
-                        // check if file has one of the following extensions
-                        $allowedfileExtensions = array('jpg', 'gif', 'png', 'zip', 'txt', 'xls', 'doc' , 'pdf','csv','xlsx');
-                    
-                        if (in_array($fileExtension, $allowedfileExtensions))
-                        {
-                            // directory in which the uploaded file will be moved
-                            $uploadFileDir = '../upload_files/';
-                            $dest_path = $uploadFileDir . $newFileName;
-                    
-                            if(move_uploaded_file($fileTmpPath,$dest_path)) 
-                            {
-                            $messageUpload ='File is successfully uploaded.';
-                            }
-                            else 
-                            {
-                            $messageUpload = 'There was some error moving the file to upload directory. Please make sure the upload directory is writable by web server.';
-                            }
-                        }
-                        else
-                        {
-                            $messageUpload = 'Upload failed. Allowed file types: ' . implode(',', $allowedfileExtensions);
-                        }
-                        }
-                        else
-                        {
-                        $messageUpload = 'There is some error in the file upload. Please check the following error.<br>';
-                        $messageUpload .= 'Error:' . $_FILES['uploadedFile']['error'];
-                        }
-                            
-                    }
-                    else {
-                        $dest_path == "";
-                    }
+        if(isset($_POST['submitTicket'])){
+            $selectedOption = $_POST['immediateHeadSelect'];
 
-
-
-            $jo_no=date("ym-dH-is");
-            $year= date("Y");
-            $month= date("M");
-            // $jo_no="sdfsd";
-
-           $datenow = date("Y-m-d");
-
-            $requestto = $_POST['femmis'];
-            $category = $_POST['category'];
-
-            $computerName = $_POST['computerName'];
-          
-            $start= $_POST['start'];
-            $end = $_POST['finish'];
-            $request= convertToSentenceCase($_POST['request']);
-            $telephone = $_POST['telephone'];
-            // $bldg=$_POST['building'];
-            
-
-          
-            $terms=$_POST['terms'];
-  
-            if ($requestto != "" || $category !="")
-
-            {
-            $email1=$_SESSION['email'];
-            $sql = "insert into request (date_filled,status2,requestorUsername,requestor,email,department,request_to, request_category,request_details,computerName,reqstart_date ,reqfinish_date, telephone,head_approval_date, approving_head,accept_termsandconddition,month,year,attachment) 
-                    values('$datenow','admin','$username','$user_name','$email1','$user_dept','$requestto','$category','$request','$computerName','$start','$end','$telephone','$datenow','$headname','$terms','$month','$year','$dest_path')";
-                $results = mysqli_query($con,$sql);
-                
-            if($results){
-                
-                $sql2 = "Select * FROM `sender`";
-                $result2 = mysqli_query($con, $sql2);
-                while($list=mysqli_fetch_assoc($result2))
-                {
-                $account=$list["email"];
-                $accountpass=$list["password"];
-        
-                  }    
-
-                  $subject ='Job order request';
-                  $message = 'Hi '.$adminname.',<br> <br>   Mr/Ms. '.$requestor.' filed a job order. Please check the details by signing in into our Helpdesk <br> Click this '.$link.' to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
-                  
-                 require '../vendor/autoload.php';
-    
-                 $mail = new PHPMailer(true);                      
-                 try {
-                  //Server settings
-                    $mail->isSMTP();                                      // Set mailer to use SMTP
-                    $mail->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
-                    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-                    $mail->Username = $account;     // Your Email/ Server Email
-                    $mail->Password = $accountpass;                     // Your Password
-                    $mail->SMTPOptions = array(
-                        'ssl' => array(
-                        'verify_peer' => false,
-                        'verify_peer_name' => false,
-                        'allow_self_signed' => true
-                        )
-                                                );                         
-                    $mail->SMTPSecure = 'none';                           
-                    $mail->Port = 465;                                   
-            
-                    //Send Email
-                    // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
-                    
-                    //Recipients
-                    $mail->setFrom('mis.dev@glory.com.ph', 'Helpdesk');
-                    $mail->addAddress($adminemail);              
-                    $mail->isHTML(true);                                  
-                    $mail->Subject = $subject;
-                    $mail->Body    = $message;
-            
-                    $mail->send();
-                    $_SESSION['message'] = 'Message has been sent';
-                    echo "<script>alert('Thank you for approving. This request is now sent to your administrator. $messageUpload ') </script>";
-                    echo "<script> location.href='index.php'; </script>";
-
-                        // header("location: form.php");
-                    } catch (Exception $e) {
-                        $_SESSION['message'] = 'Message could not be sent. Mailer Error: '.$mail->ErrorInfo;
-                    echo "<script>alert('Message could not be sent. Mailer Error.') </script>";
-
-                    }
-
-               
-               
-            }
-            else{
-                echo "<script>alert('There is a problem with filing. Please contact your administrator.') </script>";
-
-            }
-                ?>
-
-                <?php
-
-                }
-
-        else{
-    
-            echo "<script>alert('Please complete fields.') </script>";
-
-            ?>
-            <?php    
-
-                }          
                 }
                 
                 ?>
@@ -380,8 +212,18 @@ else
     <label for="r_department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
     <input type="text" id="r_department" class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required />
     </div>
-    
-    
+    <div class="relative z-0 w-full  group ">
+    <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Immediate Head</label>
+  <select id="immediateHeadSelect" name="immediateHeadSelect" class="js-example-basic-single bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+  <option disabled selected>Search Immediate</option>
+
+  
+  </select>
+    </div>
+    <div class="relative z-0 w-full  group">
+    <label for="r_department" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Immediate Heads' Email</label>
+    <input type="text" name="immediateHeadEmail" id="immediateHeadEmail" class="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required />
+    </div>
   </div>
   <hr class="mt-2">
 <br>
@@ -459,8 +301,8 @@ else
   
                 </div>
                 <br>
-                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-                <button type="submit" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Cancel</button>
+                <button type="submit" name="submitTicket" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+                <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Cancel</button>
 
                 
     </div>
@@ -542,8 +384,50 @@ else
             $('#r_email').val(selectedEmail);
             var selectedDepartment = $(this).find('option:selected').data('department');
             $('#r_department').val(selectedDepartment);
-        });
+         
 
+            var xhr1 = new XMLHttpRequest();
+            xhr1.onreadystatechange = function() {
+            if (xhr1.readyState === XMLHttpRequest.DONE) {
+                if (xhr1.status === 200) {
+                    var options = JSON.parse(xhr1.responseText);
+
+
+                    $("#immediateHeadSelect").empty();
+
+                    options.forEach(function(option) {
+
+                        var newOptions = "<option data-heademail='"+option.email+"' value='" + option.name + "'>" + option.name + "</option>";
+                        $("#immediateHeadSelect").append(newOptions);
+
+                        console.log(option.name)
+
+                    });
+                    getSelectedHead();
+                } else {
+                    console.log("Error: " + xhr1.status);
+                }
+            }
+            };
+            xhr1.open("GET", "getImmediateHead.php?department="+selectedDepartment, true);
+            xhr1.send();
+
+
+    
+           
+
+        });
+        $('#immediateHeadSelect').change(function() {
+
+            var selectedValueHead = $('#immediateHeadSelect').val();
+        console.log("selected1: " + selectedValueHead);
+        var selectedOption = $('#immediateHeadSelect').find(":selected");
+        var headEmail = selectedOption.attr("data-heademail");
+        console.log("selected1: " + headEmail);
+
+        $("#immediateHeadEmail").val(headEmail);
+
+        });
         $('#r_categories').change(function() {
             var selectedLevel = $(this).find('option:selected').data('level');
             var selectedHours = $(this).find('option:selected').data('hours');
@@ -575,7 +459,15 @@ else
 
     });
 
+function getSelectedHead(){
+        var selectedValueHead = $('#immediateHeadSelect').val();
+        var selectedOption = $('#immediateHeadSelect').find(":selected");
+        var headEmail = selectedOption.attr("data-heademail");
+        console.log("selected1: " + headEmail);
 
+        $("#immediateHeadEmail").val(headEmail);
+
+}
 
     $('#femmis').change(function () {
         var $options = $('#type')
