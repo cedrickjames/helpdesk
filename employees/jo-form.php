@@ -22,6 +22,55 @@ else
 
     session_start();
 
+
+
+    // $subject ='Job order request';
+    // $message = 'Hi Monzon, Rio,<br> <br>   Mr/Ms. Bornasal, Rusitha Audrey filed a job order. Please check the details by signing in into our Helpdesk <br> Click this http://helpdesk.glory.ph/helpdesk to signin. <br><br><br> This is a generated email. Please do not reply. <br><br> Helpdesk';
+    
+
+    //  require '../vendor/autoload.php';
+
+    //  $mail = new PHPMailer(true);                      
+    //  try {
+    //   //Server settings
+    //     $mail->isSMTP();                                      // Set mailer to use SMTP
+    //     $mail->Host = 'mail.glorylocal.com.ph';                       // Specify main and backup SMTP servers
+    //     $mail->SMTPAuth = true;                               // Enable SMTP authentication
+    //     $mail->Username = 'helpdesk@glorylocal.com.ph';     // Your Email/ Server Email
+    //     $mail->Password = '';                     // Your Password
+    //     $mail->SMTPOptions = array(
+    //         'ssl' => array(
+    //         'verify_peer' => false,
+    //         'verify_peer_name' => false,
+    //         'allow_self_signed' => true
+    //         )
+    //                                 );                         
+    //     $mail->SMTPSecure = 'none';                           
+    //     $mail->Port = 465;                                   
+
+    //     //Send Email
+    //     // $mail->setFrom('Helpdesk'); //eto ang mag front  notificationsys01@gmail.com
+        
+    //     //Recipients
+    //     $mail->setFrom('helpdesk@glorylocal.com.ph', 'Helpdesk');
+    //     $mail->addAddress('r.monzon@glory.com.ph');              
+    //     $mail->isHTML(true);                                  
+    //     $mail->Subject = $subject;
+    //     $mail->Body    = $message;
+
+    //     $mail->send();
+       
+
+    //         // header("location: form.php");
+    //     } catch (Exception $e) {
+    //         $_SESSION['message'] = 'Message could not be sent. Mailer Error: '.$mail->ErrorInfo;
+    //         $error = $_SESSION['message'];
+    //     echo "<script>alert('Message could not be sent. Mailer Error. $error') </script>";
+
+    //     }
+
+
+
     function convertToSentenceCase($string) {
         $sentences = preg_split('/(?<=[.?!])\s+/', $string, -1, PREG_SPLIT_NO_EMPTY|PREG_SPLIT_DELIM_CAPTURE);
         $output = '';

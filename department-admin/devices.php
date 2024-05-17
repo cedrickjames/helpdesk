@@ -528,7 +528,7 @@ if(isset($_POST['changeMonth'])){
 
      $dest_pathApps = "";
      $jono=date("ym-dH-is");
-     if(isset($_POST['submitProofApps'])){
+     if(isset($_POST['submitProofApps'])){ 
          $nullFile =  implode($_FILES['image']);
      // echo $nullFile;
          if($nullFile != "40"){
