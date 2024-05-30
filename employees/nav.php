@@ -42,6 +42,7 @@ while($field=mysqli_fetch_assoc($resultLevel))
 }
 
 require_once '../changePassword.php';
+$username=$_SESSION['username'];
 ?>
 
 
@@ -59,6 +60,7 @@ require_once '../changePassword.php';
     </a>
     <div class="flex items-center md:order-2">
       <?php
+          
       $date = new DateTime(); 
       $dateToday = $date->format('d'); 
       if($dateToday > 28){
@@ -225,11 +227,11 @@ Request Job Order
 <!-- side bar drawer component -->
 <div id="sidebar" class="mt-2 fixed top-16 left-0 z-40 h-screen p-4 pr-0 overflow-y-auto transition-transform bg-white w-80 dark:bg-gray-700 transform-none" tabindex="-1" aria-labelledby="sidebar-label" aria-modal="true" role="dialog">
 
-  <div class="px-4">
+<div class="px-4">
   <div class="overflow-hidden flex bg-white overflow-visible relative max-w-sm mx-auto bg-white shadow-lg ring-1 ring-black/5 rounded-xl flex items-center gap-6 dark:bg-slate-800 dark:highlight-white/5">
     <!-- <img class="bg-blue-900 absolute -left-6 w-24 h-24 rounded-full shadow-lg" src="../src/Photo/<?php echo $username;?>.png" > -->
     <?php
-    
+
     $first_two_letters = substr($username, 0, 2); 
     if($first_two_letters !="GP")
     {
